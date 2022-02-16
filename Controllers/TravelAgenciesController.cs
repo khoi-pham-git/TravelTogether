@@ -21,10 +21,34 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/TravelAgencies
+        //Get list TravelAgencies - Luan
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TravelAgency>>> GetTravelAgencies()
         {
-            return await _context.TravelAgencies.ToListAsync();
+            try
+            {
+                var result = await (from TravelAgency in _context.TravelAgencies
+                                    select new
+                                    {
+                                        Id = TravelAgency.Id,
+                                        Name = TravelAgency.Name,
+                                        Address = TravelAgency.Address,
+                                        Phone = TravelAgency.Phone,
+                                        Description = TravelAgency.Description,
+                                        Email = TravelAgency.Email,
+                                        Image = TravelAgency.Image
+
+                                    }
+                                     ).ToListAsync();
+
+                
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
         }
 
         // GET: api/TravelAgencies/5

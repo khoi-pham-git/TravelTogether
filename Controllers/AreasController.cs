@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TravelTogether2.Common;
 using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
@@ -21,10 +22,35 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Areas
+        // Get list area information - Luan
+
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Area>>> GetAreas()
+        public async Task<ActionResult<IEnumerable<Area>>> GetAreas(int ele, int page)
         {
-            return await _context.Areas.ToListAsync();
+            var result = await (from area in _context.Areas
+                                select new
+                                {
+                                    Id = area.Id,
+                                    Name = area.Name,
+                                    Description = area.Description,
+                                    Latitude = area.Latitude,
+                                    Longtitude = area.Longtitude
+                                }
+                                 ).ToListAsync();
+            int totalEle = result.Count;
+            int totalPage = Validate.totalPage(totalEle, ele);
+            result = result.Skip((page - 1) * ele).Take(ele).ToList();
+            if ((totalEle % ele) == 0)
+            {
+                totalPage = (totalEle / ele);
+            }
+            else
+            {
+                totalPage = (totalEle / ele) + 1;
+            }
+
+            return Ok(result);
         }
 
         // GET: api/Areas/5
