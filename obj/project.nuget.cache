@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Uh6verKWKjaKy6xmVxmhCVRprOfnf5xJFbToy+yIfOYqTDyjJMYcDnXfsTjufFh7TzjBJQG1lhhPDlPq12OZGA==",
+  "dgSpecHash": "VbpAu9TKwkHZf/PGTO19aMiHqxzE05C/Q0HWoGcrhkkpB4IvIKdIo3mtMHW+iuGlhaJ73nZTvxf1SpK4XeHMPA==",
   "success": true,
-  "projectFilePath": "D:\\Luan\\SWD\\TravelTogether2\\TravelTogether2.csproj",
+  "projectFilePath": "D:\\Luan\\SWD\\TravelTogether\\TravelTogether2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ipuil\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",
     "C:\\Users\\ipuil\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
