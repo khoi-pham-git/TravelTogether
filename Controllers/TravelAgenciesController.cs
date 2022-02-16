@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TravelTogether2.Common;
 using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/travelAgencies")]
     [ApiController]
     public class TravelAgenciesController : ControllerBase
     {
@@ -22,8 +23,8 @@ namespace TravelTogether2.Controllers
 
         // GET: api/TravelAgencies
         //Get list TravelAgencies - Luan
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<TravelAgency>>> GetTravelAgencies()
+        [HttpGet("{ele}/{page}")]
+        public async Task<ActionResult<IEnumerable<TravelAgency>>> GetTravelAgencies(int ele, int page)
         {
             try
             {
@@ -41,7 +42,18 @@ namespace TravelTogether2.Controllers
                                     }
                                      ).ToListAsync();
 
-                
+                int totalEle = result.Count;
+                int totalPage = Validate.totalPage(totalEle, ele);
+                result = result.Skip((page - 1) * ele).Take(ele).ToList();
+                if ((totalEle % ele) == 0)
+                {
+                    totalPage = (totalEle / ele);
+                }
+                else
+                {
+                    totalPage = (totalEle / ele) + 1;
+                }
+
                 return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
             }
             catch (Exception e)
@@ -55,14 +67,35 @@ namespace TravelTogether2.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TravelAgency>> GetTravelAgency(string id)
         {
-            var travelAgency = await _context.TravelAgencies.FindAsync(id);
-
-            if (travelAgency == null)
+            try
             {
-                return NotFound();
-            }
+                var result = await (from TravelAgency in _context.TravelAgencies
+                                    where TravelAgency.Id == id
+                                    select new
+                                    {
+                                        Id = TravelAgency.Id,
+                                        Name = TravelAgency.Name,
+                                        Address = TravelAgency.Address,
+                                        Phone = TravelAgency.Phone,
+                                        Description = TravelAgency.Description,
+                                        Email = TravelAgency.Email,
+                                        Image = TravelAgency.Image
 
-            return travelAgency;
+                                    }
+                                    ).ToListAsync();
+                if (!result.Any())
+                {
+                    return BadRequest(new { StatusCodes = 404, Message = " Account not found!" });
+                }
+
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // PUT: api/TravelAgencies/5

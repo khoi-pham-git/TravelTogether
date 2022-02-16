@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
 
-namespace TravelTogether2.Controllers
+namespace TravelTogether2.Controllers   
 {
     [Route("api/v1.0/accounts")]
     [ApiController]
@@ -24,7 +24,7 @@ namespace TravelTogether2.Controllers
         //Lấy list tào khoản account theo số lượng  và số trang là mấy
 
         // GET: api/Accounts
-        [HttpGet("page/{ele}/{page}")]
+        [HttpGet("{ele}/{page}")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts(int ele, int page)
         {
 
