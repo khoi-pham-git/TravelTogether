@@ -32,7 +32,7 @@ namespace TravelTogether2.Controllers
                                 select new
                                 {
                                     Id = area.Id,
-                                    Name = area.Name,
+                                   
         
                                     Latitude = area.Latitude,
                                     Longtitude = area.Longtitude
