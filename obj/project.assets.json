@@ -9333,11 +9333,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Luan\\SWD\\TravelTogether\\TravelTogether2.csproj",
+      "projectUniqueName": "D:\\Luan\\SWD\\TravelTogether\\TravelTogether\\TravelTogether2.csproj",
       "projectName": "TravelTogether2",
-      "projectPath": "D:\\Luan\\SWD\\TravelTogether\\TravelTogether2.csproj",
+      "projectPath": "D:\\Luan\\SWD\\TravelTogether\\TravelTogether\\TravelTogether2.csproj",
       "packagesPath": "C:\\Users\\ipuil\\.nuget\\packages\\",
-      "outputPath": "D:\\Luan\\SWD\\TravelTogether\\obj\\",
+      "outputPath": "D:\\Luan\\SWD\\TravelTogether\\TravelTogether\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ipuil\\AppData\\Roaming\\NuGet\\NuGet.Config",
