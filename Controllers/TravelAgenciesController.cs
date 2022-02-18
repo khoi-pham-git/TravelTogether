@@ -58,12 +58,12 @@ namespace TravelTogether2.Controllers
             }
             catch (Exception e)
             {
-
-                throw;
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
             }
         }
 
         // GET: api/TravelAgencies/5
+        // Get Travel agency by id - Luan
         [HttpGet("{id}")]
         public async Task<ActionResult<TravelAgency>> GetTravelAgency(string id)
         {
@@ -91,15 +91,13 @@ namespace TravelTogether2.Controllers
                 return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result });
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
             }
         }
 
         // PUT: api/TravelAgencies/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTravelAgency(string id, TravelAgency travelAgency)
         {
