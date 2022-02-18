@@ -10,7 +10,7 @@ using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/areas")]
     [ApiController]
     public class AreasController : ControllerBase
     {
@@ -25,88 +25,152 @@ namespace TravelTogether2.Controllers
         // Get list area information - Luan
 
 
-        [HttpGet]
+        [HttpGet("{ele}/{page}")]
         public async Task<ActionResult<IEnumerable<Area>>> GetAreas(int ele, int page)
         {
-            var result = await (from area in _context.Areas
-                                select new
-                                {
-                                    Id = area.Id,
-                                    Name = area.Name,
-                                    Description = area.Description,
-                                    Latitude = area.Latitude,
-                                    Longtitude = area.Longtitude
-                                }
+            try
+            {
+                var result = await (from area in _context.Areas
+                                    select new
+                                    {
+                                        Id = area.Id,
+                                        Name = area.Name,
+                                        Description = area.Description,
+                                        Latitude = area.Latitude,
+                                        Longtitude = area.Longtitude
+                                        //Khóa ngoại travel agenciesid
+                                    }
                                  ).ToListAsync();
-            int totalEle = result.Count;
-            int totalPage = Validate.totalPage(totalEle, ele);
-            result = result.Skip((page - 1) * ele).Take(ele).ToList();
-            if ((totalEle % ele) == 0)
-            {
-                totalPage = (totalEle / ele);
+                int totalEle = result.Count;
+                int totalPage = Validate.totalPage(totalEle, ele);
+                result = result.Skip((page - 1) * ele).Take(ele).ToList();
+                if ((totalEle % ele) == 0)
+                {
+                    totalPage = (totalEle / ele);
+                }
+                else
+                {
+                    totalPage = (totalEle / ele) + 1;
+                }
+                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
-            else
+            catch (Exception e)
             {
-                totalPage = (totalEle / ele) + 1;
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
             }
 
-            return Ok(result);
+
         }
 
         // GET: api/Areas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Area>> GetArea(int id)
         {
-            var area = await _context.Areas.FindAsync(id);
-
-            if (area == null)
+            try
             {
-                return NotFound();
-            }
+                var result = await (from area in _context.Areas
+                                    where area.Id == id
+                                    select new
+                                    {
+                                        Id = area.Id,
+                                        Name = area.Name,
+                                        Description = area.Description,
+                                        Latitude = area.Latitude,
+                                        Longtitude = area.Longtitude
+                                        //Khóa ngoại travel agenciesid
+                                    }
+                                ).ToListAsync();
+                if (!result.Any())
+                {
+                    return BadRequest(new { StatusCode = 404, message = "ID is not found!" });
+                }
+                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
 
-            return area;
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(409, new { StatusCode = 409, message = e.Message });
+            }
         }
 
         // PUT: api/Areas/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutArea(int id, Area area)
         {
-            if (id != area.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(area).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AreaExists(id))
+                var area1 = _context.Areas.Find(id);
+                var travelagencyid = new TravelAgency();
+                if (!AreaExists(area.Id = id))
                 {
-                    return NotFound();
+                    return BadRequest(new { StatusCode = 404, Message = "ID Not Found!" });
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
+                if (!Validate.isName(area1.Name = area.Name))
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "only character!" });
+                }
+                area1.Description = area.Description;
+                area1.Latitude = area.Latitude;
+                area1.Longtitude = area.Longtitude;
+                //area1.TravelAgency=area.TravelAgency;
+                var travelagencyid1 = _context.TravelAgencies.FirstOrDefault(s => s.Id == area.TravelAgencyId);
+                if (travelagencyid1 == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "ko có travel agency này!" });
+
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new { status = 200, message = "oke update rồi được chưa" });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, message = e.Message });
+            }
         }
 
         // POST: api/Areas
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// nhậu
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
         [HttpPost]
+        
         public async Task<ActionResult<Area>> PostArea(Area area)
         {
-            _context.Areas.Add(area);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var area1 = new Area();
+                var travelagencyid = new TravelAgency();
 
-            return CreatedAtAction("GetArea", new { id = area.Id }, area);
+                if (!Validate.isName(area1.Name = area.Name))
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "only character!" });
+                }
+                area1.Description = area.Description;
+                area1.Latitude = area.Latitude;
+                area1.Longtitude = area.Longtitude;
+                area1.TravelAgencyId = area.TravelAgencyId;
+                var travelagencyid1 = _context.TravelAgencies.FirstOrDefault(s => s.Id == area.TravelAgencyId);
+                if (travelagencyid1 == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "ko có travel agency này!" });
+
+                }
+
+                _context.Areas.Add(area1);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { status = 201, message = "Create area successfull!" });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, message = e.Message });
+            }
         }
 
         // DELETE: api/Areas/5
