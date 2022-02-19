@@ -22,7 +22,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Trips
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Trip>>> GetTrips()
+        public async Task<ActionResult<IEnumerable<Trip>>> GetTrips(int ele, int page)
         {
             return await _context.Trips.ToListAsync();
         }
