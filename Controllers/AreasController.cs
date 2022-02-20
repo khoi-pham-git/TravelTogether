@@ -118,11 +118,11 @@ namespace TravelTogether2.Controllers
                 var travelagencyid1 = _context.TravelAgencies.FirstOrDefault(s => s.Id == area.TravelAgencyId);
                 if (travelagencyid1 == null)
                 {
+                    await _context.SaveChangesAsync();
                     return BadRequest(new { StatusCode = 404, Message = "ko có travel agency này!" });
 
                 }
 
-                await _context.SaveChangesAsync();
 
                 return Ok(new { status = 200, message = "oke update rồi được chưa" });
             }
@@ -133,11 +133,7 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/Areas
-        /// <summary>
-        /// nhậu
-        /// </summary>
-        /// <param name="area"></param>
-        /// <returns></returns>
+      
         [HttpPost]
         
         public async Task<ActionResult<Area>> PostArea(Area area)

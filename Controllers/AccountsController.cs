@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
 
-namespace TravelTogether2.Controllers   
+namespace TravelTogether2.Controllers
 {
     [Route("api/v1.0/accounts")]
     [ApiController]
@@ -39,14 +39,6 @@ namespace TravelTogether2.Controllers
             int totalEle = result.Count;
             int totalPage = Validate.totalPage(totalEle, ele);
             result = result.Skip((page - 1) * ele).Take(ele).ToList();
-            if ((totalEle % ele) == 0)
-            {
-                totalPage = (totalEle / ele);
-            }
-            else
-            {
-                totalPage = (totalEle / ele) + 1;
-            }
 
             return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
         }
@@ -81,28 +73,28 @@ namespace TravelTogether2.Controllers
 
         //Change Role
         // PUT: api/Accounts/5
-     
+
         [HttpPut("Role/{email}")]
         public async Task<IActionResult> ChangeRole(string email, Account account)
         {
             try
-            {   
+            {
                 var account1 = _context.Accounts.Find(email);
-                var rl1 = new Role();
+            
                 var rl = _context.Roles.FirstOrDefault(s => s.Id == account.RoleId);
-
+                account1.RoleId = account.RoleId;
                 if (!AccountExists(account.Email = email))
                 {
                     return BadRequest(new { StatusCode = 404, Message = "ID Not Found!" });
                 }
                 if (rl == null)
                 {
-                    return BadRequest(new { StatusCode = 404, Message = "Có role này đâu ?" });
+                    return BadRequest(new { StatusCode = 404, Message = "Role is not found!" });
 
                 }
                 await _context.SaveChangesAsync();
 
-                return Ok(new { status = 200, message = "oke update rồi được chưa" });
+                return Ok(new { status = 200, message = "Update Successful!" });
             }
             catch (Exception e)
             {
@@ -168,55 +160,62 @@ namespace TravelTogether2.Controllers
         [HttpPost]
         public async Task<ActionResult<Account>> PostAccount(Account account)
         {
-            
-            var account1 = new Account();
 
-            //Check roleid có tồn tại hay không
-            var account2 = _context.Roles.FirstOrDefault(x => x.Id == account.RoleId);
-            if (!Validate.isEmail(account1.Email = account.Email))
+            try
             {
-                return BadRequest(new { StatusCode = 404, Message = "This email not follow format" });
+                var account1 = new Account();
 
-            }
-            //Check input roleid
-            account1.RoleId = account.RoleId;
+                //Check roleid có tồn tại hay không
+                var account2 = _context.Roles.FirstOrDefault(x => x.Id == account.RoleId);
+                if (!Validate.isEmail(account1.Email = account.Email))
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "This email not follow format" });
 
-            if (account2 == null)
-            {
-                return BadRequest(new { StatusCode = 404, Message = "ko role này!" });
-            }
-            //Check input password
-            account1.Password = account.Password;           //heck độ dài 
-            if (account1.Password.Length < 8 || account1.Password.Length > 16)
-            {
-                return BadRequest(new { StatusCode = 400, Message = "Passwrod length must be 8 - 12" });
-            }
-            else if (!Validate.isLowerChar(account1.Password)) // Check kí thườngs
-            {
-                return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one lower case letter" });
-            }
-            else if (!Validate.isUpperChar(account1.Password))// Check kí tự hoa
-            {
-                return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one upper case letter" });
-            }
-            else if (!Validate.isNumber(account1.Password)) // check số(number)
-            {
-                return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one numeric value" });
-            }
-            else if (!Validate.isSymbols(account1.Password)) // check kí tự đặc biệt
-            {
-                return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one special case characters" });
-            }
-            else if (!Validate.isSpace(account1.Password)) //check khoảng trắng
-            {
-                return BadRequest(new { StatusCode = 400, Message = "Password should not space" });
-            }
-            else
-            {
-                _context.Accounts.Add(account);
-                await _context.SaveChangesAsync();
-                return Ok(new { status = 201, message = "Create account successfull!" });
+                }
+                //Check input roleid
+                account1.RoleId = account.RoleId;
 
+                if (account2 == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "ko role này!" });
+                }
+                //Check input password
+                account1.Password = account.Password;           //heck độ dài 
+                if (account1.Password.Length < 8 || account1.Password.Length > 16)
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Passwrod length must be 8 - 12" });
+                }
+                else if (!Validate.isLowerChar(account1.Password)) // Check kí thườngs
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one lower case letter" });
+                }
+                else if (!Validate.isUpperChar(account1.Password))// Check kí tự hoa
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one upper case letter" });
+                }
+                else if (!Validate.isNumber(account1.Password)) // check số(number)
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one numeric value" });
+                }
+                else if (!Validate.isSymbols(account1.Password)) // check kí tự đặc biệt
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one special case characters" });
+                }
+                else if (!Validate.isSpace(account1.Password)) //check khoảng trắng
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Password should not space" });
+                }
+                else
+                {
+                    _context.Accounts.Add(account);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 201, message = "Create account successfull!" });
+
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
             }
 
         }
