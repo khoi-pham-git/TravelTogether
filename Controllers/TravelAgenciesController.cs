@@ -101,30 +101,42 @@ namespace TravelTogether2.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTravelAgency(string id, TravelAgency travelAgency)
         {
-            if (id != travelAgency.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(travelAgency).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TravelAgencyExists(id))
+                var travelagency1 = _context.TravelAgencies.Find(id);
+                travelagency1.Address = travelAgency.Address;
+                travelagency1.Description = travelAgency.Description;
+                travelagency1.Image = travelAgency.Image;
+                if (!TravelAgencyExists(travelAgency.Id = id))
                 {
-                    return NotFound();
+                    return BadRequest(new { StatusCode = 404, Message = "Tourgide id is not found!" });
+                }
+
+                if (!Validate.isName(travelagency1.Name = travelAgency.Name))
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid Name" });
+
+                }
+                else if (!Validate.isPhone(travelagency1.Phone = travelAgency.Phone))
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid phone number!" });
+                }
+                else if (!Validate.isEmail(travelagency1.Email = travelAgency.Email))
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid Email!" });
                 }
                 else
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Update TravelAgency successful!" });
                 }
-            }
 
-            return NoContent();
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // POST: api/TravelAgencies
@@ -132,24 +144,41 @@ namespace TravelTogether2.Controllers
         [HttpPost]
         public async Task<ActionResult<TravelAgency>> PostTravelAgency(TravelAgency travelAgency)
         {
-            _context.TravelAgencies.Add(travelAgency);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (TravelAgencyExists(travelAgency.Id))
+                var travelagency1 = new TravelAgency();
+
+                travelagency1.Id = travelAgency.Id;
+                travelagency1.Address = travelAgency.Address;
+                travelagency1.Description = travelAgency.Description;
+                travelagency1.Image = travelAgency.Image;
+
+                if (!Validate.isName(travelagency1.Name = travelAgency.Name))
                 {
-                    return Conflict();
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid Name" });
+
+                }
+                else if (!Validate.isPhone(travelagency1.Phone = travelAgency.Phone))
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid phone number!" });
+                }
+                else if (!Validate.isEmail(travelagency1.Email = travelAgency.Email))
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid Email!" });
                 }
                 else
                 {
-                    throw;
+                    _context.TravelAgencies.Add(travelagency1);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Create TravelAgency successful!" });
                 }
-            }
 
-            return CreatedAtAction("GetTravelAgency", new { id = travelAgency.Id }, travelAgency);
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // DELETE: api/TravelAgencies/5

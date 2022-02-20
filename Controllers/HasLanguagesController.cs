@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
@@ -24,63 +23,119 @@ namespace TravelTogether2.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HasLanguage>>> GetHasLanguages()
         {
-            return await _context.HasLanguages.ToListAsync();
+            try
+            {
+                var result = await (from HasLanguage in _context.HasLanguages
+                                    select new
+                                    {
+                                        HasLanguage.Id,
+                                        HasLanguage.TourGuideId,
+                                        HasLanguage.LanguageId
+                                    }
+                              ).ToListAsync();
+
+                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
+
         }
 
         // GET: api/HasLanguages/5
         [HttpGet("{id}")]
         public async Task<ActionResult<HasLanguage>> GetHasLanguage(int id)
         {
-            var hasLanguage = await _context.HasLanguages.FindAsync(id);
-
-            if (hasLanguage == null)
+            try
             {
-                return NotFound();
+                var result = await (from HasLanguage in _context.HasLanguages
+                                    where HasLanguage.Id == id
+                                    select new
+                                    {
+                                        HasLanguage.Id,
+                                        HasLanguage.TourGuideId,
+                                        HasLanguage.LanguageId
+                                    }
+                              ).ToListAsync();
+
+                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
             }
 
-            return hasLanguage;
         }
 
         // PUT: api/HasLanguages/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHasLanguage(int id, HasLanguage hasLanguage)
         {
-            if (id != hasLanguage.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(hasLanguage).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!HasLanguageExists(id))
+                var hasLan = _context.HasLanguages.Find(id);
+                var TourgideId = _context.TourGuides.FirstOrDefault(x => x.Id == hasLanguage.TourGuideId);
+                var LanguageId = _context.Languages.FirstOrDefault(x => x.Id == hasLanguage.LanguageId);
+
+                hasLan.LanguageId = hasLanguage.LanguageId;
+                hasLan.TourGuideId = hasLanguage.TourGuideId;
+                if (!HasLanguageExists(hasLanguage.Id = id))
                 {
-                    return NotFound();
+                    return BadRequest(new { StatusCode = 404, Message = "ID Not Found!" });
+                }
+
+                if (TourgideId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Tourgide id is not found!" });
+                }
+                else if (LanguageId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "LanguageId id is not found!" });
                 }
                 else
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Update hasLanguage successful!" });
                 }
             }
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // POST: api/HasLanguages
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<HasLanguage>> PostHasLanguage(HasLanguage hasLanguage)
         {
-            _context.HasLanguages.Add(hasLanguage);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var hasLan = new HasLanguage();
+                var TourgideId = _context.TourGuides.FirstOrDefault(x => x.Id == hasLanguage.TourGuideId);
+                var LanguageId = _context.Languages.FirstOrDefault(x => x.Id == hasLanguage.LanguageId);
+                hasLan.LanguageId = hasLanguage.LanguageId;
+                hasLan.TourGuideId = hasLanguage.TourGuideId;
 
-            return CreatedAtAction("GetHasLanguage", new { id = hasLanguage.Id }, hasLanguage);
+                if (TourgideId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Tourgide id is not found!" });
+                }
+                else if (LanguageId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "LanguageId id is not found!" });
+                }
+                else
+                {
+                    _context.HasLanguages.Add(hasLanguage);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Create hasLanguage successful!" });
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // DELETE: api/HasLanguages/5

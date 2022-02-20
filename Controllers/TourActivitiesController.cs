@@ -24,52 +24,95 @@ namespace TravelTogether2.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TourActivity>>> GetTourActivities()
         {
-            return await _context.TourActivities.ToListAsync();
+            try
+            {
+                var result = await (from tourActivity in _context.TourActivities
+                                    select new
+                                    {
+                                        tourActivity.Id,
+                                        tourActivity.Name,
+                                        tourActivity.Price,
+                                        tourActivity.PlaceId,
+                                        tourActivity.IsExtra,
+                                        tourActivity.TourId,
+                                        tourActivity.MainActivityId
+                                    }).ToListAsync();
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // GET: api/TourActivities/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TourActivity>> GetTourActivity(int id)
         {
-            var tourActivity = await _context.TourActivities.FindAsync(id);
-
-            if (tourActivity == null)
+            try
             {
-                return NotFound();
+                var result = await (from tourActivity in _context.TourActivities
+                                    where tourActivity.Id == id
+                                    select new
+                                    {
+                                        tourActivity.Id,
+                                        tourActivity.Name,
+                                        tourActivity.Price,
+                                        tourActivity.PlaceId,
+                                        tourActivity.IsExtra,
+                                        tourActivity.TourId,
+                                        tourActivity.MainActivityId
+                                    }).ToListAsync();
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result });
             }
-
-            return tourActivity;
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // PUT: api/TourActivities/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTourActivity(int id, TourActivity tourActivity)
         {
-            if (id != tourActivity.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(tourActivity).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TourActivityExists(id))
+                var tourActivity1 = _context.TourActivities.Find(id);
+                var PlaceId = _context.Places.FirstOrDefault(x => x.Id == tourActivity.PlaceId);
+                var TourId = _context.Tours.FirstOrDefault(x => x.Id == tourActivity.TourId);
+                tourActivity1.Name = tourActivity.Name;
+                tourActivity1.Price = tourActivity.Price;
+                tourActivity1.PlaceId = tourActivity.PlaceId;
+                tourActivity1.IsExtra = tourActivity.IsExtra;
+                tourActivity1.TourId = tourActivity.TourId;
+                tourActivity1.MainActivityId = tourActivity.MainActivityId;
+
+                if (!TourActivityExists(tourActivity.Id = id))
                 {
-                    return NotFound();
+                    return BadRequest(new { StatusCodes = 404, Message = " Id not found!" });
+                }
+                if (PlaceId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Place id is not found!" });
+
+                }
+                else if (TourId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Tour id is not found!" });
                 }
                 else
                 {
-                    throw;
-                }
-            }
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Update Tour Activity successful!" });
 
-            return NoContent();
+                }
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // POST: api/TourActivities
@@ -77,10 +120,40 @@ namespace TravelTogether2.Controllers
         [HttpPost]
         public async Task<ActionResult<TourActivity>> PostTourActivity(TourActivity tourActivity)
         {
-            _context.TourActivities.Add(tourActivity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var tourActivity1 = new TourActivity();
+                var PlaceId = _context.Places.FirstOrDefault(x => x.Id == tourActivity.PlaceId);
+                var TourId = _context.Tours.FirstOrDefault(x => x.Id == tourActivity.TourId);
+                tourActivity1.Name = tourActivity.Name;
+                tourActivity1.Price = tourActivity.Price;
+                tourActivity1.PlaceId = tourActivity.PlaceId;
+                tourActivity1.IsExtra = tourActivity.IsExtra;
+                tourActivity1.TourId = tourActivity.TourId;
+                tourActivity1.MainActivityId = tourActivity.MainActivityId;
 
-            return CreatedAtAction("GetTourActivity", new { id = tourActivity.Id }, tourActivity);
+                if (PlaceId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Place id is not found!" });
+
+                }
+                else if (TourId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Tour id is not found!" });
+                }
+                else
+                {
+                    _context.TourActivities.Add(tourActivity1);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Update Tour Activity successful!" });
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // DELETE: api/TourActivities/5

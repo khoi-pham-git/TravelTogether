@@ -20,67 +20,152 @@ namespace TravelTogether2.Controllers
             _context = context;
         }
 
-        // GET: api/Follows
+        // GET: api/Follows luan
+        //get all
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Follow>>> GetFollows()
         {
-            return await _context.Follows.ToListAsync();
+            try
+            {
+                var result = await (from follow in _context.Follows
+                                    select new
+                                    {
+                                        follow.Id,
+                                        CustomerId = follow.CustomerId,
+                                        TourGuideId = follow.TourGuideId,
+                                        Status = follow.Status
+                                    }).ToListAsync();
+
+                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
-        // GET: api/Follows/5
+        // GET: api/Follows/5 Luan
+        // find by ID
         [HttpGet("{id}")]
         public async Task<ActionResult<Follow>> GetFollow(int id)
         {
-            var follow = await _context.Follows.FindAsync(id);
-
-            if (follow == null)
+            try
             {
-                return NotFound();
-            }
+                var result = await (from follow in _context.Follows
+                                    where follow.Id == id
+                                    select new
+                                    {
+                                        follow.Id,
+                                        CustomerId = follow.CustomerId,
+                                        TourGuideId = follow.TourGuideId,
+                                        Status = follow.Status
+                                    }).ToListAsync();
 
-            return follow;
+                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // PUT: api/Follows/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // edit information not status Luan
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFollow(int id, Follow follow)
         {
-            if (id != follow.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(follow).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FollowExists(id))
+
+                var follow1 = _context.Follows.Find(id);
+                var CustomerId = _context.Customers.FirstOrDefault(x => x.Id == follow.CustomerId);
+                var TourgideId = _context.TourGuides.FirstOrDefault(x => x.Id == follow.TourGuideId);
+
+                if (!FollowExists(follow.Id = id))
                 {
-                    return NotFound();
+                    return BadRequest(new { StatusCode = 404, Message = "ID Not Found!" });
+                }
+
+                if (CustomerId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Customer id is not found!" });
+                }
+                else if (TourgideId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Tourgide id is not found!" });
                 }
                 else
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Update Follow successful!" });
                 }
             }
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
-        // POST: api/Follows
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+
+        // PUT: api/Follows/5
+        // edit information not status Luan
+        [HttpPut("Status/{id}")]
+        public async Task<IActionResult> StatusFollow(int id)
+        {
+            try
+            {
+                var follow1 = _context.Follows.Find(id);
+                if (!FollowExists(id))
+                {
+                    return BadRequest(new { StatusCode = 404, Content = "Follow ID not found" });
+                }
+                if (follow1.Status == true)
+                {
+                    follow1.Status = false;
+                }
+                else 
+                {
+                    follow1.Status = true;
+                }
+                await _context.SaveChangesAsync();
+                return Ok(new { StatusCode = 200, Content = "The request has been completed successfully" }); // ok
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
+        }
+
+        // POST: api/Follows -Luan
         [HttpPost]
         public async Task<ActionResult<Follow>> PostFollow(Follow follow)
         {
-            _context.Follows.Add(follow);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetFollow", new { id = follow.Id }, follow);
+            
+            try
+            {
+                var CustomerId = _context.Customers.FirstOrDefault(x => x.Id == follow.CustomerId);
+                var TourgideId = _context.TourGuides.FirstOrDefault(x => x.Id == follow.TourGuideId);
+                follow.Status = true;
+                if (CustomerId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Customer id is not found!" });
+                }
+                else if (TourgideId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Tourgide id is not found!" });
+                }
+                else
+                {
+                    _context.Follows.Add(follow);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 201, message = "Create Follow successful!" });
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // DELETE: api/Follows/5

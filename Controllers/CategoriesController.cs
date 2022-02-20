@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TravelTogether2.Common;
 using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
@@ -21,55 +22,114 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Categories
+        // Get All không phân trang - Luan
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            return await _context.Categories.ToListAsync();
+            try
+            {
+                var result = await (from Categories in _context.Categories
+                                    select new
+                                    {
+                                        Categories.Id,
+                                        Categories.Name
+                                    }
+                                     ).ToListAsync();
+                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, message = e.Message });
+            }
         }
 
         // GET: api/Categories/5
-        [HttpGet("{id}")]
+        //find by ID -Luan
+        [HttpGet("Id")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-
-            if (category == null)
+            try
             {
-                return NotFound();
-            }
+                var result = await (from Categories in _context.Categories
+                                    where Categories.Id == id
+                                    select new
+                                    {
+                                        Categories.Id,
+                                        Categories.Name
+                                    }
+                                     ).ToListAsync();
 
-            return category;
+                if (!result.Any())
+                {
+                    return BadRequest(new { StatusCode = 404, message = "ID is not found!" });
+                }
+
+                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, message = e.Message });
+            }
+        }
+
+
+        // GET: api/Categories/5
+        //Find by Name- Luan
+        [HttpGet("Name")]
+        public async Task<ActionResult<Category>> GetCategorybyName(string name)
+        {
+            try
+            {
+                var result = await (from Categories in _context.Categories
+                                    where Categories.Name.Contains(name) // tìm gần đúng
+                                    select new
+                                    {
+                                        Categories.Id,
+                                        Categories.Name
+                                    }
+                                     ).ToListAsync();
+
+                if (!result.Any())
+                {
+                    return BadRequest(new { StatusCode = 404, message = "Name is not found!" });
+                }
+
+                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, message = e.Message });
+            }
         }
 
         // PUT: api/Categories/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // Edit Categories
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(int id, Category category)
         {
-            if (id != category.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(category).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CategoryExists(id))
+                var category1 = _context.Categories.Find(id);
+                if (!CategoryExists(category.Id = id))
                 {
-                    return NotFound();
+                    return BadRequest(new { StatusCode = 404, Message = "ID Not Found!" });
+                }
+
+                if (!Validate.isName(category1.Name = category.Name))
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "only character!" });
                 }
                 else
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "oke update rồi được chưa" });
+
                 }
             }
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, message = e.Message });
+            }
         }
 
         // POST: api/Categories
@@ -77,10 +137,24 @@ namespace TravelTogether2.Controllers
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-            _context.Categories.Add(category);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCategory", new { id = category.Id }, category);
+            try
+            {
+                var category1 = new Category();
+                if (!Validate.isName(category1.Name = category.Name))
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "only character!" });
+                }
+                else
+                {
+                    _context.Categories.Add(category1);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 201, message = "Create category successfull!" });
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, message = e.Message });
+            }
         }
 
         // DELETE: api/Categories/5
@@ -92,7 +166,6 @@ namespace TravelTogether2.Controllers
             {
                 return NotFound();
             }
-
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
 
