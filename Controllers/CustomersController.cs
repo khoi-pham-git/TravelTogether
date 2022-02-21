@@ -10,7 +10,7 @@ using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/customers")]
     [ApiController]
     public class CustomersController : ControllerBase
     {

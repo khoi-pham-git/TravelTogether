@@ -74,7 +74,7 @@ namespace TravelTogether2.Controllers
         //Change Role
         // PUT: api/Accounts/5
 
-        [HttpPut("Role/{email}")]
+        [HttpPut("role/{email}")]
         public async Task<IActionResult> ChangeRole(string email, Account account)
         {
             try
@@ -103,7 +103,7 @@ namespace TravelTogether2.Controllers
         }
 
         //Change password Luan
-        [HttpPut("Password/{email}")]
+        [HttpPut("password/{email}")]
         public async Task<IActionResult> ChangePassword(string email, Account account)
         {
             try

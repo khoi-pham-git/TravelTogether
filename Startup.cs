@@ -41,11 +41,19 @@ namespace TravelTogether2
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TravelTogether2", Version = "v1" });
                 });
+
+            services.AddCors();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Enable CORS
+            app.UseCors(options => options.WithOrigins("http://localhost:3000", "http://http://traveltogetherr.somee.com", "http://localhost:3001").AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+
+
+
             if (env.IsDevelopment()|| env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
