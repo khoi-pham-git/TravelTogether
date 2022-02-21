@@ -109,7 +109,7 @@ namespace TravelTogether2.Controllers
                 travelagency1.Image = travelAgency.Image;
                 if (!TravelAgencyExists(travelAgency.Id = id))
                 {
-                    return BadRequest(new { StatusCode = 404, Message = "Tourgide id is not found!" });
+                    return BadRequest(new { StatusCode = 404, Message = "id is not found!" });
                 }
 
                 if (!Validate.isName(travelagency1.Name = travelAgency.Name))

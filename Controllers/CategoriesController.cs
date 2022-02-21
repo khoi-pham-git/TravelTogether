@@ -10,7 +10,9 @@ using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/v1.0/categories")]
+
     [ApiController]
     public class CategoriesController : ControllerBase
     {
@@ -45,7 +47,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Categories/5
         //find by ID -Luan
-        [HttpGet("Id")]
+        [HttpGet("id")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
             try
@@ -75,7 +77,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Categories/5
         //Find by Name- Luan
-        [HttpGet("Name")]
+        [HttpGet("name")]
         public async Task<ActionResult<Category>> GetCategorybyName(string name)
         {
             try

@@ -10,7 +10,8 @@ using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/tours")]
+
     [ApiController]
     public class ToursController : ControllerBase
     {
@@ -190,9 +191,9 @@ namespace TravelTogether2.Controllers
                 var tour1 = new Tour();
                 var chTourguideId = _context.TourGuides.FirstOrDefault(x => x.Id == tour.TourGuideId);
 
-                tour1.QuatityTrip = tour1.QuatityTrip;
-                tour1.Price = tour1.Price;
-                tour1.TourGuideId = tour1.TourGuideId;
+                tour1.QuatityTrip = tour.QuatityTrip;
+                tour1.Price = tour.Price;
+                tour1.TourGuideId = tour.TourGuideId;
 
                 if (chTourguideId == null)
                 {
