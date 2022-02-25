@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
 
@@ -23,9 +22,10 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Areas
         // Get list area information - Luan
-
-
-        [HttpGet("{ele}/{page}")]
+        /// <summary>
+        /// Get list all Area with 
+        /// </summary>
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Area>>> GetAreas(int ele, int page)
         {
             try
@@ -63,6 +63,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Areas/5
+        /// <summary>
+        /// Get area by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Area>> GetArea(int id)
         {
@@ -95,6 +98,9 @@ namespace TravelTogether2.Controllers
         }
 
         // PUT: api/Areas/5
+        /// <summary>
+        /// Edit area by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutArea(int id, Area area)
         {
@@ -133,9 +139,11 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/Areas
-      
+        /// <summary>
+        /// Create area by id
+        /// </summary>
         [HttpPost]
-        
+
         public async Task<ActionResult<Area>> PostArea(Area area)
         {
             try
@@ -170,6 +178,9 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/Areas/5
+        /// <summary>
+        /// Delete area by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArea(int id)
         {

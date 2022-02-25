@@ -23,7 +23,10 @@ namespace TravelTogether2.Controllers
 
         // GET: api/TravelAgencies
         //Get list TravelAgencies - Luan
-        [HttpGet("{ele}/{page}")]
+        /// <summary>
+        /// Get list all TravelAgencies
+        /// </summary>
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<TravelAgency>>> GetTravelAgencies(int ele, int page)
         {
             try
@@ -64,6 +67,9 @@ namespace TravelTogether2.Controllers
 
         // GET: api/TravelAgencies/5
         // Get Travel agency by id - Luan
+        /// <summary>
+        /// Get TravelAgencies by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<TravelAgency>> GetTravelAgency(string id)
         {
@@ -98,6 +104,9 @@ namespace TravelTogether2.Controllers
         }
 
         // PUT: api/TravelAgencies/5
+        /// <summary>
+        /// Edit TravelAgencies by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTravelAgency(string id, TravelAgency travelAgency)
         {
@@ -140,7 +149,9 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/TravelAgencies
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create TravelAgencies
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<TravelAgency>> PostTravelAgency(TravelAgency travelAgency)
         {
@@ -182,6 +193,9 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/TravelAgencies/5
+        /// <summary>
+        /// Delete TravelAgencies by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTravelAgency(string id)
         {

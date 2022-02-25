@@ -22,33 +22,33 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Places
+        /// <summary>
+        /// Get list all places
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Place>>> GetPlaces(int ele, int page)
         {
             try
             {
-                var  result = await (from place in _context.Places
-                                     select new
-                                     {
-                                         place.Id,
-                                         place.Name,
-                                         place.Address,
-                                         place.Description,
-                                         place.Longtitude,
-                                         place.Latitude,
-                                         place.AreaId,
-                                         place.CategoryId
+                var result = await (from place in _context.Places
+                                    select new
+                                    {
+                                        place.Id,
+                                        place.Name,
+                                        place.Address,
+                                        place.Description,
+                                        place.Longtitude,
+                                        place.Latitude,
+                                        place.AreaId,
+                                        place.CategoryId
 
-                                     }
+                                    }
                                      ).ToListAsync();
                 int totalEle = result.Count;
                 int totalPage = Validate.totalPage(totalEle, ele);
                 result = result.Skip((page - 1) * ele).Take(ele).ToList();
 
                 return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
-
-
-
             }
             catch (Exception e)
             {
@@ -57,6 +57,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Places/5
+        /// <summary>
+        /// Get places by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Place>> GetPlace(int id)
         {
@@ -77,9 +80,9 @@ namespace TravelTogether2.Controllers
 
                                     }
                                      ).ToListAsync();
-               
 
-                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result});
+
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result });
             }
             catch (Exception e)
             {
@@ -88,7 +91,9 @@ namespace TravelTogether2.Controllers
         }
 
         // PUT: api/Places/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Edit places by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPlace(int id, Place place)
         {
@@ -133,7 +138,9 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/Places
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create places
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Place>> PostPlace(Place place)
         {
@@ -175,6 +182,9 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/Places/5
+        /// <summary>
+        /// Delete places by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlace(int id)
         {

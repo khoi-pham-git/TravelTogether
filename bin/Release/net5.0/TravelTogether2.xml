@@ -1,0 +1,454 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TravelTogether2</name>
+    </assembly>
+    <members>
+        <member name="M:TravelTogether2.Controllers.AccountsController.GetAccounts(System.Int32,System.Int32)">
+            <summary>
+            Get list all accounts with pagination
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.AccountsController.GetAccount(System.String)">
+            <summary>
+            Get an accounts by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.AccountsController.ChangeRole(System.String,TravelTogether2.Models.Account)">
+            <summary>
+            Edit an accounts by email
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.AccountsController.ChangePassword(System.String,TravelTogether2.Models.Account)">
+            <summary>
+            Edit a password by email
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.AccountsController.PostAccount(TravelTogether2.Models.Account)">
+            <summary>
+            Create an  account
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.AccountsController.DeleteAccount(System.String)">
+            <summary>
+            Delete an account by email (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.AreasController.GetAreas(System.Int32,System.Int32)">
+            <summary>
+            Get list all Area with 
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.AreasController.GetArea(System.Int32)">
+            <summary>
+            Get area by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.AreasController.PutArea(System.Int32,TravelTogether2.Models.Area)">
+            <summary>
+            Edit area by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.AreasController.PostArea(TravelTogether2.Models.Area)">
+            <summary>
+            Create area by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.AreasController.DeleteArea(System.Int32)">
+            <summary>
+            Delete area by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CategoriesController.GetCategories">
+            <summary>
+            Get all Category 
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CategoriesController.GetCategory(System.Int32)">
+            <summary>
+            Get Category  by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CategoriesController.GetCategorybyName(System.String)">
+            <summary>
+            Get Category by name 
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CategoriesController.PutCategory(System.Int32,TravelTogether2.Models.Category)">
+            <summary>
+            Edit Category by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CategoriesController.PostCategory(TravelTogether2.Models.Category)">
+            <summary>
+            Create Category
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CategoriesController.DeleteCategory(System.Int32)">
+            <summary>
+            Delete Category by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CustomersController.GetCustomers(System.Int32,System.Int32)">
+            <summary>
+            Get all Customer
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CustomersController.GetCustomer(System.Int32)">
+            <summary>
+            Get Customer by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CustomersController.GetCustomerById(System.String)">
+            <summary>
+            Get Customer by name
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CustomersController.PutCustomer(System.Int32,TravelTogether2.Models.Customer)">
+            <summary>
+            Edit Customer by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CustomersController.PutFollows(System.Int32)">
+            <summary>
+            Edit Customer by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CustomersController.PostCustomer(TravelTogether2.Models.Customer)">
+            <summary>
+            Create Customer
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.CustomersController.DeleteCustomer(System.Int32)">
+            <summary>
+            Delete Customer by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.FollowsController.GetFollows">
+            <summary>
+            Get list Follow
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.FollowsController.GetFollow(System.Int32)">
+            <summary>
+            Get follow by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.FollowsController.PutFollow(System.Int32,TravelTogether2.Models.Follow)">
+            <summary>
+            Edit follow by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.FollowsController.StatusFollow(System.Int32)">
+            <summary>
+            Edit status follow by id
+            </summary>
+            
+        </member>
+        <member name="M:TravelTogether2.Controllers.FollowsController.PostFollow(TravelTogether2.Models.Follow)">
+            <summary>
+            Creata follow
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.FollowsController.DeleteFollow(System.Int32)">
+            <summary>
+            Delete follow by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.HasLanguagesController.GetHasLanguages">
+            <summary>
+            Get list all HasLanguage
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.HasLanguagesController.GetHasLanguage(System.Int32)">
+            <summary>
+            Get  HasLanguage by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.HasLanguagesController.PutHasLanguage(System.Int32,TravelTogether2.Models.HasLanguage)">
+            <summary>
+            Edit HasLanguage by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.HasLanguagesController.PostHasLanguage(TravelTogether2.Models.HasLanguage)">
+            <summary>
+            Create HasLanguage by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.HasLanguagesController.DeleteHasLanguage(System.Int32)">
+            <summary>
+            Delete HasLanguage by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.LanguagesController.GetLanguages">
+            <summary>
+            Get list all language with pagination
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.LanguagesController.GetLanguage(System.Int32)">
+            <summary>
+            Get a language by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.LanguagesController.GetLanguageByName(System.String)">
+            <summary>
+            Get a language by name
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.LanguagesController.PutLanguage(System.Int32,TravelTogether2.Models.Language)">
+            <summary>
+            Edit a language by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.LanguagesController.PostLanguage(TravelTogether2.Models.Language)">
+            <summary>
+            Create a language
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.LanguagesController.DeleteLanguage(System.Int32)">
+            <summary>
+            Delete a language by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.PaymentsController.GetPayments(System.Int32,System.Int32)">
+            <summary>
+            Get list all payment
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.PaymentsController.GetPayment(System.Int32)">
+            <summary>
+            Get a payment by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.PaymentsController.PutPayment(System.Int32,TravelTogether2.Models.Payment)">
+            <summary>
+            Edit a payment by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.PaymentsController.PostPayment(TravelTogether2.Models.Payment)">
+            <summary>
+            Create a payment
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.PaymentsController.DeletePayment(System.Int32)">
+            <summary>
+            Delete Payments by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.PlacesController.GetPlaces(System.Int32,System.Int32)">
+            <summary>
+            Get list all places
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.PlacesController.GetPlace(System.Int32)">
+            <summary>
+            Get places by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.PlacesController.PutPlace(System.Int32,TravelTogether2.Models.Place)">
+            <summary>
+            Edit places by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.PlacesController.PostPlace(TravelTogether2.Models.Place)">
+            <summary>
+            Create places
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.PlacesController.DeletePlace(System.Int32)">
+            <summary>
+            Delete places by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.RolesController.GetRoles">
+            <summary>
+            Get list all Roles
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.RolesController.GetRole(System.Int32)">
+            <summary>
+            Get Roles by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.RolesController.PutRole(System.Int32,TravelTogether2.Models.Role)">
+            <summary>
+            Edit Roles by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.RolesController.PostRole(TravelTogether2.Models.Role)">
+            <summary>
+            Create Roles
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.RolesController.DeleteRole(System.Int32)">
+            <summary>
+            Delete Roles by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TourActivitiesController.GetTourActivities">
+            <summary>
+            Get list all TourActivities
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TourActivitiesController.GetTourActivity(System.Int32)">
+            <summary>
+            Get TourActivities by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TourActivitiesController.PutTourActivity(System.Int32,TravelTogether2.Models.TourActivity)">
+            <summary>
+            Edit TourActivities by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TourActivitiesController.PostTourActivity(TravelTogether2.Models.TourActivity)">
+            <summary>
+            Create TourActivities
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TourActivitiesController.DeleteTourActivity(System.Int32)">
+            <summary>
+            Delete TourActivities by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TourGuidesController.GetTourGuides(System.Int32,System.Int32)">
+            <summary>
+            Get list all TourGuides
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TourGuidesController.GetTourGuide(System.Int32)">
+            <summary>
+            Get TourGuides by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TourGuidesController.PutTourGuide(System.Int32,TravelTogether2.Models.TourGuide)">
+            <summary>
+            Edit TourGuides by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TourGuidesController.PostTourGuide(TravelTogether2.Models.TourGuide)">
+            <summary>
+            Create TourGuides
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TourGuidesController.DeleteTourGuide(System.Int32)">
+            <summary>
+            Delete TourGuides by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.ToursController.GetTours">
+            <summary>
+            Get list all Tours
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.ToursController.GetTour(System.Int32)">
+            <summary>
+            Get Tours by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.ToursController.GetTour(System.String)">
+            <summary>
+            Get Tours by name
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.ToursController.PutTour(System.Int32,TravelTogether2.Models.Tour)">
+            <summary>
+            Edit tour by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.ToursController.PutTourStatus(System.Int32)">
+            <summary>
+            Edit Tours by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.ToursController.PostTour(TravelTogether2.Models.Tour)">
+            <summary>
+            Create Tours
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.ToursController.DeleteTour(System.Int32)">
+            <summary>
+            Delete Tours by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TravelAgenciesController.GetTravelAgencies(System.Int32,System.Int32)">
+            <summary>
+            Get list all TravelAgencies
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TravelAgenciesController.GetTravelAgency(System.String)">
+            <summary>
+            Get TravelAgencies by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TravelAgenciesController.PutTravelAgency(System.String,TravelTogether2.Models.TravelAgency)">
+            <summary>
+            Edit TravelAgencies by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TravelAgenciesController.PostTravelAgency(TravelTogether2.Models.TravelAgency)">
+            <summary>
+            Create TravelAgencies
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TravelAgenciesController.DeleteTravelAgency(System.String)">
+            <summary>
+            Delete TravelAgencies by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TripActivitiesController.GetTripActivities(System.Int32,System.Int32)">
+            <summary>
+            Get list all TripActivities
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TripActivitiesController.GetTripActivity(System.Int32)">
+            <summary>
+            Get TripActivities by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TripActivitiesController.PutTripActivity(System.Int32,TravelTogether2.Models.TripActivity)">
+            <summary>
+            Edit TripActivities by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TripActivitiesController.PostTripActivity(TravelTogether2.Models.TripActivity)">
+            <summary>
+            Create TripActivities
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TripActivitiesController.DeleteTripActivity(System.Int32)">
+            <summary>
+            Delete TripActivities by id (not use)
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TripsController.GetTrips(System.Int32,System.Int32)">
+            <summary>
+            Get list all Trips
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TripsController.GetTrip(System.Int32)">
+            <summary>
+            Get Trips by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TripsController.PutTrip(System.Int32,TravelTogether2.Models.Trip)">
+            <summary>
+            Edit Trips by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TripsController.PutTrip(System.Int32)">
+            <summary>
+            Edit status by id
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TripsController.PostTrip(TravelTogether2.Models.Trip)">
+            <summary>
+            Create Trips
+            </summary>
+        </member>
+        <member name="M:TravelTogether2.Controllers.TripsController.DeleteTrip(System.Int32)">
+            <summary>
+            Delete Trips by id (not use)
+            </summary>
+        </member>
+    </members>
+</doc>

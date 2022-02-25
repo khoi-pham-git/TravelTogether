@@ -22,6 +22,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/TourActivities
+        /// <summary>
+        /// Get list all TourActivities
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TourActivity>>> GetTourActivities()
         {
@@ -47,6 +50,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/TourActivities/5
+        /// <summary>
+        /// Get TourActivities by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<TourActivity>> GetTourActivity(int id)
         {
@@ -73,7 +79,9 @@ namespace TravelTogether2.Controllers
         }
 
         // PUT: api/TourActivities/5
-        
+        /// <summary>
+        /// Edit TourActivities by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTourActivity(int id, TourActivity tourActivity)
         {
@@ -117,7 +125,9 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/TourActivities
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create TourActivities
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<TourActivity>> PostTourActivity(TourActivity tourActivity)
         {
@@ -158,6 +168,9 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/TourActivities/5
+        /// <summary>
+        /// Delete TourActivities by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTourActivity(int id)
         {
