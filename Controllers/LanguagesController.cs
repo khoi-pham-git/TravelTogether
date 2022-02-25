@@ -22,6 +22,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Languages
+        /// <summary>
+        /// Get list all language with pagination
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Language>>> GetLanguages()
         {
@@ -45,6 +48,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Languages/5
+        /// <summary>
+        /// Get a language by id
+        /// </summary>
         [HttpGet("id")]
         public async Task<ActionResult<Language>> GetLanguage(int id)
         {
@@ -71,6 +77,9 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Languages/5
         //Find by Name
+        /// <summary>
+        /// Get a language by name
+        /// </summary>
         [HttpGet("name")]
         public async Task<ActionResult<Language>> GetLanguageByName(String name)
         {
@@ -95,7 +104,9 @@ namespace TravelTogether2.Controllers
             }
         }
         // PUT: api/Languages/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Edit a language by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLanguage(int id, Language language)
         {
@@ -131,7 +142,10 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/Languages
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create a language
+        /// </summary>
+
         [HttpPost]
         public async Task<ActionResult<Language>> PostLanguage(Language language)
         {
@@ -164,6 +178,9 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/Languages/5
+        /// <summary>
+        /// Delete a language by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLanguage(int id)
         {

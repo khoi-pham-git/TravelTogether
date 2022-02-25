@@ -23,6 +23,9 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Customers
         //gett list customer
+        /// <summary>
+        /// Get all Customer
+        /// </summary>
         //Phan trang
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers(int ele, int page)
@@ -54,6 +57,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Customers/5
+        /// <summary>
+        /// Get Customer by id
+        /// </summary>
         [HttpGet("id")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
@@ -81,6 +87,10 @@ namespace TravelTogether2.Controllers
 
 
         // GET: api/Customers/5
+
+        /// <summary>
+        /// Get Customer by name
+        /// </summary>
         [HttpGet("name")]
         public async Task<ActionResult<Customer>> GetCustomerById(String name)
         {
@@ -111,6 +121,10 @@ namespace TravelTogether2.Controllers
 
 
         // PUT: api/Customers/5
+
+        /// <summary>
+        /// Edit Customer by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
@@ -148,7 +162,66 @@ namespace TravelTogether2.Controllers
             }
         }
 
+
+
+
+
+
+        // PUT: api/Customers/5
+
+        /// <summary>
+        /// Edit Customer by id
+        /// </summary>
+        [HttpPut("follow/{id}")]
+        public async Task<IActionResult> PutFollows(int id)    //id tourguide
+        {
+            try
+            {
+
+
+
+
+                //if (tourguideid == null)
+                //{
+                //    return BadRequest(new { StatusCode = 404, Message = "Tourgide id is not found!" });
+                //}
+
+                //if (follow.Status == true)
+                //{
+                //    follow.Status = false;
+                //    return Ok(new { status = 200, message = "Unfollow" });
+                //}
+                //else
+                //{
+                //    //follow.Status = true;
+                //    //await _context.SaveChangesAsync();
+                return Ok(new { status = 200, message = "Follow"});
+
+                //}
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, message = e.Message });
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
         // POST: api/Customers
+
+        /// <summary>
+        /// Create Customer
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
@@ -179,12 +252,16 @@ namespace TravelTogether2.Controllers
             }
             catch (Exception e)
             {
-               
+
                 return StatusCode(409, new { StatusCode = 409, message = e.Message });
             }
         }
 
         // DELETE: api/Customers/5
+
+        /// <summary>
+        /// Delete Customer by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {

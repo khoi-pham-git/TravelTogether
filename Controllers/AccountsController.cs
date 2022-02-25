@@ -24,7 +24,11 @@ namespace TravelTogether2.Controllers
         //Lấy list tào khoản account theo số lượng  và số trang là mấy
 
         // GET: api/Accounts
-        [HttpGet("{ele}/{page}")]
+        /// <summary>
+        /// Get list all accounts with pagination
+        /// </summary>
+       
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts(int ele, int page)
         {
 
@@ -44,6 +48,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Accounts/5
+        /// <summary>
+        /// Get an accounts by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccount(string id)
         {
@@ -73,7 +80,9 @@ namespace TravelTogether2.Controllers
 
         //Change Role
         // PUT: api/Accounts/5
-
+        /// <summary>
+        /// Edit an accounts by email
+        /// </summary>
         [HttpPut("role/{email}")]
         public async Task<IActionResult> ChangeRole(string email, Account account)
         {
@@ -103,6 +112,9 @@ namespace TravelTogether2.Controllers
         }
 
         //Change password Luan
+        /// <summary>
+        /// Edit a password by email
+        /// </summary>
         [HttpPut("password/{email}")]
         public async Task<IActionResult> ChangePassword(string email, Account account)
         {
@@ -157,6 +169,9 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/Accounts
+        /// <summary>
+        /// Create an  account
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Account>> PostAccount(Account account)
         {
@@ -221,6 +236,9 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/Accounts/5
+        /// <summary>
+        /// Delete an account by email (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount(string id)
         {

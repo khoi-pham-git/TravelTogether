@@ -10,7 +10,7 @@ using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/v1.0/tourguide")]                   //chua lamf
+    [Route("api/v1.0/tourguide")]                   
 
     [ApiController]
     public class TourGuidesController : ControllerBase
@@ -23,6 +23,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/TourGuides
+        /// <summary>
+        /// Get list all TourGuides
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TourGuide>>> GetTourGuides(int ele, int page)
         {
@@ -69,6 +72,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/TourGuides/5
+        /// <summary>
+        /// Get TourGuides by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<TourGuide>> GetTourGuide(int id)
         {
@@ -104,6 +110,9 @@ namespace TravelTogether2.Controllers
         }
 
         // PUT: api/TourGuides/5 -Luan
+        /// <summary>
+        /// Edit TourGuides by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTourGuide(int id, TourGuide tourGuide)
         {
@@ -159,7 +168,14 @@ namespace TravelTogether2.Controllers
             }
         }
 
+
+
+
+
         // POST: api/TourGuides
+        /// <summary>
+        /// Create TourGuides
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<TourGuide>> PostTourGuide(TourGuide tourGuide)
         {
@@ -212,6 +228,9 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/TourGuides/5
+        /// <summary>
+        /// Delete TourGuides by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTourGuide(int id)
         {

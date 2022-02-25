@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
 
@@ -23,6 +22,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Tours
+        /// <summary>
+        /// Get list all Tours
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tour>>> GetTours()
         {
@@ -51,6 +53,9 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Tours/5
         //find tour by id
+        /// <summary>
+        /// Get Tours by id
+        /// </summary>
         [HttpGet("id")]
         public async Task<ActionResult<Tour>> GetTour(int id)
         {
@@ -81,6 +86,9 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Tours/5
         // find tour by name
+        /// <summary>
+        /// Get Tours by name
+        /// </summary>
         [HttpGet("name")]
         public async Task<ActionResult<Tour>> GetTour(String name)
         {
@@ -112,6 +120,9 @@ namespace TravelTogether2.Controllers
         // PUT: api/Tours/5
 
         //Edit tour - Luan
+        /// <summary>
+        /// Edit tour by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTour(int id, Tour tour)
         {
@@ -151,6 +162,9 @@ namespace TravelTogether2.Controllers
         // PUT: api/Tours/5
 
         //Edit tour Status- Luan
+        /// <summary>
+        /// Edit Tours by id
+        /// </summary>
         [HttpPut("status/{id}")]
         public async Task<IActionResult> PutTourStatus(int id)
         {
@@ -182,6 +196,9 @@ namespace TravelTogether2.Controllers
 
 
         // POST: api/Tours
+        /// <summary>
+        /// Create Tours
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Tour>> PostTour(Tour tour)
         {
@@ -217,6 +234,9 @@ namespace TravelTogether2.Controllers
             }
         }
         // DELETE: api/Tours/5
+        /// <summary>
+        /// Delete Tours by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTour(int id)
         {

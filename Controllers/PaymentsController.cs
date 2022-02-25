@@ -23,6 +23,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Payments
+        /// <summary>
+        /// Get list all payment
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Payment>>> GetPayments(int ele, int page)
         {
@@ -54,6 +57,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Payments/5
+        /// <summary>
+        /// Get a payment by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Payment>> GetPayment(int id)
         {
@@ -84,6 +90,9 @@ namespace TravelTogether2.Controllers
         }
 
         // PUT: api/Payments/5
+        /// <summary>
+        /// Edit a payment by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPayment(int id, Payment payment)
         {
@@ -114,7 +123,9 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/Payments
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create a payment
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Payment>> PostPayment(Payment payment)
         {
@@ -140,6 +151,9 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/Payments/5
+        /// <summary>
+        /// Delete Payments by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayment(int id)
         {

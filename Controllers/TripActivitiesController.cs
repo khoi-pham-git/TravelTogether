@@ -23,6 +23,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/TripActivities
+        /// <summary>
+        /// Get list all TripActivities
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TripActivity>>> GetTripActivities(int ele, int page)
         {
@@ -62,6 +65,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/TripActivities/5
+        /// <summary>
+        /// Get TripActivities by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<TripActivity>> GetTripActivity(int id)
         {
@@ -91,6 +97,9 @@ namespace TravelTogether2.Controllers
         }
 
         // PUT: api/TripActivities/5
+        /// <summary>
+        /// Edit TripActivities by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTripActivity(int id, TripActivity tripActivity)
         {
@@ -133,6 +142,9 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/TripActivities
+        /// <summary>
+        /// Create TripActivities
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<TripActivity>> PostTripActivity(TripActivity tripActivity)
         {
@@ -171,6 +183,9 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/TripActivities/5
+        /// <summary>
+        /// Delete TripActivities by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTripActivity(int id)
         {

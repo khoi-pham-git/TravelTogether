@@ -20,6 +20,9 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/HasLanguages
+        /// <summary>
+        /// Get list all HasLanguage
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HasLanguage>>> GetHasLanguages()
         {
@@ -44,6 +47,11 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/HasLanguages/5
+
+
+        /// <summary>
+        /// Get  HasLanguage by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<HasLanguage>> GetHasLanguage(int id)
         {
@@ -69,6 +77,10 @@ namespace TravelTogether2.Controllers
         }
 
         // PUT: api/HasLanguages/5
+
+        /// <summary>
+        /// Edit HasLanguage by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHasLanguage(int id, HasLanguage hasLanguage)
         {
@@ -106,6 +118,11 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/HasLanguages
+
+
+        /// <summary>
+        /// Create HasLanguage by id
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<HasLanguage>> PostHasLanguage(HasLanguage hasLanguage)
         {
@@ -139,6 +156,10 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/HasLanguages/5
+
+        /// <summary>
+        /// Delete HasLanguage by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHasLanguage(int id)
         {

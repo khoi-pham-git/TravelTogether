@@ -21,6 +21,10 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Follows luan
+
+        /// <summary>
+        /// Get list Follow
+        /// </summary>
         //get all
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Follow>>> GetFollows()
@@ -46,6 +50,10 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Follows/5 Luan
         // find by ID
+
+        /// <summary>
+        /// Get follow by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Follow>> GetFollow(int id)
         {
@@ -71,6 +79,10 @@ namespace TravelTogether2.Controllers
 
         // PUT: api/Follows/5
         // edit information not status Luan
+
+        /// <summary>
+        /// Edit follow by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFollow(int id, Follow follow)
         {
@@ -109,8 +121,11 @@ namespace TravelTogether2.Controllers
 
 
         // PUT: api/Follows/5
-        // edit information not status Luan
-        [HttpPut("Status/{id}")]
+        /// <summary>
+        /// Edit status follow by id
+        /// </summary>
+        /// 
+        [HttpPut("status/{id}")]
         public async Task<IActionResult> StatusFollow(int id)
         {
             try
@@ -138,6 +153,9 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/Follows -Luan
+        /// <summary>
+        /// Creata follow
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Follow>> PostFollow(Follow follow)
         {
@@ -169,6 +187,9 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/Follows/5
+        /// <summary>
+        /// Delete follow by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFollow(int id)
         {

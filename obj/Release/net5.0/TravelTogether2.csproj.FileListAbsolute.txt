@@ -276,3 +276,7 @@ D:\Luan\SWD\TravelTogether\TravelTogether\obj\Release\net5.0\TravelTogether2.dll
 D:\Luan\SWD\TravelTogether\TravelTogether\obj\Release\net5.0\ref\TravelTogether2.dll
 D:\Luan\SWD\TravelTogether\TravelTogether\obj\Release\net5.0\TravelTogether2.pdb
 D:\Luan\SWD\TravelTogether\TravelTogether\obj\Release\net5.0\TravelTogether2.genruntimeconfig.cache
+D:\Luan\SWD\TravelTogether\TravelTogether\bin\Release\net5.0\TravelTogether2.xml
+D:\Luan\SWD\TravelTogether\TravelTogether\bin\Release\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Luan\SWD\TravelTogether\TravelTogether\bin\Release\net5.0\Swashbuckle.AspNetCore.Annotations.dll
+D:\Luan\SWD\TravelTogether\TravelTogether\obj\Release\net5.0\TravelTogether2.xml

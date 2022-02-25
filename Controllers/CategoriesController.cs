@@ -25,6 +25,9 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Categories
         // Get All không phân trang - Luan
+        /// <summary>
+        /// Get all Category 
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
@@ -47,6 +50,9 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Categories/5
         //find by ID -Luan
+        /// <summary>
+        /// Get Category  by id
+        /// </summary>
         [HttpGet("id")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
@@ -77,6 +83,9 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Categories/5
         //Find by Name- Luan
+        /// <summary>
+        /// Get Category by name 
+        /// </summary>
         [HttpGet("name")]
         public async Task<ActionResult<Category>> GetCategorybyName(string name)
         {
@@ -105,6 +114,9 @@ namespace TravelTogether2.Controllers
         }
 
         // PUT: api/Categories/5
+        /// <summary>
+        /// Edit Category by id
+        /// </summary>
         // Edit Categories
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(int id, Category category)
@@ -135,7 +147,9 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/Categories
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create Category
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
@@ -160,6 +174,9 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/Categories/5
+        /// <summary>
+        /// Delete Category by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
