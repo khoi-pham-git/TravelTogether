@@ -9,8 +9,9 @@ axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 export default function UserList() {
   // const [data, setData] = useState(userRows);
   const [customer, setCustomer] = useState([]); 
+  
   useEffect(() => {
-    axios.get("http://traveltogetherr.somee.com/api/v1.0/customers?ele=10&page=1")
+    axios.get("http://traveltogether.somee.com/api/v1.0/customers?ele=10&page=1")
       .then((res) => { 
         
         setCustomer(res.data.data)
@@ -72,7 +73,7 @@ export default function UserList() {
         return (
           <>
             <Link to={"/user/" + params.row.id}>
-              <button className="userListEdit">Edit</button>
+              <button className="userListEdit">View Detail</button>
             </Link>
             <DeleteOutline
               className="userListDelete"
