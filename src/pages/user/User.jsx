@@ -21,7 +21,7 @@ export default function User() {
   const [user, setUser] = React.useState({});
   console.log(userId);
   useEffect(() => {
-    axios.get(`http://traveltogether.somee.com/api/v1.0/customers/id?id=${userId}`)
+    axios.get(`http://traveltogetherr.somee.com/api/v1.0/customers/id?id=${userId}`)
       .then((res) => { 
         // console.log(res);
         setUser(res.data.data[0]) 

@@ -11,7 +11,7 @@ export default function UserList() {
   const [customer, setCustomer] = useState([]); 
   
   useEffect(() => {
-    axios.get("http://traveltogether.somee.com/api/v1.0/customers?ele=10&page=1")
+    axios.get("http://traveltogetherr.somee.com/api/v1.0/customers?ele=10&page=1")
       .then((res) => { 
         
         setCustomer(res.data.data)

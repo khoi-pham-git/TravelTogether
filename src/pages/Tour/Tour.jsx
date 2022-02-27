@@ -1,6 +1,7 @@
+
+///tourguider là em này 
 import { Link } from "react-router-dom";
 import "./Tour.css";
-import {TourData} from "../../dummyData"
 import { Publish } from "@material-ui/icons";
 
 export default function Tour() {

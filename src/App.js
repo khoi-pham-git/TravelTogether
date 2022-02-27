@@ -9,6 +9,9 @@ import NewUser from "./pages/newUser/NewUser";
 import NewTour from "./pages/newTour/NewTour";
 import Tour from "./pages/Tour/Tour";
 import TourList from "./pages/TourList/TourList";
+import Booking from "./pages/Booking/Booking";
+
+
 
 
 
@@ -39,6 +42,9 @@ function App() {
           </Route>
           <Route path="/Tour">
             <TourList />
+          </Route>
+          <Route path="/Booking">
+            <Booking/>
           </Route>
         </Switch>
       </div>

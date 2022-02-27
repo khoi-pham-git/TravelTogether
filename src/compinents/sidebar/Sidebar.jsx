@@ -50,15 +50,15 @@ export default function Sidebar() {
               <Link to="/Tour">
               <li className="sidebarListItem">
                 <AccountCircle className="sidebarIcon" />
-                assistant
+                Tourguide
               </li>
               </Link>
-              
-
-              <li className="sidebarListItem">
+             <Link to="/Booking">
+             <li className="sidebarListItem">
                 <AttachMoney className="sidebarIcon" />
-                Transactions
+                Booking
               </li>
+             </Link>
               <li className="sidebarListItem">
                 <BarChart className="sidebarIcon" />
                 Reports
