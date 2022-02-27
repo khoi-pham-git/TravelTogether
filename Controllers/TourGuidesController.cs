@@ -159,7 +159,7 @@ namespace TravelTogether2.Controllers
                 else
                 {
                     await _context.SaveChangesAsync();
-                    return Ok(new { status = 200, message = "Update TravelAgency successful!" });
+                    return Ok(new { status = 200, message = "Update TourGuide successful!" });
                 }
             }
             catch (Exception e)
@@ -218,7 +218,7 @@ namespace TravelTogether2.Controllers
                 {
                     _context.TourGuides.Add(tourGuide1);
                     await _context.SaveChangesAsync();
-                    return Ok(new { status = 200, message = "Update TravelAgency successful!" });
+                    return Ok(new { status = 200, message = "Update TourGuide successful!" });
                 }
             }
             catch (Exception e)

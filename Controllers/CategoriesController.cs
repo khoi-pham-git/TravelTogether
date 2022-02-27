@@ -136,7 +136,7 @@ namespace TravelTogether2.Controllers
                 else
                 {
                     await _context.SaveChangesAsync();
-                    return Ok(new { status = 200, message = "oke update rồi được chưa" });
+                    return Ok(new { status = 200, message = "Update Successful" });
 
                 }
             }

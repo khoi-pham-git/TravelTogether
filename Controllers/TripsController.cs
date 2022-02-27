@@ -126,7 +126,7 @@ namespace TravelTogether2.Controllers
                 else
                 {
                     await _context.SaveChangesAsync();
-                    return Ok(new { status = 200, message = "Update hasLanguage successful!" });
+                    return Ok(new { status = 200, message = "Update Trip successful!" });
                 }
 
             }
@@ -204,7 +204,7 @@ namespace TravelTogether2.Controllers
                 {
                     _context.Trips.Add(trip1);
                     await _context.SaveChangesAsync();
-                    return Ok(new { status = 200, message = "Update hasLanguage successful!" });
+                    return Ok(new { status = 200, message = "Update Trip successful!" });
                 }
 
             }
