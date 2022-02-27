@@ -1,30 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using TravelTogether2.Common;
+using TravelTogether2.Helpers;
 using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
     [Route("api/v1.0/accounts")]
     [ApiController]
+    [Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
+        private readonly AppSettings _appSettings;
 
-        public AccountsController(TourGuide_v2Context context)
+        public AccountsController(TourGuide_v2Context context, IOptions<AppSettings> AppSettings)
         {
             _context = context;
+            _appSettings = AppSettings.Value;
         }
 
         //Lấy list tào khoản account theo số lượng  và số trang là mấy
 
         // GET: api/Accounts
-        [HttpGet("page/{ele}/{page}")]
+        /// <summary>
+        /// Get list all accounts with pagination
+        /// </summary>
+
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts(int ele, int page)
         {
 
@@ -39,19 +53,14 @@ namespace TravelTogether2.Controllers
             int totalEle = result.Count;
             int totalPage = Validate.totalPage(totalEle, ele);
             result = result.Skip((page - 1) * ele).Take(ele).ToList();
-            if ((totalEle % ele) == 0)
-            {
-                totalPage = (totalEle / ele);
-            }
-            else
-            {
-                totalPage = (totalEle / ele) + 1;
-            }
 
             return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
         }
 
         // GET: api/Accounts/5
+        /// <summary>
+        /// Get an accounts by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccount(string id)
         {
@@ -81,28 +90,30 @@ namespace TravelTogether2.Controllers
 
         //Change Role
         // PUT: api/Accounts/5
-     
-        [HttpPut("Role/{email}")]
+        /// <summary>
+        /// Edit an accounts by email
+        /// </summary>
+        [HttpPut("role/{email}")]
         public async Task<IActionResult> ChangeRole(string email, Account account)
         {
             try
-            {   
+            {
                 var account1 = _context.Accounts.Find(email);
-                var rl1 = new Role();
-                var rl = _context.Roles.FirstOrDefault(s => s.Id == account.RoleId);
 
+                var rl = _context.Roles.FirstOrDefault(s => s.Id == account.RoleId);
+                account1.RoleId = account.RoleId;
                 if (!AccountExists(account.Email = email))
                 {
                     return BadRequest(new { StatusCode = 404, Message = "ID Not Found!" });
                 }
                 if (rl == null)
                 {
-                    return BadRequest(new { StatusCode = 404, Message = "Có role này đâu ?" });
+                    return BadRequest(new { StatusCode = 404, Message = "Role is not found!" });
 
                 }
                 await _context.SaveChangesAsync();
 
-                return Ok(new { status = 200, message = "oke update rồi được chưa" });
+                return Ok(new { status = 200, message = "Update Successful!" });
             }
             catch (Exception e)
             {
@@ -111,7 +122,10 @@ namespace TravelTogether2.Controllers
         }
 
         //Change password Luan
-        [HttpPut("Password/{email}")]
+        /// <summary>
+        /// Edit a password by email
+        /// </summary>
+        [HttpPut("password/{email}")]
         public async Task<IActionResult> ChangePassword(string email, Account account)
         {
             try
@@ -165,30 +179,76 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/Accounts
+        /// <summary>
+        /// Create an  account
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Account>> PostAccount(Account account)
         {
-            _context.Accounts.Add(account);
+
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (AccountExists(account.Email))
+                var account1 = new Account();
+
+                //Check roleid có tồn tại hay không
+                var account2 = _context.Roles.FirstOrDefault(x => x.Id == account.RoleId);
+                if (!Validate.isEmail(account1.Email = account.Email))
                 {
-                    return Conflict();
+                    return BadRequest(new { StatusCode = 404, Message = "This email not follow format" });
+
+                }
+                //Check input roleid
+                account1.RoleId = account.RoleId;
+
+                if (account2 == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "ko role này!" });
+                }
+                //Check input password
+                account1.Password = account.Password;           //heck độ dài 
+                if (account1.Password.Length < 8 || account1.Password.Length > 16)
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Passwrod length must be 8 - 12" });
+                }
+                else if (!Validate.isLowerChar(account1.Password)) // Check kí thườngs
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one lower case letter" });
+                }
+                else if (!Validate.isUpperChar(account1.Password))// Check kí tự hoa
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one upper case letter" });
+                }
+                else if (!Validate.isNumber(account1.Password)) // check số(number)
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one numeric value" });
+                }
+                else if (!Validate.isSymbols(account1.Password)) // check kí tự đặc biệt
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Password should contain At least one special case characters" });
+                }
+                else if (!Validate.isSpace(account1.Password)) //check khoảng trắng
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Password should not space" });
                 }
                 else
                 {
-                    throw;
+                    _context.Accounts.Add(account);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 201, message = "Create account successfull!" });
+
                 }
             }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
 
-            return CreatedAtAction("GetAccount", new { id = account.Email }, account);
         }
 
         // DELETE: api/Accounts/5
+        /// <summary>
+        /// Delete an account by email (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount(string id)
         {
@@ -208,5 +268,61 @@ namespace TravelTogether2.Controllers
         {
             return _context.Accounts.Any(e => e.Email == id);
         }
+
+
+
+
+
+
+
+
+
+        ////=========================================================================test
+        //[HttpPost("Login")]
+        //public async Task<ActionResult<Account>> Login(LoginVM login)
+        //{
+
+        //    var acc = _context.Accounts.FirstOrDefault(acc => acc.Email == login.UserName && acc.Password == login.Password);
+
+        //    if (acc == null)
+        //    {
+        //        return Ok(new
+        //        {
+        //            Success = false,
+        //            Message = "Sai "
+        //        });
+        //    }
+
+
+        //    //generate token
+        //    var claims = new Claim[]
+        //    {
+        //        new Claim(ClaimTypes.Name, acc.Email),
+        //        new Claim(ClaimTypes.Role, "User"),
+
+        //    };
+        //    var tokenHandler = new JwtSecurityTokenHandler();
+        //    var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+        //    var tokenDescriptor = new SecurityTokenDescriptor
+        //    {
+        //        Subject = new ClaimsIdentity(claims),
+        //        Expires = DateTime.UtcNow.AddDays(1),
+        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        //    };
+        //    var token = tokenHandler.CreateToken(tokenDescriptor);
+          
+        //    return Ok(new
+        //    {
+        //        success = true,
+        //        message = "Ddang nhap thanh cong",
+        //        data = new
+        //        {
+        //            Token = tokenHandler.WriteToken(token)
+        //        }
+        //    });
+        //}
+
+
+
     }
 }

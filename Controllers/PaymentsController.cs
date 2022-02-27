@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TravelTogether2.Common;
 using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/payment")]
+
     [ApiController]
     public class PaymentsController : ControllerBase
     {
@@ -21,69 +23,137 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Payments
+        /// <summary>
+        /// Get list all payment
+        /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Payment>>> GetPayments()
+        public async Task<ActionResult<IEnumerable<Payment>>> GetPayments(int ele, int page)
         {
-            return await _context.Payments.ToListAsync();
+            try
+            {
+                var result = await (from payment in _context.Payments
+                                    select new
+                                    {
+                                        payment.Id,
+                                        payment.Amount,
+                                        payment.Type,
+                                        payment.Date,
+                                        payment.TripId,
+                                        payment.PaymentCode
+
+                                    }
+                                    ).ToListAsync();
+
+                int totalEle = result.Count;
+                int totalPage = Validate.totalPage(totalEle, ele);
+                result = result.Skip((page - 1) * ele).Take(ele).ToList();
+
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // GET: api/Payments/5
+        /// <summary>
+        /// Get a payment by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Payment>> GetPayment(int id)
         {
-            var payment = await _context.Payments.FindAsync(id);
-
-            if (payment == null)
+            try
             {
-                return NotFound();
-            }
+                var result = await (from payment in _context.Payments
+                                    where payment.Id == id
+                                    select new
+                                    {
+                                        payment.Id,
+                                        payment.Amount,
+                                        payment.Type,
+                                        payment.Date,
+                                        payment.TripId,
+                                        payment.PaymentCode
 
-            return payment;
+                                    }
+                                    ).ToListAsync();
+
+
+
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // PUT: api/Payments/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Edit a payment by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPayment(int id, Payment payment)
         {
-            if (id != payment.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(payment).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PaymentExists(id))
+                var payment1 = _context.Payments.Find(id);
+                payment1.Amount = payment.Amount;
+                payment1.Type = payment.Type;
+                payment1.Date = payment.Date;
+                payment1.TripId = payment.TripId;
+                payment1.PaymentCode = payment.PaymentCode;
+
+                if (!PaymentExists(payment.Id = id))
                 {
-                    return NotFound();
+                    return BadRequest(new { StatusCode = 404, Message = "ID Not Found!" });
                 }
                 else
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Update Successful!" });
                 }
-            }
 
-            return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // POST: api/Payments
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create a payment
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Payment>> PostPayment(Payment payment)
         {
-            _context.Payments.Add(payment);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var payment1 = new Payment();
+                payment1.Amount = payment.Amount;
+                payment1.Type = payment.Type;
+                payment1.Date = payment.Date;
+                payment1.TripId = payment.TripId;
+                payment1.PaymentCode = payment.PaymentCode;
 
-            return CreatedAtAction("GetPayment", new { id = payment.Id }, payment);
+                _context.Payments.Add(payment1);
+                await _context.SaveChangesAsync();
+                return Ok(new { status = 200, message = "Update Successful!" });
+
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // DELETE: api/Payments/5
+        /// <summary>
+        /// Delete Payments by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayment(int id)
         {

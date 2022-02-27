@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TravelTogether2.Common;
 using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/travelAgencies")]
     [ApiController]
     public class TravelAgenciesController : ControllerBase
     {
@@ -21,83 +22,180 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/TravelAgencies
+        //Get list TravelAgencies - Luan
+        /// <summary>
+        /// Get list all TravelAgencies
+        /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TravelAgency>>> GetTravelAgencies()
+        public async Task<ActionResult<IEnumerable<TravelAgency>>> GetTravelAgencies(int ele, int page)
         {
-            return await _context.TravelAgencies.ToListAsync();
+            try
+            {
+                var result = await (from TravelAgency in _context.TravelAgencies
+                                    select new
+                                    {
+                                        Id = TravelAgency.Id,
+                                        Name = TravelAgency.Name,
+                                        Address = TravelAgency.Address,
+                                        Phone = TravelAgency.Phone,
+                                        Description = TravelAgency.Description,
+                                        Email = TravelAgency.Email,
+                                        Image = TravelAgency.Image
+
+                                    }
+                                     ).ToListAsync();
+
+                int totalEle = result.Count;
+                int totalPage = Validate.totalPage(totalEle, ele);
+                result = result.Skip((page - 1) * ele).Take(ele).ToList();
+                if ((totalEle % ele) == 0)
+                {
+                    totalPage = (totalEle / ele);
+                }
+                else
+                {
+                    totalPage = (totalEle / ele) + 1;
+                }
+
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // GET: api/TravelAgencies/5
+        // Get Travel agency by id - Luan
+        /// <summary>
+        /// Get TravelAgencies by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<TravelAgency>> GetTravelAgency(string id)
         {
-            var travelAgency = await _context.TravelAgencies.FindAsync(id);
-
-            if (travelAgency == null)
+            try
             {
-                return NotFound();
-            }
+                var result = await (from TravelAgency in _context.TravelAgencies
+                                    where TravelAgency.Id == id
+                                    select new
+                                    {
+                                        Id = TravelAgency.Id,
+                                        Name = TravelAgency.Name,
+                                        Address = TravelAgency.Address,
+                                        Phone = TravelAgency.Phone,
+                                        Description = TravelAgency.Description,
+                                        Email = TravelAgency.Email,
+                                        Image = TravelAgency.Image
 
-            return travelAgency;
+                                    }
+                                    ).ToListAsync();
+                if (!result.Any())
+                {
+                    return BadRequest(new { StatusCodes = 404, Message = " Account not found!" });
+                }
+
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result });
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // PUT: api/TravelAgencies/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Edit TravelAgencies by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTravelAgency(string id, TravelAgency travelAgency)
         {
-            if (id != travelAgency.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(travelAgency).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TravelAgencyExists(id))
+                var travelagency1 = _context.TravelAgencies.Find(id);
+                travelagency1.Address = travelAgency.Address;
+                travelagency1.Description = travelAgency.Description;
+                travelagency1.Image = travelAgency.Image;
+                if (!TravelAgencyExists(travelAgency.Id = id))
                 {
-                    return NotFound();
+                    return BadRequest(new { StatusCode = 404, Message = "id is not found!" });
+                }
+
+                if (!Validate.isName(travelagency1.Name = travelAgency.Name))
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid Name" });
+
+                }
+                else if (!Validate.isPhone(travelagency1.Phone = travelAgency.Phone))
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid phone number!" });
+                }
+                else if (!Validate.isEmail(travelagency1.Email = travelAgency.Email))
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid Email!" });
                 }
                 else
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Update TravelAgency successful!" });
                 }
-            }
 
-            return NoContent();
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // POST: api/TravelAgencies
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create TravelAgencies
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<TravelAgency>> PostTravelAgency(TravelAgency travelAgency)
         {
-            _context.TravelAgencies.Add(travelAgency);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (TravelAgencyExists(travelAgency.Id))
+                var travelagency1 = new TravelAgency();
+
+                travelagency1.Id = travelAgency.Id;
+                travelagency1.Address = travelAgency.Address;
+                travelagency1.Description = travelAgency.Description;
+                travelagency1.Image = travelAgency.Image;
+
+                if (!Validate.isName(travelagency1.Name = travelAgency.Name))
                 {
-                    return Conflict();
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid Name" });
+
+                }
+                else if (!Validate.isPhone(travelagency1.Phone = travelAgency.Phone))
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid phone number!" });
+                }
+                else if (!Validate.isEmail(travelagency1.Email = travelAgency.Email))
+                {
+                    return BadRequest(new { StatusCode = 400, Message = "Invalid Email!" });
                 }
                 else
                 {
-                    throw;
+                    _context.TravelAgencies.Add(travelagency1);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Create TravelAgency successful!" });
                 }
-            }
 
-            return CreatedAtAction("GetTravelAgency", new { id = travelAgency.Id }, travelAgency);
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // DELETE: api/TravelAgencies/5
+        /// <summary>
+        /// Delete TravelAgencies by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTravelAgency(string id)
         {

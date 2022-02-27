@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TravelTogether2.Common;
 using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/trip")]
+
     [ApiController]
     public class TripsController : ControllerBase
     {
@@ -21,69 +23,201 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Trips
+        /// <summary>
+        /// Get list all Trips
+        /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Trip>>> GetTrips()
+        public async Task<ActionResult<IEnumerable<Trip>>> GetTrips(int ele, int page)
         {
-            return await _context.Trips.ToListAsync();
+            try
+            {
+                var result = await (from trip in _context.Trips
+                                    select new
+                                    {
+                                        trip.Id,
+                                        trip.BookingDate,
+                                        trip.StartDate,
+                                        trip.EndDate,
+                                        trip.FeedBackCore,
+                                        trip.Status,
+                                        trip.Feedback,
+                                        trip.Price,
+                                        trip.TourId,
+                                        trip.CustomerId
+                                    }
+                              ).ToListAsync();
+                int totalEle = result.Count;
+                int totalPage = Validate.totalPage(totalEle, ele);
+                result = result.Skip((page - 1) * ele).Take(ele).ToList();
+                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // GET: api/Trips/5
+        /// <summary>
+        /// Get Trips by id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Trip>> GetTrip(int id)
         {
-            var trip = await _context.Trips.FindAsync(id);
-
-            if (trip == null)
+            try
             {
-                return NotFound();
-            }
+                var result = await (from trip in _context.Trips
+                                    where trip.Id == id
+                                    select new
+                                    {
+                                        trip.Id,
+                                        trip.BookingDate,
+                                        trip.StartDate,
+                                        trip.EndDate,
+                                        trip.FeedBackCore,
+                                        trip.Status,
+                                        trip.Feedback,
+                                        trip.Price,
+                                        trip.TourId,
+                                        trip.CustomerId
+                                    }
+                              ).ToListAsync();
 
-            return trip;
+                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // PUT: api/Trips/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Edit Trips by id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTrip(int id, Trip trip)
         {
-            if (id != trip.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(trip).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TripExists(id))
+                var trip1 = _context.Trips.Find(id);
+                var chTourId = _context.Tours.FirstOrDefault(x => x.Id == trip.TourId);
+                var chCustomerId = _context.Customers.FirstOrDefault(x => x.Id == trip.CustomerId);
+                trip1.TourId = trip.TourId;
+                trip1.CustomerId = trip.CustomerId;
+                trip1.BookingDate = trip.BookingDate;
+                trip1.StartDate = trip.StartDate;
+                trip1.EndDate = trip.EndDate;
+                trip1.FeedBackCore = trip.FeedBackCore;
+                trip1.Feedback = trip.Feedback;
+                trip1.Price = trip.Price;
+                if (!TripExists(trip.Id = id))
                 {
-                    return NotFound();
+                    return BadRequest(new { StatusCode = 404, Message = "ID Not Found!" });
+                }
+                if (chTourId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Tour id is not found!" });
+                }
+                else if (chCustomerId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Customer id is not found!" });
                 }
                 else
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Update Trip successful!" });
                 }
-            }
 
-            return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
+        }
+
+
+
+
+        // PUT: api/Trips/5
+        /// <summary>
+        /// Edit status by id
+        /// </summary>
+        [HttpPut("status/{id}")]
+        public async Task<IActionResult> PutTrip(int id)
+        {
+            try
+            {
+                var trip = _context.Trips.Find(id);
+                if (!TripExists(id))
+                {
+                    return BadRequest(new { StatusCode = 404, Content = "Follow ID not found" });
+                }
+                if (trip.Status == true)
+                {
+                    trip.Status = false;
+                }
+                else
+                {
+                    trip.Status = true;
+                }
+                await _context.SaveChangesAsync();
+                return Ok(new { StatusCode = 200, Content = "The request has been completed successfully" }); // ok
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // POST: api/Trips
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create Trips
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Trip>> PostTrip(Trip trip)
         {
-            _context.Trips.Add(trip);
-            await _context.SaveChangesAsync();
+           
+            try
+            {
+                var trip1 = new Trip();
+                var chTourId = _context.Tours.FirstOrDefault(x => x.Id == trip.TourId);
+                var chCustomerId = _context.Customers.FirstOrDefault(x => x.Id == trip.CustomerId);
+                trip1.TourId = trip.TourId;
+                trip1.CustomerId = trip.CustomerId;
+                trip1.BookingDate = trip.BookingDate;
+                trip1.StartDate = trip.StartDate;
+                trip1.EndDate = trip.EndDate;
+                trip1.FeedBackCore = trip.FeedBackCore;
+                trip1.Feedback = trip.Feedback;
+                trip1.Price = trip.Price;
+                trip1.Status = true;
+                if (chTourId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Tour id is not found!" });
+                }
+                else if (chCustomerId == null)
+                {
+                    return BadRequest(new { StatusCode = 404, Message = "Customer id is not found!" });
+                }
+                else
+                {
+                    _context.Trips.Add(trip1);
+                    await _context.SaveChangesAsync();
+                    return Ok(new { status = 200, message = "Update Trip successful!" });
+                }
 
-            return CreatedAtAction("GetTrip", new { id = trip.Id }, trip);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+            }
         }
 
         // DELETE: api/Trips/5
+        /// <summary>
+        /// Delete Trips by id (not use)
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTrip(int id)
         {
