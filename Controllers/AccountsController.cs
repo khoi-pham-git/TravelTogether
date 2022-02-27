@@ -1,34 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using TravelTogether2.Common;
-using TravelTogether2.Helpers;
 using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
     [Route("api/v1.0/accounts")]
     [ApiController]
-    [Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
-        private readonly AppSettings _appSettings;
 
-        public AccountsController(TourGuide_v2Context context, IOptions<AppSettings> AppSettings)
+        public AccountsController(TourGuide_v2Context context)
         {
             _context = context;
-            _appSettings = AppSettings.Value;
         }
 
         //Lấy list tào khoản account theo số lượng  và số trang là mấy
@@ -37,7 +27,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Get list all accounts with pagination
         /// </summary>
-
+       
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts(int ele, int page)
         {
@@ -99,7 +89,7 @@ namespace TravelTogether2.Controllers
             try
             {
                 var account1 = _context.Accounts.Find(email);
-
+            
                 var rl = _context.Roles.FirstOrDefault(s => s.Id == account.RoleId);
                 account1.RoleId = account.RoleId;
                 if (!AccountExists(account.Email = email))
@@ -268,61 +258,5 @@ namespace TravelTogether2.Controllers
         {
             return _context.Accounts.Any(e => e.Email == id);
         }
-
-
-
-
-
-
-
-
-
-        ////=========================================================================test
-        //[HttpPost("Login")]
-        //public async Task<ActionResult<Account>> Login(LoginVM login)
-        //{
-
-        //    var acc = _context.Accounts.FirstOrDefault(acc => acc.Email == login.UserName && acc.Password == login.Password);
-
-        //    if (acc == null)
-        //    {
-        //        return Ok(new
-        //        {
-        //            Success = false,
-        //            Message = "Sai "
-        //        });
-        //    }
-
-
-        //    //generate token
-        //    var claims = new Claim[]
-        //    {
-        //        new Claim(ClaimTypes.Name, acc.Email),
-        //        new Claim(ClaimTypes.Role, "User"),
-
-        //    };
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-        //    var tokenDescriptor = new SecurityTokenDescriptor
-        //    {
-        //        Subject = new ClaimsIdentity(claims),
-        //        Expires = DateTime.UtcNow.AddDays(1),
-        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        //    };
-        //    var token = tokenHandler.CreateToken(tokenDescriptor);
-          
-        //    return Ok(new
-        //    {
-        //        success = true,
-        //        message = "Ddang nhap thanh cong",
-        //        data = new
-        //        {
-        //            Token = tokenHandler.WriteToken(token)
-        //        }
-        //    });
-        //}
-
-
-
     }
 }

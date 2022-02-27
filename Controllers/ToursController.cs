@@ -207,10 +207,10 @@ namespace TravelTogether2.Controllers
             {
                 var tour1 = new Tour();
                 var chTourguideId = _context.TourGuides.FirstOrDefault(x => x.Id == tour.TourGuideId);
+
                 tour1.QuatityTrip = tour.QuatityTrip;
                 tour1.Price = tour.Price;
                 tour1.TourGuideId = tour.TourGuideId;
-                tour1.Status = true;
 
                 if (chTourguideId == null)
                 {

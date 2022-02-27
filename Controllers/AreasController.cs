@@ -125,9 +125,12 @@ namespace TravelTogether2.Controllers
                 if (travelagencyid1 == null)
                 {
                     await _context.SaveChangesAsync();
-                    return BadRequest(new { StatusCode = 404, Message = "Travel agency not found!!" });
+                    return BadRequest(new { StatusCode = 404, Message = "ko có travel agency này!" });
+
                 }
-                return Ok(new { status = 200, message = "Update Successful!" });
+
+
+                return Ok(new { status = 200, message = "oke update rồi được chưa" });
             }
             catch (Exception e)
             {
@@ -159,7 +162,7 @@ namespace TravelTogether2.Controllers
                 var travelagencyid1 = _context.TravelAgencies.FirstOrDefault(s => s.Id == area.TravelAgencyId);
                 if (travelagencyid1 == null)
                 {
-                    return BadRequest(new { StatusCode = 404, Message = "Travel agency not found" });
+                    return BadRequest(new { StatusCode = 404, Message = "ko có travel agency này!" });
 
                 }
 
