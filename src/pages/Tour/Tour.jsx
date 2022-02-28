@@ -15,7 +15,6 @@ export default function Tour() {
       </div>
       <div className="TourTop">
           <div className="TourTopLeft">
-            
           </div>
           <div className="TourTopRight">
               <div className="TourInfoTop">

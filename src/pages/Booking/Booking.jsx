@@ -1,4 +1,5 @@
 import React from 'react';
+import 'core-js/es/symbol'
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -7,8 +8,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-
+import ListBooking from './ListBooking';
 
 
 
@@ -48,7 +48,8 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: 500,
+    width: 10000,
+    
     
   },
 }));
@@ -66,18 +67,9 @@ export default function Booking() {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
-  const customTheme = createMuiTheme({
-    palette: {
-      primary: {
-        light: "#42c2f5",
-        main: "rgba(0,0,0,0.5)",
-        dark: "#778899",
-        contrastText: "#fff"
-      }
-    }
-  });
+
   return (
-    <MuiThemeProvider theme={customTheme}>
+    
     <div className={classes.root}>
       <AppBar position="static" color="default">
           
@@ -89,9 +81,9 @@ export default function Booking() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Active" {...a11yProps(0)} />
+          <Tab label="InActive" {...a11yProps(1)} />
+          <Tab label="Cancel" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -100,16 +92,16 @@ export default function Booking() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
+          <ListBooking/>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+        <ListBooking/>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
+        <ListBooking/>
         </TabPanel>
       </SwipeableViews>
     </div>
-    </MuiThemeProvider>
+    
   );
 }
