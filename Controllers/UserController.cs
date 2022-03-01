@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -29,10 +30,10 @@ namespace TravelTogether2.Controllers
 
         //=========================================================================test ==>test oke rồi
         [HttpPost("Login")]
-        public async Task<ActionResult<Account>> Login(LoginVM login)
+        public async Task<ActionResult<IEnumerable<Account>>> Login(LoginVM login)
         {
             var acc = _context.Accounts.FirstOrDefault(acc => acc.Email == login.UserName && acc.Password == login.Password);
-
+            
             if (acc == null)
             {
                 return Ok(new
@@ -44,8 +45,8 @@ namespace TravelTogether2.Controllers
             //generate token
             var claims = new Claim[]
             {
-                new Claim(ClaimTypes.Name, acc.Email)
-                //new Claim(ClaimTypes.Role, "User"),
+                new Claim(ClaimTypes.Name, acc.Email),
+                new Claim(ClaimTypes.Role, "User")
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);

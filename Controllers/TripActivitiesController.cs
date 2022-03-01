@@ -10,7 +10,7 @@ using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/v1.0/tripactivities")]                     // chuwa lamf
+    [Route("api/v1.0/trip-activities")]                     // chuwa lamf
 
     [ApiController]
     public class TripActivitiesController : ControllerBase

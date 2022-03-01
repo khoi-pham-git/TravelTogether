@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Controllers"
   ],
-  "SelectedNode": "\\D:\\Luan\\SWD\\TravelTogether4",
+  "SelectedNode": "\\Controllers\\RolesController.cs",
   "PreviewInSolutionExplorer": false
 }

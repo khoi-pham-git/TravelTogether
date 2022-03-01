@@ -216,6 +216,17 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Create Customer
         /// </summary>
+        /// /// <remarks>
+        /// Sample value of message
+        /// 
+        ///     POST /Todo
+        ///     {
+        ///        "name": "Hi",
+        ///        "phone": "0961449382",
+        ///        "email": "Sukhpinder@gmail.com"
+        ///     }
+        ///     
+        /// </remarks>
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
@@ -223,8 +234,6 @@ namespace TravelTogether2.Controllers
             try
             {
                 var cus1 = new Customer();
-                cus1.Address = customer.Address;
-                cus1.Image = customer.Image;
                 if (!Validate.isName(cus1.Name = customer.Name))
                 {
                     return BadRequest(new { StatusCode = 400, Message = "Only character!" });

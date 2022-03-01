@@ -10,7 +10,7 @@ using TravelTogether2.Models;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/v1.0/trip")]
+    [Route("api/v1.0/trips")]
 
     [ApiController]
     public class TripsController : ControllerBase
@@ -177,7 +177,7 @@ namespace TravelTogether2.Controllers
         [HttpPost]
         public async Task<ActionResult<Trip>> PostTrip(Trip trip)
         {
-           
+
             try
             {
                 var trip1 = new Trip();
