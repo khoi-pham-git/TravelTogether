@@ -1,41 +1,46 @@
-
+import './Booking.css'
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { Link } from "react-router-dom";
 import { useState,useEffect } from "react";
+
 import axios from "axios";
 
+// chỗ này dùng axios để call api 
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 export default function ListBooking() {
-  // const [data, setData] = useState(userRows);
-  const [Booking, setBooking] = useState([]); 
+  // const [data, setData] = useState(BookingRows);
+  //rows là biến, setRows để set giá trị cho cái coodj 
+  const [rows, setRows] = useState([]); 
   
+  //userEffect để quản lí vòng đời á (lifecycle)
   useEffect(() => {
     axios.get("http://traveltogetherr.somee.com/api/v1.0/tours")
+    //dòng 17 lấy cái link API rồi set nó vào một cái response
       .then((res) => { 
-        console.log(Booking)
-        
-        setBooking(res.data.data)
-        console.log(Booking); })
+        setRows(res.data.data)
+        //rồi từ cái res(response) gọi đến data rồi set nó cho từng cột
+        // nếu muốn hiểu hơn lên lòng 19 consle.log(res) vào browser f12 lên là thấy 
+         })
       .catch((err) => { console.log(err); })
-  }, [Booking])
+  }, [])
 
 
- 
+ // cái này là đỗ dữ liệu vào cái file theo Id thôi ku
   const handleDelete = (id) => {
-    setBooking(Booking.filter((item) => item.id !== id));
+    setRows(rows.filter((item) => item.id !== id));
   };
 
+  // từ dòng 32 trở đi là đỗ dữ liệu cho từng cột cái nào ko hiểu ib  tao 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 190 },
     {
       field: "BookingRequest",
       headerName: "BookingRequest",
       width: 200,
       renderCell: (params) => {
         return (
-          <div className="userListUser">
-            <img className="userListImg" src={params.row.name} alt="" />
+          <div className="BookingListBooking">
+            <img className="BookingListImg" src={params.row.name} alt="" />
             {params.row.name}
           </div>
         );
@@ -43,56 +48,61 @@ export default function ListBooking() {
     },
     { field: "tourGuideId", headerName: "tourGuideId", width: 200 },
     {
-      field: "status",
+      field: "price",
       headerName: "price",
       width: 120,
       renderCell: (params) => {
         return (
-          <div className="userListUser">
+          <div className="BookingListBooking">
             {params.row.price}
           </div>
         );
       },
     },
     {
-      field: "transaction",
+      field: "price",
       headerName: "quantityTrip",
       width: 160,
       renderCell: (params) => {
         return (
-          <div className="userListUser">
+          <div className="BookingListBooking">
             {params.row.quatityTrip}
           </div>
         );
       },
     },
     {
-      field: "user",
-      headerName: "user",
+      field: "Booking",
+      headerName: "Booking",
       width: 150,
       renderCell: (params) => {
         return (
-          <>
-            
+         
             <DeleteOutline
-              className="userListDelete"
+              className="BookingListDelete"
               onClick={() => handleDelete(params.row.id)}
             />
-          </>
+         
         );
       },
     },
   ];
 
   return (
-    <div className="userList">
-      <DataGrid
-        rows={Booking}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={8}
-        checkboxSelection
-      />
+    <div className="BookingList">
+    <DataGrid
+     rows={rows}
+     disableSelectionOnClick
+     columns={columns}
+     pageSize={8}
+     checkboxSelection
+     />
     </div>
   );
 }
+
+
+
+
+
+

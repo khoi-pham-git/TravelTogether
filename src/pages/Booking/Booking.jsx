@@ -72,7 +72,6 @@ export default function Booking() {
     
     <div className={classes.root}>
       <AppBar position="static" color="default">
-          
         <Tabs
           value={value}
           onChange={handleChange}
@@ -101,6 +100,7 @@ export default function Booking() {
         <ListBooking/>
         </TabPanel>
       </SwipeableViews>
+      
     </div>
     
   );

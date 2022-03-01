@@ -13,7 +13,6 @@ export default function UserList() {
   useEffect(() => {
     axios.get("http://traveltogetherr.somee.com/api/v1.0/customers?ele=10&page=1")
       .then((res) => { 
-        
         setCustomer(res.data.data)
         console.log(customer); })
       .catch((err) => { console.log(err); })
