@@ -2,26 +2,33 @@ import "./userList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useEffect } from "react";
+import * as React from 'react';
 import axios from "axios";
-
+import { useDispatch, useSelector } from "react-redux";
+import { callAPIGetListUser } from "./Module/action";
+import AddIcon from '@mui/icons-material/Add';
+import ModalUser from "../Modal/Modal";
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 export default function UserList() {
   // const [data, setData] = useState(userRows);
-  const [customer, setCustomer] = useState([]); 
-  
+  // const [customer, setCustomer] = useState([]); 
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const dispatch = useDispatch();
+  const customer = useSelector((state)=>{
+    return state.user.listUser;
+  });
+  console.log(customer);
   useEffect(() => {
-    axios.get("http://traveltogetherr.somee.com/api/v1.0/customers?ele=10&page=1")
-      .then((res) => { 
-        setCustomer(res.data.data)
-        console.log(customer); })
-      .catch((err) => { console.log(err); })
-  }, [customer])
+    dispatch(callAPIGetListUser())
+  }, [dispatch])
 
 
  
   const handleDelete = (id) => {
-    setCustomer(customer.filter((item) => item.id !== id));
+    // setCustomer(customer.filter((item) => item.id !== id));
   };
 
   const columns = [
@@ -86,13 +93,15 @@ export default function UserList() {
 
   return (
     <div className="userList">
-      <DataGrid
+      <AddIcon onClick={handleOpen}/>
+      {customer && <DataGrid
         rows={customer}
         disableSelectionOnClick
         columns={columns}
         pageSize={8}
         checkboxSelection
-      />
+      />}
+      <ModalUser open={open} handleClose={handleClose}  />
     </div>
   );
 }
