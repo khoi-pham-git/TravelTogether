@@ -221,9 +221,11 @@ namespace TravelTogether2.Controllers
         /// 
         ///     POST /Todo
         ///     {
-        ///        "name": "Hi",
+        ///        "name": "Sukkh",
         ///        "phone": "0961449382",
-        ///        "email": "Sukhpinder@gmail.com"
+        ///        "email": "Sukhpinder@gmail.com",
+        ///        "address": "Kha Van Can",
+        ///        "image": "Sukkh.png"
         ///     }
         ///     
         /// </remarks>
@@ -234,6 +236,8 @@ namespace TravelTogether2.Controllers
             try
             {
                 var cus1 = new Customer();
+                cus1.Address = customer.Address;
+                cus1.Image = customer.Image;
                 if (!Validate.isName(cus1.Name = customer.Name))
                 {
                     return BadRequest(new { StatusCode = 400, Message = "Only character!" });
