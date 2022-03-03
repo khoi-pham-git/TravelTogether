@@ -54,14 +54,7 @@ namespace TravelTogether2.Controllers
                 int totalEle = result.Count;
                 int totalPage = Validate.totalPage(totalEle, ele);
                 result = result.Skip((page - 1) * ele).Take(ele).ToList();
-                if ((totalEle % ele) == 0)
-                {
-                    totalPage = (totalEle / ele);
-                }
-                else
-                {
-                    totalPage = (totalEle / ele) + 1;
-                }
+              
 
                 return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
             }

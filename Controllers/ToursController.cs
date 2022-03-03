@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
+using TravelTogether2.Services;
 
 namespace TravelTogether2.Controllers
 {
@@ -15,10 +16,12 @@ namespace TravelTogether2.Controllers
     public class ToursController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
+        private readonly ITourRespository  _tourRespository;
 
-        public ToursController(TourGuide_v2Context context)
+        public ToursController(TourGuide_v2Context context, ITourRespository tourRespository)
         {
             _context = context;
+            _tourRespository = tourRespository;
         }
 
         // GET: api/Tours
@@ -26,21 +29,11 @@ namespace TravelTogether2.Controllers
         /// Get list all Tours
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tour>>> GetTours()
+        public async Task<ActionResult<IEnumerable<Tour>>> GetTours(string search, string sortby, int page = 1)
         {
             try
             {
-                var result = await (from tour in _context.Tours
-                                    select new
-                                    {
-                                        tour.Id,
-                                        tour.Name,
-                                        tour.QuatityTrip,
-                                        tour.Price,
-                                        tour.Status,
-                                        tour.TourGuideId
-                                    }
-                                   ).ToListAsync();
+                var result = _tourRespository.GetAll(search, sortby, page);
 
 
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
@@ -84,37 +77,37 @@ namespace TravelTogether2.Controllers
         }
 
 
-        // GET: api/Tours/5
-        // find tour by name
-        /// <summary>
-        /// Get Tours by name
-        /// </summary>
-        [HttpGet("name")]
-        public async Task<ActionResult<Tour>> GetTour(String name)
-        {
-            try
-            {
-                var result = await (from tour in _context.Tours
-                                    where tour.Name.Contains(name)
-                                    select new
-                                    {
-                                        tour.Id,
-                                        tour.Name,
-                                        tour.QuatityTrip,
-                                        tour.Price,
-                                        tour.Status,
-                                        tour.TourGuideId
-                                    }
-                                   ).ToListAsync();
+        //// GET: api/Tours/5
+        //// find tour by name
+        ///// <summary>
+        ///// Get Tours by name
+        ///// </summary>
+        //[HttpGet("name")]
+        //public async Task<ActionResult<Tour>> GetTour(String name)
+        //{
+        //    try
+        //    {
+        //        var result = await (from tour in _context.Tours
+        //                            where tour.Name.Contains(name)
+        //                            select new
+        //                            {
+        //                                tour.Id,
+        //                                tour.Name,
+        //                                tour.QuatityTrip,
+        //                                tour.Price,
+        //                                tour.Status,
+        //                                tour.TourGuideId
+        //                            }
+        //                           ).ToListAsync();
 
 
-                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
-            }
-            catch (Exception e)
-            {
-                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
-            }
-        }
+        //        return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+        //    }
+        //}
 
 
         // PUT: api/Tours/5

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
+using TravelTogether2.Services;
 
 namespace TravelTogether2.Controllers
 {
@@ -15,10 +16,14 @@ namespace TravelTogether2.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
+        private readonly ICustomerRespository _customerRespository ;
 
-        public CustomersController(TourGuide_v2Context context)
+
+        public CustomersController(TourGuide_v2Context context, ICustomerRespository customerRespository )
         {
             _context = context;
+            _customerRespository = customerRespository;
+          
         }
 
         // GET: api/Customers
@@ -28,25 +33,12 @@ namespace TravelTogether2.Controllers
         /// </summary>
         //Phan trang
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers(int ele, int page)
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers(string search, string sortby, int page = 1)
         {
             try
             {
-                var result = await (from Customer in _context.Customers
-                                    select new Customer
-                                    {
-                                        Id = Customer.Id,
-                                        Name = Customer.Name,
-                                        Phone = Customer.Phone,
-                                        Email = Customer.Email,
-                                        Address = Customer.Address,
-                                        Image = Customer.Image
-                                    }
-                                    ).ToListAsync();
+                var result = _customerRespository.GetAll(search, sortby, page);
 
-                int totalEle = result.Count;
-                int totalPage = Validate.totalPage(totalEle, ele);
-                result = result.Skip((page - 1) * ele).Take(ele).ToList();
 
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
@@ -77,38 +69,6 @@ namespace TravelTogether2.Controllers
                                         Image = Customer.Image
                                     }
                                     ).ToListAsync();
-                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
-            }
-            catch (Exception e)
-            {
-                return StatusCode(409, new { StatusCode = 409, message = e.Message });
-            }
-        }
-
-
-        // GET: api/Customers/5
-
-        /// <summary>
-        /// Get Customer by name
-        /// </summary>
-        [HttpGet("name")]
-        public async Task<ActionResult<Customer>> GetCustomerById(String name)
-        {
-            try
-            {
-                var result = await (from Customer in _context.Customers
-                                    where Customer.Name.Contains(name) //Tìm gần đúng
-                                    select new Customer
-                                    {
-                                        Id = Customer.Id,
-                                        Name = Customer.Name,
-                                        Phone = Customer.Phone,
-                                        Email = Customer.Email,
-                                        Address = Customer.Address,
-                                        Image = Customer.Image
-                                    }
-                                    ).ToListAsync();
-
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
             catch (Exception e)
@@ -205,12 +165,6 @@ namespace TravelTogether2.Controllers
             }
         }
 
-
-
-
-
-
-
         // POST: api/Customers
 
         /// <summary>
@@ -237,7 +191,7 @@ namespace TravelTogether2.Controllers
             {
                 var cus1 = new Customer();
                 cus1.Address = customer.Address;
-                cus1.Image = customer.Image;
+                //cus1.Image = customer.Image;
                 if (!Validate.isName(cus1.Name = customer.Name))
                 {
                     return BadRequest(new { StatusCode = 400, Message = "Only character!" });

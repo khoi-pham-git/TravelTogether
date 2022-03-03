@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
+using TravelTogether2.Services;
 
 namespace TravelTogether2.Controllers
 {
@@ -14,10 +15,12 @@ namespace TravelTogether2.Controllers
     public class AreasController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
+        private readonly IAreasResponsitory _areasResponsitory;
 
-        public AreasController(TourGuide_v2Context context)
+        public AreasController(TourGuide_v2Context context, IAreasResponsitory areasResponsitory)
         {
             _context = context;
+            _areasResponsitory = areasResponsitory;
         }
 
         // GET: api/Areas
@@ -26,32 +29,12 @@ namespace TravelTogether2.Controllers
         /// Get list all Area with 
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Area>>> GetAreas(int ele, int page)
+        public async Task<ActionResult<IEnumerable<Area>>> GetAreas(string search, string sortby, int page=1)
         {
             try
             {
-                var result = await (from area in _context.Areas
-                                    select new
-                                    {
-                                        Id = area.Id,
-                                        Name = area.Name,
-                                        Description = area.Description,
-                                        Latitude = area.Latitude,
-                                        Longtitude = area.Longtitude
-                                        //Khóa ngoại travel agenciesid
-                                    }
-                                 ).ToListAsync();
-                int totalEle = result.Count;
-                int totalPage = Validate.totalPage(totalEle, ele);
-                result = result.Skip((page - 1) * ele).Take(ele).ToList();
-                if ((totalEle % ele) == 0)
-                {
-                    totalPage = (totalEle / ele);
-                }
-                else
-                {
-                    totalPage = (totalEle / ele) + 1;
-                }
+
+                var result = _areasResponsitory.GetAll(search, sortby, page);
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
             catch (Exception e)
@@ -66,36 +49,36 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Get area by id
         /// </summary>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Area>> GetArea(int id)
-        {
-            try
-            {
-                var result = await (from area in _context.Areas
-                                    where area.Id == id
-                                    select new
-                                    {
-                                        Id = area.Id,
-                                        Name = area.Name,
-                                        Description = area.Description,
-                                        Latitude = area.Latitude,
-                                        Longtitude = area.Longtitude
-                                        //Khóa ngoại travel agenciesid
-                                    }
-                                ).ToListAsync();
-                if (!result.Any())
-                {
-                    return BadRequest(new { StatusCode = 404, message = "ID is not found!" });
-                }
-                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Area>> GetArea(int id)
+        //{
+        //    try
+        //    {
+        //        var result = await (from area in _context.Areas
+        //                            where area.Id == id
+        //                            select new
+        //                            {
+        //                                Id = area.Id,
+        //                                Name = area.Name,
+        //                                Description = area.Description,
+        //                                Latitude = area.Latitude,
+        //                                Longtitude = area.Longtitude
+        //                                //Khóa ngoại travel agenciesid
+        //                            }
+        //                        ).ToListAsync();
+        //        if (!result.Any())
+        //        {
+        //            return BadRequest(new { StatusCode = 404, message = "ID is not found!" });
+        //        }
+        //        return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
 
-            }
-            catch (Exception e)
-            {
+        //    }
+        //    catch (Exception e)
+        //    {
 
-                return StatusCode(409, new { StatusCode = 409, message = e.Message });
-            }
-        }
+        //        return StatusCode(409, new { StatusCode = 409, message = e.Message });
+        //    }
+        //}
 
         // PUT: api/Areas/5
         /// <summary>

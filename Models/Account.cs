@@ -5,7 +5,13 @@ using System.Collections.Generic;
 
 namespace TravelTogether2.Models
 {
-    public partial class Account
+    public class Acc1
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int RoleId { get; set; }
+    }
+    public /*partial*/ class Account
     {
         public string Email { get; set; }
         public string Password { get; set; }
@@ -13,4 +19,7 @@ namespace TravelTogether2.Models
 
         public virtual Role Role { get; set; }
     }
+
+
+  
 }

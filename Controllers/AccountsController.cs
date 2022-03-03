@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,72 +20,40 @@ namespace TravelTogether2.Controllers
 {
     [Route("api/v1.0/accounts")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
         private readonly AppSettings _appSettings;
+        private readonly IAccountRespository _accountRespository;
+        public static int PAGE_SIZE { get; set; } = 5;
 
-        public AccountsController(TourGuide_v2Context context, IOptions<AppSettings> AppSettings)
+
+        public AccountsController(TourGuide_v2Context context, IOptions<AppSettings> AppSettings, IAccountRespository accountRespository)
         {
             _context = context;
             _appSettings = AppSettings.Value;
+            _accountRespository = accountRespository;
         }
 
         //Lấy list tào khoản account theo số lượng  và số trang là mấy
 
-        // GET: api/Accounts
-        /// <summary>
-        /// Get list all accounts with pagination
-        /// </summary>
+     
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts(int ele, int page)
-        {
-
-            var result = await (from account in _context.Accounts
-                                select new
-                                {
-                                    Email = account.Email,
-                                    Password = account.Password,
-                                    RoleId = account.RoleId
-                                }).ToListAsync();
-
-            int totalEle = result.Count;
-            int totalPage = Validate.totalPage(totalEle, ele);
-            result = result.Skip((page - 1) * ele).Take(ele).ToList();
-
-            return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
-        }
-
-        // GET: api/Accounts/5
-        /// <summary>
-        /// Get an accounts by id
-        /// </summary>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccount(string id)
+        public async Task<ActionResult<IEnumerable<Account>>> GetAllAccount(string search, string sortby, int page = 1)
         {
             try
             {
-                var result = await (from account in _context.Accounts
-                                    where account.Email == id
-                                    select new
-                                    {
-                                        Email = account.Email,
-                                        Password = account.Password,
-                                        RoleId = account.RoleId
-                                    }).ToListAsync();
+                var result =  _accountRespository.GetAll(search, sortby, page);
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result});
 
-                if (!result.Any())
-                {
-                    return BadRequest(new { StatusCodes = 404, Message = " Account not found!" });
-                }
-                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result });
             }
-            catch (Exception e)
+            catch (Exception )
             {
-                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+                return BadRequest("We  can't not  get account");
             }
+
         }
 
 
@@ -310,7 +279,7 @@ namespace TravelTogether2.Controllers
         //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         //    };
         //    var token = tokenHandler.CreateToken(tokenDescriptor);
-          
+
         //    return Ok(new
         //    {
         //        success = true,

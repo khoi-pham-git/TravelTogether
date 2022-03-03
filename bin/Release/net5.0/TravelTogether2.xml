@@ -118,6 +118,19 @@
             <summary>
             Create Customer
             </summary>
+            /// <remarks>
+            Sample value of message
+            
+                POST /Todo
+                {
+                   "name": "Sukkh",
+                   "phone": "0961449382",
+                   "email": "Sukhpinder@gmail.com",
+                   "address": "Kha Van Can",
+                   "image": "Sukkh.png"
+                }
+                
+            </remarks>
         </member>
         <member name="M:TravelTogether2.Controllers.CustomersController.DeleteCustomer(System.Int32)">
             <summary>
