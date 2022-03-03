@@ -6,18 +6,17 @@ import { useEffect } from "react";
 import * as React from 'react';
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { callAPIGetListUser,DeleteUser } from "../../Module/action";
+import { callAPIGetListUser } from "../../Module/action";
 import AddIcon from '@mui/icons-material/Add';
 import ModalUser from "../Modal/Modal";
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 export default function UserList() {
-  // const [data, setData] = useState(userRows);
-  // const [customer, setCustomer] = useState([]); 
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const dispatch = useDispatch();
-  const customer = useSelector((state)=>{
+  const customer = useSelector((state) => {
     return state.user.listUser;
   });
   console.log(customer);
@@ -26,21 +25,19 @@ export default function UserList() {
   }, [dispatch])
 
 
- 
+
   const handleDelete = (id) => {
-    if(window.confirm("Are You Sure Want to Delete the user???")){
-      // dispatch(DeleteUser(id));
-      axios.delete(`http://traveltogetherr.somee.com/api/v1.0/customers/${id}`)
-      .then((res) => { 
+
+    // dispatch(DeleteUser(id));
+    axios.delete(`http://traveltogetherr.somee.com/api/v1.0/customers/${id}`)
+      .then((res) => {
         console.log(res);
-          // dispatch(ActionDelte());
-          alert("remove success " + id)
-          dispatch(callAPIGetListUser())
-        })
+        dispatch(callAPIGetListUser());
+      })
       .catch((err) => { alert("remove faild " + id); })
-     
-    }
-   
+
+
+
   };
 
   const columns = [
@@ -105,7 +102,7 @@ export default function UserList() {
 
   return (
     <div className="userList">
-      <AddIcon onClick={handleOpen}/>
+      <AddIcon onClick={handleOpen} />
       {customer && <DataGrid
         rows={customer}
         disableSelectionOnClick
@@ -113,7 +110,7 @@ export default function UserList() {
         pageSize={8}
         checkboxSelection
       />}
-      <ModalUser open={open} handleClose={handleClose}  />
+      <ModalUser open={open} handleClose={handleClose} />
     </div>
   );
 }

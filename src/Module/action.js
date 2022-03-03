@@ -24,13 +24,4 @@ export const ActionGetListUser = (payload) => {
       }
   }
 
-  export const DeleteUser  = (userId) => {
-    return (dispatch) => {
-      axios.delete(`http://traveltogetherr.somee.com/api/v1.0/customers/${userId}`)
-      .then((res) => { 
-        console.log(res);
-          // dispatch(ActionDelte());
-        })
-      .catch((err) => { console.log(err); })
-    }
-}
+  
