@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { callAPIGetListUser } from "../../pages/userList/Module/action";
+import { callAPIGetListUser } from "../../Module/action.js";
 import "./widgetLg.css";
 
 export default function WidgetLg() {

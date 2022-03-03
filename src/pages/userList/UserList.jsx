@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import * as React from 'react';
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { callAPIGetListUser } from "./Module/action";
+import { callAPIGetListUser,DeleteUser } from "../../Module/action";
 import AddIcon from '@mui/icons-material/Add';
 import ModalUser from "../Modal/Modal";
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
@@ -28,7 +28,19 @@ export default function UserList() {
 
  
   const handleDelete = (id) => {
-    // setCustomer(customer.filter((item) => item.id !== id));
+    if(window.confirm("Are You Sure Want to Delete the user???")){
+      // dispatch(DeleteUser(id));
+      axios.delete(`http://traveltogetherr.somee.com/api/v1.0/customers/${id}`)
+      .then((res) => { 
+        console.log(res);
+          // dispatch(ActionDelte());
+          alert("remove success " + id)
+          dispatch(callAPIGetListUser())
+        })
+      .catch((err) => { alert("remove faild " + id); })
+     
+    }
+   
   };
 
   const columns = [

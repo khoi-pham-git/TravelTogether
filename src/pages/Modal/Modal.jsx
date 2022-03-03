@@ -1,14 +1,14 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-// import Button from '@mui/material/Button';
-// import Typography from '@mui/material/Typography';
 import Modal from "@mui/material/Modal";
 import { FormHelperText, TextField } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useDispatch} from "react-redux";
 import axios from "axios";
+import { callAPIGetListUser } from "../../Module/action";
 
 const style = {
   position: "absolute",
@@ -26,31 +26,38 @@ const schema = yup.object().shape({
   phone: yup.string().required().trim(),
   email: yup.string().required().trim().email(),
   address: yup.string().required().trim(),
-  image: yup.string().required().trim(),
+
 });
+
 export default function ModalUser({ open, handleClose }) {
+  const dispatch = useDispatch();
   const formik = useFormik({
     validationSchema: schema,
-    // validateOnMount: true,
-    // validateOnBlur: true,
+    validateOnMount: true,
+    validateOnBlur: true,
     initialValues: {
       name: "",
       phone: "",
       email: "",
       address: "",
-      image: "",
+
     },
     onSubmit: async (values) => {
-      const dataUser = {name: formik.values.name,
+      console.log(values);
+      const data = {
+        name: formik.values.name,
         phone: formik.values.phone,
         email: formik.values.email,
-        address: formik.values.address,
-        image: formik.values.image}
-      const data = await axios({method: "POST", url: "http://traveltogether.somee.com/api/v1.0/customers",dataUser })
-      console.log(data);
+        address: formik.values.address
+      }
+      const res = await axios({
+        method: "POST", url: "http://traveltogetherr.somee.com/api/v1.0/customers", data,
+      })
+      console.log(res);
       handleClose();
+      dispatch(callAPIGetListUser())
     },
-  });
+  }, []);
   return (
     <div>
       <Modal
@@ -71,8 +78,7 @@ export default function ModalUser({ open, handleClose }) {
                 name="name"
                 value={formik.values.name}
                 variant="outlined"
-                onChange={(e)=>{
-                  console.log(e.target.value);
+                onChange={(e) => {
                   formik.handleChange(e)
                 }}
                 onBlur={formik.handleBlur}
@@ -140,26 +146,10 @@ export default function ModalUser({ open, handleClose }) {
                 </FormHelperText>
               )}
             </Box>
-            <Box sx={{ display: "block" }}>
-              <TextField
-                id="outlined-basic"
-                label="image"
-                name="image"
-                onChange={formik.handleChange}
-                value={formik.values.image}
-                variant="outlined"
-              />
-              {formik.touched.image && formik.errors.image && (
-                <FormHelperText
-                  error
-                  id="standard-weight-helper-text-username-login"
-                >
-                  {formik.errors.image}
-                </FormHelperText>
-              )}
-            </Box>
+
             <Button variant="contained" type="submit">
               Submit
+
             </Button>
           </form>
         </Box>
@@ -167,3 +157,23 @@ export default function ModalUser({ open, handleClose }) {
     </div>
   );
 }
+
+
+// <Box sx={{ display: "block" }}>
+//             <TextField
+//               id="outlined-basic"
+//               label="image"
+//               name="image"
+//               onChange={formik.handleChange}
+//               value={formik.values.image}
+//               variant="outlined"
+//             />
+//             {formik.touched.image && formik.errors.image && (
+//               <FormHelperText
+//                 error
+//                 id="standard-weight-helper-text-username-login"
+//               >
+//                 {formik.errors.image}
+//               </FormHelperText>
+//             )}
+//           </Box>

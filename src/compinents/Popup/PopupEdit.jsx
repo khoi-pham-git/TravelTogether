@@ -8,9 +8,9 @@ import { useParams } from "react-router";
 export default function PopupEdit(props) {
     const { title, children, onpenPopup, setOpenPopup } = props;
     let {userId}=useParams();
-  const [user, setUser] = React.useState({});
-  console.log(userId);
-  useEffect(() => {
+    const [user, setUser] = React.useState({});
+    console.log(userId);
+    useEffect(() => {
     axios.get(`http://traveltogetherr.somee.com/api/v1.0/customers/id?id=${userId}`)
       .then((res) => { 
         // console.log(res);
@@ -18,7 +18,8 @@ export default function PopupEdit(props) {
       })
       .catch((err) => { console.log(err); })
   
-  }, [])
+  }, [],)
+
     return (
         <Dialog open = {onpenPopup}>
             <DialogTitle>

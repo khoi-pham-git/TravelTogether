@@ -3,6 +3,7 @@ const initialState = {
     user: {},
     listUser: []
   }
+
   
   // Use the initialState as a default value
   export default function userReducer(state = initialState, action) {
@@ -10,6 +11,9 @@ const initialState = {
     switch (action.type) {
       case Action.GET_LIST_USER: 
         state.listUser = action.payload;
+        return {...state}
+      case Action.DELETE_USER:
+       
         return {...state}
       default:
     
