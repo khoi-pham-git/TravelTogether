@@ -1,4 +1,4 @@
-import "./newTour.css";
+
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Modal } from "@material-ui/core";
@@ -15,7 +15,7 @@ const style = {
   p: 4,
   
 };
-export default function NewTour({ open, handleClose }) {
+export default function NewBooking({ open, handleClose }) {
   return (
     <Modal
     open={open}
@@ -25,12 +25,8 @@ export default function NewTour({ open, handleClose }) {
   >
     <Box sx = {style}>
     <div className="newTour">
-      <h1 className="addTourTitle">New Tour</h1>
+      <h1 className="addTourTitle">New Booking</h1>
       <form className="addTourForm">
-        <div className="addTourItem">
-          <label>Image</label>
-          <input type="file" id="file" />
-        </div>
         <div className="addTourItem">
           <label>Name Tour</label>
           <input type="text" placeholder="Du Lịch Đà Nẵng" />

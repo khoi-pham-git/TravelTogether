@@ -8,13 +8,24 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { callAPIGetListUser } from "../../Module/action";
 import AddIcon from '@mui/icons-material/Add';
+import DiaglogSuccessDelete from '../../compinents/Popup/DiaglogSuccessDelete'
 import ModalUser from "../Modal/Modal";
+
+import NewBooking from '../NewBooking/NewBooking'
+import Button from '@material-ui/core/Button';
+import NewUser from "../newUser/NewUser";
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
+
+
+
+
 export default function UserList() {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleOpenDia = () => setOpen(true);
+  const [openPopup, setOpenPopup] = React.useState(true);
   const dispatch = useDispatch();
   const customer = useSelector((state) => {
     return state.user.listUser;
@@ -33,11 +44,11 @@ export default function UserList() {
       .then((res) => {
         console.log(res);
         dispatch(callAPIGetListUser());
+        onclick = { handleOpenDia }
+
+
       })
       .catch((err) => { alert("remove faild " + id); })
-
-
-
   };
 
   const columns = [
@@ -86,7 +97,7 @@ export default function UserList() {
       width: 150,
       renderCell: (params) => {
         return (
-          <>
+         <>
             <Link to={"/user/" + params.row.id}>
               <button className="userListEdit">View Detail</button>
             </Link>
@@ -94,7 +105,7 @@ export default function UserList() {
               className="userListDelete"
               onClick={() => handleDelete(params.row.id)}
             />
-          </>
+         </>
         );
       },
     },
@@ -102,7 +113,16 @@ export default function UserList() {
 
   return (
     <div className="userList">
-      <AddIcon onClick={handleOpen} />
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+
+        startIcon={<AddIcon />}
+        onClick={handleOpen}
+      >
+        Create
+      </Button>
       {customer && <DataGrid
         rows={customer}
         disableSelectionOnClick
@@ -110,7 +130,7 @@ export default function UserList() {
         pageSize={8}
         checkboxSelection
       />}
-      <ModalUser open={open} handleClose={handleClose} />
+      <NewUser open={open} handleClose={handleClose} />
     </div>
   );
 }
