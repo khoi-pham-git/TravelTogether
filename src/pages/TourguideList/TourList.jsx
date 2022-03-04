@@ -19,6 +19,7 @@ export default function TourList() {
   const [tourguide, setTourguide] = useState([]);
   useEffect(() => {
     axios.get("http://traveltogetherr.somee.com/api/v1.0/tourguide?ele=20&page=1").then((res) => {
+      console.log(res);
       setTourguide(res.data.data)
     }).catch(() => {
       console.log("Error")

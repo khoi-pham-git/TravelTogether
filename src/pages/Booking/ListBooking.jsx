@@ -7,21 +7,25 @@ import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
 import NewBooking from '../NewBooking/NewBooking'
 import Button from '@material-ui/core/Button';
+import { callAPIGetListUser } from '../../Module/action';
+import { useDispatch, useSelector } from "react-redux";
 
 
 // chỗ này dùng axios để call api 
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 export default function ListBooking() {
+  
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const dispatch = useDispatch();
   // const [data, setData] = useState(BookingRows);
   //rows là biến, setRows để set giá trị cho cái coodj 
   const [rows, setRows] = useState([]);
 
   //userEffect để quản lí vòng đời á (lifecycle)
   useEffect(() => {
-    axios.get("http://traveltogetherr.somee.com/api/v1.0/tours")
+    axios.get("http://traveltogetherr.somee.com/api/v1.0/trips?ele=10&page=1")
       //dòng 17 lấy cái link API rồi set nó vào một cái response
       .then((res) => {
         setRows(res.data.data)
@@ -32,28 +36,35 @@ export default function ListBooking() {
   }, [])
 
 
+
   // cái này là đỗ dữ liệu vào cái file theo Id thôi ku
   const handleDelete = (id) => {
-    setRows(rows.filter((item) => item.id !== id));
+    // setRows(rows.filter((item) => item.id !== id));
+    axios.delete  (`http://traveltogetherr.somee.com/api/v1.0/trips/${id}`)
+      .then((res) => {
+        console.log(res);
+        dispatch(callAPIGetListUser());
+      })
+      .catch((err) => { alert("remove faild " + id); })
   };
 
   // từ dòng 32 trở đi là đỗ dữ liệu cho từng cột cái nào ko hiểu ib  tao 
   const columns = [
     { field: "id", headerName: "ID", width: 190 },
     {
-      field: "BookingRequest",
-      headerName: "BookingRequest",
+      field: "BookingRequestDate",
+      headerName: "BookingRequestDate",
       width: 200,
       renderCell: (params) => {
         return (
           <div className="BookingListBooking">
-            <img className="BookingListImg" src={params.row.name} alt="" />
-            {params.row.name}
+           
+            {params.row.bookingDate}
           </div>
         );
       },
     },
-    { field: "tourGuideId", headerName: "tourGuideId", width: 200 },
+    { field: "price", headerName: "price", width: 200 },
     {
       field: "price",
       headerName: "price",
@@ -67,20 +78,33 @@ export default function ListBooking() {
       },
     },
     {
-      field: "price",
-      headerName: "quantityTrip",
+      field: "Start",
+      headerName: "Start",
       width: 160,
       renderCell: (params) => {
         return (
           <div className="BookingListBooking">
-            {params.row.quatityTrip}
+            {params.row.startDate}
           </div>
         );
       },
     },
     {
-      field: "Booking",
-      headerName: "Booking",
+      field: "price",
+      headerName: "EndDate",
+      width: 160,
+      renderCell: (params) => {
+        return (
+          <div className="BookingListBooking">
+            {params.row.endDate}
+          </div>
+        );
+      },
+    },
+    
+    {
+      field: "Action",
+      headerName: "Action",
       width: 150,
       renderCell: (params) => {
         return (

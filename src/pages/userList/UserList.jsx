@@ -37,19 +37,23 @@ export default function UserList() {
 
 
 
-  const handleDelete = (id) => {
+
 
     // dispatch(DeleteUser(id));
-    axios.delete(`http://traveltogetherr.somee.com/api/v1.0/customers/${id}`)
-      .then((res) => {
-        console.log(res);
-        dispatch(callAPIGetListUser());
-        onclick = { handleOpenDia }
+    const handleDelete = (id) => {
 
-
-      })
-      .catch((err) => { alert("remove faild " + id); })
-  };
+      // dispatch(DeleteUser(id));
+      axios.delete(`http://traveltogetherr.somee.com/api/v1.0/customers/${id}`)
+        .then((res) => {
+          console.log(res);
+          dispatch(callAPIGetListUser());
+          // onclick = { handleOpenDia }
+  
+  
+        })
+        .catch((err) => { alert("remove faild " + id); })
+    };
+  
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },

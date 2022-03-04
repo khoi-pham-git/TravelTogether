@@ -15,13 +15,20 @@ export const ActionGetListUser = (payload) => {
 
   export const callAPIGetListUser  = () => {
       return (dispatch) => {
-        axios.get("http://traveltogetherr.somee.com/api/v1.0/customers?ele=30&page=1")
+        axios.get("http://traveltogetherr.somee.com/api/v1.0/customers?page=2")
         .then((res) => { 
             dispatch(ActionGetListUser(res.data.data));
-            // console.log(res);
+            
           })
         .catch((err) => { console.log(err); })
       }
   }
+  
+  export const ActionGetListTour = (payload) => {
+    return {
+      type: Action.GET_LIST_TOUR,
+      payload
+    };
+  };
 
   

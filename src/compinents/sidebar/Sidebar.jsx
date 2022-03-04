@@ -22,21 +22,23 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
-            <Link to="/" className="Link">
+            <Link to="/" className="link">
               <li className="sidebarList">
                 <LineStyle className="sidebarIcon" />
                 Home
               </li>
             </Link>
-
             <li className="sidebarListItem">
               <Timeline className="sidebarIcon" />
               Analytics
             </li>
+            <Link to = "/TravelTour" className="link">
             <li className="sidebarListItem">
-              <DirectionsWalk className="sidebarIcon" />
-              tour
-            </li>
+            <DirectionsWalk className="sidebarIcon" />
+            tour
+          </li>
+            </Link>
+           
           </ul>
           <div className="sidebarMenu">
             <h3 className="sidebarTitle">Quick Menu</h3>
@@ -47,13 +49,13 @@ export default function Sidebar() {
                   Users
                 </li>
               </Link>
-              <Link to="/Tour">
+              <Link to="/Tour" className="link">
               <li className="sidebarListItem">
                 <AccountCircle className="sidebarIcon" />
                 Tourguide
               </li>
               </Link>
-             <Link to="/Booking">
+             <Link to="/Booking" className="link">
              <li className="sidebarListItem">
                 <AttachMoney className="sidebarIcon" />
                 Booking

@@ -151,7 +151,7 @@ export default function NewUser({ open, handleClose }) {
               )}
             </div>
           
-            <button className="newUserButton">Create</button>
+            <button class="addTourButton" >Create</button>
           </form>
         </div>
        

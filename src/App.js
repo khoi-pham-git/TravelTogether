@@ -7,10 +7,11 @@ import UserList from "./pages/userList/UserList";
 import User from "./pages/user/User";
 import NewUser from "./pages/newUser/NewUser";
 import NewTour from "./pages/newTour/NewTour";
-import Tour from "./pages/Tour/Tour";
-import TourList from "./pages/TourList/TourList";
+import Tour from "./pages/Tourguide/Tour";
+import TourList from "./pages/TourguideList/TourList";
 import Booking from "./pages/Booking/Booking";
 import ListBooking from "./pages/Booking/ListBooking";
+import TraveList from "./pages/TourList/TraveList";
 
 
 
@@ -46,6 +47,9 @@ function App() {
           </Route>
           <Route path="/Booking">
             <ListBooking/>
+          </Route>
+          <Route path="/TravelTour">
+          <TraveList/>
           </Route>
         </Switch>
       </div>

@@ -3,6 +3,9 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { Modal } from "@material-ui/core";
 import { Box } from "@material-ui/system";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { callAPIGetListUser } from "../../Module/action";
 const style = {
   position: "absolute",
   top: "50%",
@@ -15,7 +18,45 @@ const style = {
   p: 4,
   
 };
+const schema = yup.object().shape({
+  name: yup.string().required().trim(),
+  phone: yup.string().required().trim(),
+  email: yup.string().required().trim().email(),
+  address: yup.string().required().trim(),
+
+});
 export default function NewBooking({ open, handleClose }) {
+
+  const dispatch = useDispatch();
+  const formik = useFormik({
+    validationSchema: schema,
+    validateOnMount: true,
+    validateOnBlur: true,
+    initialValues: {
+      name: "",
+      price: "",
+      status: "",
+      tourGuideId: "",
+      quatityTrip:"",
+
+    },
+    onSubmit: async (values) => {
+      console.log(values);
+      const data = {
+        name: formik.values.name,
+        price: formik.values.price,
+        status: formik.values.status,
+        quatityTrip: formik.values.quatityTrip,
+        tourGuideId: formik.values.tourGuideId
+      }
+      const res = await axios({
+        method: "POST", url: "http://traveltogetherr.somee.com/api/v1.0/tours", data,
+      })
+      console.log(res);
+      handleClose();
+      dispatch(callAPIGetListUser())
+    },
+  }, []);
   return (
     <Modal
     open={open}
