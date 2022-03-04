@@ -34,6 +34,11 @@ namespace TravelTogether2.Controllers
             try
             {
                 var result = _languageRespository.GetAll(search, sortby, page);
+                var result1 = await (from c in _context.Languages
+                                     select new
+                                     {
+                                         c.Id
+                                     }).ToListAsync();
 
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
@@ -71,11 +76,11 @@ namespace TravelTogether2.Controllers
             }
         }
 
-        // GET: api/Languages/5
-        //Find by Name
-        /// <summary>
-        /// Get a language by name
-        /// </summary>
+        //// GET: api/Languages/5
+        ////Find by Name
+        ///// <summary>
+        ///// Get a language by name
+        ///// </summary>
         //[HttpGet("name")]
         //public async Task<ActionResult<Language>> GetLanguageByName(String name)
         //{

@@ -37,6 +37,11 @@ namespace TravelTogether2.Controllers
             try
             {
                 var result = _categoryResponsitory.GetAll(search, sortby, page);
+                var result1 = await (from c in _context.Categories
+                                     select new
+                                     {
+                                         c.Id
+                                     }).ToListAsync();
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
             catch (Exception e)
@@ -45,11 +50,11 @@ namespace TravelTogether2.Controllers
             }
         }
 
-        // GET: api/Categories/5
-        //find by ID -Luan
-        /// <summary>
-        /// Get Category  by id
-        /// </summary>
+        //// GET: api/Categories/5
+        ////find by ID -Luan
+        ///// <summary>
+        ///// Get Category  by id
+        ///// </summary>
         //[HttpGet("id")]
         //public async Task<ActionResult<Category>> GetCategory(int id)
         //{

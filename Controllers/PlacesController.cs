@@ -34,6 +34,11 @@ namespace TravelTogether2.Controllers
             try
             {
                 var result = _placeResponsotory.GetAll(search, sortby, page);
+                var result1 = await (from c in _context.Places
+                                     select new
+                                     {
+                                         c.Id
+                                     }).ToListAsync();
 
                 return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result });
             }

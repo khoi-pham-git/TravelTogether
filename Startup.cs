@@ -51,6 +51,7 @@ namespace TravelTogether2
             services.AddTransient<ILanguageRespository, LanguageRespository>();
             services.AddTransient<IPlaceResponsotory, PlaceResponsotory>();
             services.AddTransient<ITourRespository, TourRespository>();
+            services.AddScoped<ITourGuidesRespository, TourGuidesRespository>();
 
             services.AddSwaggerGen(c =>
                 {

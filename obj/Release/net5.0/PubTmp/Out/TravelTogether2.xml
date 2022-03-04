@@ -4,16 +4,6 @@
         <name>TravelTogether2</name>
     </assembly>
     <members>
-        <member name="M:TravelTogether2.Controllers.AccountsController.GetAccounts(System.Int32,System.Int32)">
-            <summary>
-            Get list all accounts with pagination
-            </summary>
-        </member>
-        <member name="M:TravelTogether2.Controllers.AccountsController.GetAccount(System.String)">
-            <summary>
-            Get an accounts by id
-            </summary>
-        </member>
         <member name="M:TravelTogether2.Controllers.AccountsController.ChangeRole(System.String,TravelTogether2.Models.Account)">
             <summary>
             Edit an accounts by email
@@ -34,14 +24,9 @@
             Delete an account by email (not use)
             </summary>
         </member>
-        <member name="M:TravelTogether2.Controllers.AreasController.GetAreas(System.Int32,System.Int32)">
+        <member name="M:TravelTogether2.Controllers.AreasController.GetAreas(System.String,System.String,System.Int32)">
             <summary>
             Get list all Area with 
-            </summary>
-        </member>
-        <member name="M:TravelTogether2.Controllers.AreasController.GetArea(System.Int32)">
-            <summary>
-            Get area by id
             </summary>
         </member>
         <member name="M:TravelTogether2.Controllers.AreasController.PutArea(System.Int32,TravelTogether2.Models.Area)">
@@ -59,19 +44,9 @@
             Delete area by id (not use)
             </summary>
         </member>
-        <member name="M:TravelTogether2.Controllers.CategoriesController.GetCategories">
+        <member name="M:TravelTogether2.Controllers.CategoriesController.GetCategories(System.String,System.String,System.Int32)">
             <summary>
             Get all Category 
-            </summary>
-        </member>
-        <member name="M:TravelTogether2.Controllers.CategoriesController.GetCategory(System.Int32)">
-            <summary>
-            Get Category  by id
-            </summary>
-        </member>
-        <member name="M:TravelTogether2.Controllers.CategoriesController.GetCategorybyName(System.String)">
-            <summary>
-            Get Category by name 
             </summary>
         </member>
         <member name="M:TravelTogether2.Controllers.CategoriesController.PutCategory(System.Int32,TravelTogether2.Models.Category)">
@@ -89,7 +64,7 @@
             Delete Category by id (not use)
             </summary>
         </member>
-        <member name="M:TravelTogether2.Controllers.CustomersController.GetCustomers(System.Int32,System.Int32)">
+        <member name="M:TravelTogether2.Controllers.CustomersController.GetCustomers(System.String,System.String,System.Int32)">
             <summary>
             Get all Customer
             </summary>
@@ -97,11 +72,6 @@
         <member name="M:TravelTogether2.Controllers.CustomersController.GetCustomer(System.Int32)">
             <summary>
             Get Customer by id
-            </summary>
-        </member>
-        <member name="M:TravelTogether2.Controllers.CustomersController.GetCustomerById(System.String)">
-            <summary>
-            Get Customer by name
             </summary>
         </member>
         <member name="M:TravelTogether2.Controllers.CustomersController.PutCustomer(System.Int32,TravelTogether2.Models.Customer)">
@@ -193,7 +163,7 @@
             Delete HasLanguage by id (not use)
             </summary>
         </member>
-        <member name="M:TravelTogether2.Controllers.LanguagesController.GetLanguages">
+        <member name="M:TravelTogether2.Controllers.LanguagesController.GetLanguages(System.String,System.String,System.Int32)">
             <summary>
             Get list all language with pagination
             </summary>
@@ -201,11 +171,6 @@
         <member name="M:TravelTogether2.Controllers.LanguagesController.GetLanguage(System.Int32)">
             <summary>
             Get a language by id
-            </summary>
-        </member>
-        <member name="M:TravelTogether2.Controllers.LanguagesController.GetLanguageByName(System.String)">
-            <summary>
-            Get a language by name
             </summary>
         </member>
         <member name="M:TravelTogether2.Controllers.LanguagesController.PutLanguage(System.Int32,TravelTogether2.Models.Language)">
@@ -248,7 +213,7 @@
             Delete Payments by id (not use)
             </summary>
         </member>
-        <member name="M:TravelTogether2.Controllers.PlacesController.GetPlaces(System.Int32,System.Int32)">
+        <member name="M:TravelTogether2.Controllers.PlacesController.GetPlaces(System.String,System.String,System.Int32)">
             <summary>
             Get list all places
             </summary>
@@ -342,13 +307,28 @@
             <summary>
             Create TourGuides
             </summary>
+            <remarks>
+            Sample value of message
+            
+                 POST /Todo
+                {
+                    "name": "Toan1",
+                    "gender": true,
+                    "phone": "0961449382",
+                    "email": "Toan@gmail.com",
+                    "address": "HCM",
+                    "rank": 1,
+                    "image": "Toan.pmg"
+                }
+            
+            </remarks>
         </member>
         <member name="M:TravelTogether2.Controllers.TourGuidesController.DeleteTourGuide(System.Int32)">
             <summary>
             Delete TourGuides by id (not use)
             </summary>
         </member>
-        <member name="M:TravelTogether2.Controllers.ToursController.GetTours">
+        <member name="M:TravelTogether2.Controllers.ToursController.GetTours(System.String,System.String,System.Int32)">
             <summary>
             Get list all Tours
             </summary>
@@ -356,11 +336,6 @@
         <member name="M:TravelTogether2.Controllers.ToursController.GetTour(System.Int32)">
             <summary>
             Get Tours by id
-            </summary>
-        </member>
-        <member name="M:TravelTogether2.Controllers.ToursController.GetTour(System.String)">
-            <summary>
-            Get Tours by name
             </summary>
         </member>
         <member name="M:TravelTogether2.Controllers.ToursController.PutTour(System.Int32,TravelTogether2.Models.Tour)">

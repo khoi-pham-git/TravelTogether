@@ -7,19 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
+using TravelTogether2.Services;
 
 namespace TravelTogether2.Controllers
 {
-    [Route("api/v1.0/tourguide")]                   
+    [Route("api/v1.0/tourguide")]
 
     [ApiController]
     public class TourGuidesController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
+        private readonly ITourGuidesRespository _tourGuidesRespository;
 
-        public TourGuidesController(TourGuide_v2Context context)
+        public TourGuidesController(TourGuide_v2Context context, ITourGuidesRespository tourGuidesRespository)
         {
             _context = context;
+            _tourGuidesRespository = tourGuidesRespository;
         }
 
         // GET: api/TourGuides
@@ -27,36 +30,18 @@ namespace TravelTogether2.Controllers
         /// Get list all TourGuides
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TourGuide>>> GetTourGuides(int ele, int page)
+        public async Task<ActionResult<IEnumerable<TourGuide>>> GetTourGuides(string search, string sortby, int page = 1)
         {
             try
             {
-                var result = await (from tourguidie in _context.TourGuides
-                                    select new
-                                    {
-                                        tourguidie.Id,
-                                        tourguidie.Name,
-                                        tourguidie.Dob,
-                                        tourguidie.Gender,
-                                        tourguidie.Phone,
-                                        tourguidie.Email,
-                                        tourguidie.SocialNumber,
-                                        tourguidie.Certification,
-                                        tourguidie.Address,
-                                        tourguidie.Description,
-                                        tourguidie.Rank,
-                                        tourguidie.AreaId,
-                                        tourguidie.TravelAgencyId,
-                                        tourguidie.Image
-                                    }
-                                     ).ToListAsync();
+                var result = _tourGuidesRespository.GetAll(search, sortby, page);
+                var result1 = await (from c in _context.TourGuides
+                                     select new
+                                     {
+                                         c.Id
+                                     }).ToListAsync();
 
-                int totalEle = result.Count;
-                int totalPage = Validate.totalPage(totalEle, ele);
-                result = result.Skip((page - 1) * ele).Take(ele).ToList();
-              
-
-                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result});
             }
             catch (Exception e)
             {
@@ -162,13 +147,25 @@ namespace TravelTogether2.Controllers
         }
 
 
-
-
-
         // POST: api/TourGuides
         /// <summary>
         /// Create TourGuides
         /// </summary>
+        /// <remarks>
+        /// Sample value of message
+        /// 
+        ///      POST /Todo
+        ///     {
+        ///         "name": "Toan1",
+        ///         "gender": true,
+        ///         "phone": "0961449382",
+        ///         "email": "Toan@gmail.com",
+        ///         "address": "HCM",
+        ///         "rank": 1,
+        ///         "image": "Toan.pmg"
+        ///     }
+        /// 
+        /// </remarks>
         [HttpPost]
         public async Task<ActionResult<TourGuide>> PostTourGuide(TourGuide tourGuide)
         {
@@ -179,27 +176,28 @@ namespace TravelTogether2.Controllers
                 var TravelAgencyId = _context.TravelAgencies.FirstOrDefault(x => x.Id == tourGuide.TravelAgencyId);
 
                 tourGuide1.Name = tourGuide.Name;
-                tourGuide1.Dob = tourGuide.Dob;
+                //tourGuide1.Dob = tourGuide.Dob;
                 tourGuide1.Gender = tourGuide.Gender;
-                tourGuide1.SocialNumber = tourGuide.SocialNumber;
-                tourGuide1.Certification = tourGuide.Certification;
+                //tourGuide1.SocialNumber = tourGuide.SocialNumber;
+                //tourGuide1.Certification = tourGuide.Certification;
                 tourGuide1.Address = tourGuide.Address;
-                tourGuide1.Description = tourGuide.Description;
+                //tourGuide1.Description = tourGuide.Description;
                 tourGuide1.Rank = tourGuide.Rank;
-                tourGuide1.AreaId = tourGuide.AreaId;
-                tourGuide1.TravelAgencyId = tourGuide.TravelAgencyId;
+                //tourGuide1.AreaId = tourGuide.AreaId;
+                //tourGuide1.TravelAgencyId = tourGuide.TravelAgencyId;
                 tourGuide1.Image = tourGuide.Image;
 
                 //check id toonf taij
-                if (AreaId == null)
-                {
-                    return BadRequest(new { StatusCode = 404, Message = "AreaId is not found!" });
-                }
-                else if (TravelAgencyId == null)
-                {
-                    return BadRequest(new { StatusCode = 404, Message = "TravelAgencyId is not found!" });
-                }
-                else if (!Validate.isPhone(tourGuide1.Phone = tourGuide.Phone))
+                //if (AreaId == null)
+                //{
+                //    return BadRequest(new { StatusCode = 404, Message = "AreaId is not found!" });
+                //}
+                //else if (TravelAgencyId == null)
+                //{
+                //    return BadRequest(new { StatusCode = 404, Message = "TravelAgencyId is not found!" });
+                //}
+                /*else*/
+                if (!Validate.isPhone(tourGuide1.Phone = tourGuide.Phone))
                 {
                     return BadRequest(new { StatusCode = 400, Message = "Invalid phone number!" });
                 }
@@ -211,7 +209,7 @@ namespace TravelTogether2.Controllers
                 {
                     _context.TourGuides.Add(tourGuide1);
                     await _context.SaveChangesAsync();
-                    return Ok(new { status = 200, message = "Update TourGuide successful!" });
+                    return Ok(new { status = 200, message = "Create TourGuide successful!" });
                 }
             }
             catch (Exception e)

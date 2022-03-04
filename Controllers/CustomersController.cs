@@ -16,14 +16,14 @@ namespace TravelTogether2.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
-        private readonly ICustomerRespository _customerRespository ;
+        private readonly ICustomerRespository _customerRespository;
 
 
-        public CustomersController(TourGuide_v2Context context, ICustomerRespository customerRespository )
+        public CustomersController(TourGuide_v2Context context, ICustomerRespository customerRespository)
         {
             _context = context;
             _customerRespository = customerRespository;
-          
+
         }
 
         // GET: api/Customers
@@ -32,13 +32,17 @@ namespace TravelTogether2.Controllers
         /// Get all Customer
         /// </summary>
         //Phan trang
-        [HttpGet]
+        [HttpGet("customers")]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers(string search, string sortby, int page = 1)
         {
             try
             {
                 var result = _customerRespository.GetAll(search, sortby, page);
-
+                var result1 = await (from c in _context.Customers
+                                     select new
+                                     {
+                                         c.Id
+                                     }).ToListAsync();
 
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
@@ -52,7 +56,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Get Customer by id
         /// </summary>
-        [HttpGet("id")]
+        [HttpGet("customers/id")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
             try
@@ -85,7 +89,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Edit Customer by id
         /// </summary>
-        [HttpPut("{id}")]
+        [HttpPut("customers/{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
             try
@@ -129,41 +133,41 @@ namespace TravelTogether2.Controllers
 
         // PUT: api/Customers/5
 
-        /// <summary>
-        /// Edit Customer by id
-        /// </summary>
-        [HttpPut("follow/{id}")]
-        public async Task<IActionResult> PutFollows(int id)    //id tourguide
-        {
-            try
-            {
+        ///// <summary>
+        ///// Edit Customer by id
+        ///// </summary>
+        //[HttpPut("follow/{id}")]
+        //public async Task<IActionResult> PutFollows(int id)    //id tourguide
+        //{
+        //    try
+        //    {
 
 
 
 
-                //if (tourguideid == null)
-                //{
-                //    return BadRequest(new { StatusCode = 404, Message = "Tourgide id is not found!" });
-                //}
+        //        //if (tourguideid == null)
+        //        //{
+        //        //    return BadRequest(new { StatusCode = 404, Message = "Tourgide id is not found!" });
+        //        //}
 
-                //if (follow.Status == true)
-                //{
-                //    follow.Status = false;
-                //    return Ok(new { status = 200, message = "Unfollow" });
-                //}
-                //else
-                //{
-                //    //follow.Status = true;
-                //    //await _context.SaveChangesAsync();
-                return Ok(new { status = 200, message = "Follow"});
+        //        //if (follow.Status == true)
+        //        //{
+        //        //    follow.Status = false;
+        //        //    return Ok(new { status = 200, message = "Unfollow" });
+        //        //}
+        //        //else
+        //        //{
+        //        //    //follow.Status = true;
+        //        //    //await _context.SaveChangesAsync();
+        //        return Ok(new { status = 200, message = "Follow" });
 
-                //}
-            }
-            catch (Exception e)
-            {
-                return StatusCode(409, new { StatusCode = 409, message = e.Message });
-            }
-        }
+        //        //}
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(409, new { StatusCode = 409, message = e.Message });
+        //    }
+        //}
 
         // POST: api/Customers
 
@@ -219,7 +223,6 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/Customers/5
-
         /// <summary>
         /// Delete Customer by id (not use)
         /// </summary>

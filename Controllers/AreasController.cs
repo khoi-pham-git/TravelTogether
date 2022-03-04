@@ -35,6 +35,11 @@ namespace TravelTogether2.Controllers
             {
 
                 var result = _areasResponsitory.GetAll(search, sortby, page);
+                var result1 = await (from c in _context.Areas
+                                     select new
+                                     {
+                                         c.Id
+                                     }).ToListAsync();
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
             catch (Exception e)
@@ -45,10 +50,10 @@ namespace TravelTogether2.Controllers
 
         }
 
-        // GET: api/Areas/5
-        /// <summary>
-        /// Get area by id
-        /// </summary>
+        //// GET: api/Areas/5
+        ///// <summary>
+        ///// Get area by id
+        ///// </summary>
         //[HttpGet("{id}")]
         //public async Task<ActionResult<Area>> GetArea(int id)
         //{

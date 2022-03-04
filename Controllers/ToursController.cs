@@ -33,7 +33,12 @@ namespace TravelTogether2.Controllers
         {
             try
             {
+                
                 var result = _tourRespository.GetAll(search, sortby, page);
+                var result1 = await (from c in _context.Tours select new
+                {
+                    c.Id
+                }).ToListAsync(); 
 
 
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
