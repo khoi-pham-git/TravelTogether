@@ -44,6 +44,11 @@
             Delete area by id (not use)
             </summary>
         </member>
+        <member name="M:TravelTogether2.Controllers.AreasController.PostFireBase(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Create firebase
+            </summary>
+        </member>
         <member name="M:TravelTogether2.Controllers.CategoriesController.GetCategories(System.String,System.String,System.Int32)">
             <summary>
             Get all Category 
@@ -75,11 +80,6 @@
             </summary>
         </member>
         <member name="M:TravelTogether2.Controllers.CustomersController.PutCustomer(System.Int32,TravelTogether2.Models.Customer)">
-            <summary>
-            Edit Customer by id
-            </summary>
-        </member>
-        <member name="M:TravelTogether2.Controllers.CustomersController.PutFollows(System.Int32)">
             <summary>
             Edit Customer by id
             </summary>
@@ -288,7 +288,7 @@
             Delete TourActivities by id (not use)
             </summary>
         </member>
-        <member name="M:TravelTogether2.Controllers.TourGuidesController.GetTourGuides(System.Int32,System.Int32)">
+        <member name="M:TravelTogether2.Controllers.TourGuidesController.GetTourGuides(System.String,System.String,System.Int32)">
             <summary>
             Get list all TourGuides
             </summary>

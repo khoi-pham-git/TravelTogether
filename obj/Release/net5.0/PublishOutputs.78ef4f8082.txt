@@ -5,7 +5,12 @@ D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\TravelTogether2.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\TravelTogether2.runtimeconfig.json
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\TravelTogether2.pdb
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Castle.Core.dll
+D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Firebase.Auth.dll
+D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\FirebaseAuth.dll
+D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Firebase.Storage.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Humanizer.dll
+D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\jose-jwt.dll
+D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\System.Net.Http.Formatting.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.JsonPatch.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
@@ -29,6 +34,7 @@ D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.IdentityMode
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.IdentityModel.Protocols.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.IdentityModel.Tokens.dll
+D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\System.ServiceModel.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.OpenApi.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGeneration.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll
@@ -40,6 +46,7 @@ D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.VisualStudio
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Newtonsoft.Json.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Newtonsoft.Json.Bson.dll
+D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\BouncyCastle.Crypto.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll

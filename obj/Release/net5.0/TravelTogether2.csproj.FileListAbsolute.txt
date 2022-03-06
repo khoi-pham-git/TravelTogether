@@ -279,3 +279,10 @@ D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\TravelTogether2.xml
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\TravelTogether2.pdb
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\TravelTogether2.genruntimeconfig.cache
 D:\Luan\SWD\TravelTogether4\obj\Release\net5.0\ref\TravelTogether2.dll
+D:\Luan\SWD\TravelTogether4\bin\Release\net5.0\FirebaseAuth.dll
+D:\Luan\SWD\TravelTogether4\bin\Release\net5.0\Firebase.Storage.dll
+D:\Luan\SWD\TravelTogether4\bin\Release\net5.0\jose-jwt.dll
+D:\Luan\SWD\TravelTogether4\bin\Release\net5.0\System.Net.Http.Formatting.dll
+D:\Luan\SWD\TravelTogether4\bin\Release\net5.0\BouncyCastle.Crypto.dll
+D:\Luan\SWD\TravelTogether4\bin\Release\net5.0\Firebase.Auth.dll
+D:\Luan\SWD\TravelTogether4\bin\Release\net5.0\System.ServiceModel.dll

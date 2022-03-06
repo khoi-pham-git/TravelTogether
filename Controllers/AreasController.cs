@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Firebase.Auth;
+using Firebase.Storage;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
@@ -10,12 +15,18 @@ using TravelTogether2.Services;
 
 namespace TravelTogether2.Controllers
 {
+
     [Route("api/v1.0/areas")]
     [ApiController]
     public class AreasController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
         private readonly IAreasResponsitory _areasResponsitory;
+        private static string apiKey = "AIzaSyDYNx2dwpDfuTGnqF6Zip3uHVQTJCAFBqk";
+        private static string apibucket = "traveltogether-54339.appspot.com";
+        private static string authenEmail = "luanhua888@gmail.com";
+        private static string authenPassword = "Luanhua123";
+
 
         public AreasController(TourGuide_v2Context context, IAreasResponsitory areasResponsitory)
         {
@@ -29,7 +40,7 @@ namespace TravelTogether2.Controllers
         /// Get list all Area with 
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Area>>> GetAreas(string search, string sortby, int page=1)
+        public async Task<ActionResult<IEnumerable<Area>>> GetAreas(string search, string sortby, int page = 1)
         {
             try
             {
@@ -180,6 +191,77 @@ namespace TravelTogether2.Controllers
 
             return NoContent();
         }
+
+
+
+
+
+
+        /// <summary>
+        /// Create firebase
+        /// </summary>
+        [HttpPost("UploadFile")]
+
+        public async Task<ActionResult> PostFireBase(IFormFile file)
+        {
+            try
+            {
+                var fileUpload = file;
+                FileStream fs = null;
+                if (fileUpload.Length > 0)
+                {
+                    {
+                        string folderName = "ImagesFile";
+                        string path = Path.Combine($"Image", $"Image/{folderName}");
+                        if (Directory.Exists(path))
+                        {
+                            using (fs = new FileStream(Path.Combine(path, fileUpload.FileName), FileMode.Create))
+                            {
+                                await fileUpload.CopyToAsync(fs);
+                            }
+                            fs = new FileStream(Path.Combine(path, fileUpload.FileName), FileMode.Open);
+                        }
+                        else
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                    }
+
+                    var authen = new FirebaseAuthProvider(new FirebaseConfig(apiKey));
+                    var a = await authen.SignInWithEmailAndPasswordAsync(authenEmail, authenPassword);
+                    var cancel = new CancellationTokenSource();
+                    var upload = new FirebaseStorage(
+                        apibucket,
+                        new FirebaseStorageOptions
+                        {
+                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                            ThrowOnCancel = true
+                        }
+                        ).Child("Image").Child(fileUpload.FileName).PutAsync(fs, cancel.Token);
+                    try
+                    {
+                        string Link = await upload;
+                        return Ok(new {StatusCode = 200 , message ="Upload file succesful!"});
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+
+                }
+
+                return BadRequest("Upload  fail");
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, message = e.Message });
+            }
+        }
+
+
 
         private bool AreaExists(int id)
         {
