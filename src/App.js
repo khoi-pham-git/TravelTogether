@@ -9,7 +9,6 @@ import NewUser from "./pages/newUser/NewUser";
 import NewTour from "./pages/newTour/NewTour";
 import Tour from "./pages/Tourguide/Tour";
 import TourList from "./pages/TourguideList/TourList";
-import Booking from "./pages/Booking/Booking";
 import ListBooking from "./pages/Booking/ListBooking";
 import TraveList from "./pages/TourList/TraveList";
 

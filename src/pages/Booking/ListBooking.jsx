@@ -10,7 +10,6 @@ import Button from '@material-ui/core/Button';
 import { callAPIGetListUser } from '../../Module/action';
 import { useDispatch, useSelector } from "react-redux";
 
-
 // chỗ này dùng axios để call api 
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 export default function ListBooking() {
