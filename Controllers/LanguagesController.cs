@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
+using TravelTogether2.Services;
 
 namespace TravelTogether2.Controllers
 {
@@ -15,10 +16,12 @@ namespace TravelTogether2.Controllers
     public class LanguagesController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
+        private readonly ILanguageRespository _languageRespository ;
 
-        public LanguagesController(TourGuide_v2Context context)
+        public LanguagesController(TourGuide_v2Context context, ILanguageRespository languageRespository)
         {
             _context = context;
+            _languageRespository = languageRespository;
         }
 
         // GET: api/Languages
@@ -26,18 +29,16 @@ namespace TravelTogether2.Controllers
         /// Get list all language with pagination
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Language>>> GetLanguages()
+        public async Task<ActionResult<IEnumerable<Language>>> GetLanguages(string search, string sortby, int page = 1)
         {
             try
             {
-                var result = await (from Lan in _context.Languages
-                                    select new
-                                    {
-                                    Lan.Id,
-                                    Lan.Language1,
-                                    Lan.Level
-                                    }
-                              ).ToListAsync();
+                var result = _languageRespository.GetAll(search, sortby, page);
+                var result1 = await (from c in _context.Languages
+                                     select new
+                                     {
+                                         c.Id
+                                     }).ToListAsync();
 
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
@@ -75,34 +76,34 @@ namespace TravelTogether2.Controllers
             }
         }
 
-        // GET: api/Languages/5
-        //Find by Name
-        /// <summary>
-        /// Get a language by name
-        /// </summary>
-        [HttpGet("name")]
-        public async Task<ActionResult<Language>> GetLanguageByName(String name)
-        {
+        //// GET: api/Languages/5
+        ////Find by Name
+        ///// <summary>
+        ///// Get a language by name
+        ///// </summary>
+        //[HttpGet("name")]
+        //public async Task<ActionResult<Language>> GetLanguageByName(String name)
+        //{
 
-            try
-            {
-                var result = await (from Lan in _context.Languages
-                                    where Lan.Language1.Contains(name)  
-                                    select new
-                                    {
-                                        Lan.Id,
-                                        Lan.Language1,
-                                        Lan.Level
-                                    }
-                              ).ToListAsync();
+        //    try
+        //    {
+        //        var result = await (from Lan in _context.Languages
+        //                            where Lan.Language1.Contains(name)  
+        //                            select new
+        //                            {
+        //                                Lan.Id,
+        //                                Lan.Language1,
+        //                                Lan.Level
+        //                            }
+        //                      ).ToListAsync();
 
-                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
-            }
-            catch (Exception e)
-            {
-                return StatusCode(409, new { StatusCode = 409, Message = e.Message });
-            }
-        }
+        //        return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(409, new { StatusCode = 409, Message = e.Message });
+        //    }
+        //}
         // PUT: api/Languages/5
         /// <summary>
         /// Edit a language by id

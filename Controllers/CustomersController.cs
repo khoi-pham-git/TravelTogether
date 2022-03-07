@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
+using TravelTogether2.Services;
 
 namespace TravelTogether2.Controllers
 {
@@ -15,10 +16,14 @@ namespace TravelTogether2.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
+        private readonly ICustomerRespository _customerRespository;
 
-        public CustomersController(TourGuide_v2Context context)
+
+        public CustomersController(TourGuide_v2Context context, ICustomerRespository customerRespository)
         {
             _context = context;
+            _customerRespository = customerRespository;
+
         }
 
         // GET: api/Customers
@@ -27,26 +32,17 @@ namespace TravelTogether2.Controllers
         /// Get all Customer
         /// </summary>
         //Phan trang
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers(int ele, int page)
+        [HttpGet("customers")]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers(string search, string sortby, int page = 1)
         {
             try
             {
-                var result = await (from Customer in _context.Customers
-                                    select new Customer
-                                    {
-                                        Id = Customer.Id,
-                                        Name = Customer.Name,
-                                        Phone = Customer.Phone,
-                                        Email = Customer.Email,
-                                        Address = Customer.Address,
-                                        Image = Customer.Image
-                                    }
-                                    ).ToListAsync();
-
-                int totalEle = result.Count;
-                int totalPage = Validate.totalPage(totalEle, ele);
-                result = result.Skip((page - 1) * ele).Take(ele).ToList();
+                var result = _customerRespository.GetAll(search, sortby, page);
+                var result1 = await (from c in _context.Customers
+                                     select new
+                                     {
+                                         c.Id
+                                     }).ToListAsync();
 
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
@@ -60,7 +56,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Get Customer by id
         /// </summary>
-        [HttpGet("id")]
+        [HttpGet("customers/id")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
             try
@@ -86,38 +82,6 @@ namespace TravelTogether2.Controllers
         }
 
 
-        // GET: api/Customers/5
-
-        /// <summary>
-        /// Get Customer by name
-        /// </summary>
-        [HttpGet("name")]
-        public async Task<ActionResult<Customer>> GetCustomerById(String name)
-        {
-            try
-            {
-                var result = await (from Customer in _context.Customers
-                                    where Customer.Name.Contains(name) //Tìm gần đúng
-                                    select new Customer
-                                    {
-                                        Id = Customer.Id,
-                                        Name = Customer.Name,
-                                        Phone = Customer.Phone,
-                                        Email = Customer.Email,
-                                        Address = Customer.Address,
-                                        Image = Customer.Image
-                                    }
-                                    ).ToListAsync();
-
-                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
-            }
-            catch (Exception e)
-            {
-                return StatusCode(409, new { StatusCode = 409, message = e.Message });
-            }
-        }
-
-
 
 
         // PUT: api/Customers/5
@@ -125,7 +89,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Edit Customer by id
         /// </summary>
-        [HttpPut("{id}")]
+        [HttpPut("customers/{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
             try
@@ -169,47 +133,41 @@ namespace TravelTogether2.Controllers
 
         // PUT: api/Customers/5
 
-        /// <summary>
-        /// Edit Customer by id
-        /// </summary>
-        [HttpPut("follow/{id}")]
-        public async Task<IActionResult> PutFollows(int id)    //id tourguide
-        {
-            try
-            {
+        ///// <summary>
+        ///// Edit Customer by id
+        ///// </summary>
+        //[HttpPut("follow/{id}")]
+        //public async Task<IActionResult> PutFollows(int id)    //id tourguide
+        //{
+        //    try
+        //    {
 
 
 
 
-                //if (tourguideid == null)
-                //{
-                //    return BadRequest(new { StatusCode = 404, Message = "Tourgide id is not found!" });
-                //}
+        //        //if (tourguideid == null)
+        //        //{
+        //        //    return BadRequest(new { StatusCode = 404, Message = "Tourgide id is not found!" });
+        //        //}
 
-                //if (follow.Status == true)
-                //{
-                //    follow.Status = false;
-                //    return Ok(new { status = 200, message = "Unfollow" });
-                //}
-                //else
-                //{
-                //    //follow.Status = true;
-                //    //await _context.SaveChangesAsync();
-                return Ok(new { status = 200, message = "Follow"});
+        //        //if (follow.Status == true)
+        //        //{
+        //        //    follow.Status = false;
+        //        //    return Ok(new { status = 200, message = "Unfollow" });
+        //        //}
+        //        //else
+        //        //{
+        //        //    //follow.Status = true;
+        //        //    //await _context.SaveChangesAsync();
+        //        return Ok(new { status = 200, message = "Follow" });
 
-                //}
-            }
-            catch (Exception e)
-            {
-                return StatusCode(409, new { StatusCode = 409, message = e.Message });
-            }
-        }
-
-
-
-
-
-
+        //        //}
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(409, new { StatusCode = 409, message = e.Message });
+        //    }
+        //}
 
         // POST: api/Customers
 
@@ -237,7 +195,7 @@ namespace TravelTogether2.Controllers
             {
                 var cus1 = new Customer();
                 cus1.Address = customer.Address;
-                cus1.Image = customer.Image;
+                //cus1.Image = customer.Image;
                 if (!Validate.isName(cus1.Name = customer.Name))
                 {
                     return BadRequest(new { StatusCode = 400, Message = "Only character!" });
@@ -265,7 +223,6 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/Customers/5
-
         /// <summary>
         /// Delete Customer by id (not use)
         /// </summary>

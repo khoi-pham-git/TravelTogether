@@ -1,23 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Firebase.Auth;
+using Firebase.Storage;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
+using TravelTogether2.Services;
 
 namespace TravelTogether2.Controllers
 {
+
     [Route("api/v1.0/areas")]
     [ApiController]
     public class AreasController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
+        private readonly IAreasResponsitory _areasResponsitory;
+        private static string apiKey = "AIzaSyDYNx2dwpDfuTGnqF6Zip3uHVQTJCAFBqk";
+        private static string apibucket = "traveltogether-54339.appspot.com";
+        private static string authenEmail = "luanhua888@gmail.com";
+        private static string authenPassword = "Luanhua123";
 
-        public AreasController(TourGuide_v2Context context)
+
+        public AreasController(TourGuide_v2Context context, IAreasResponsitory areasResponsitory)
         {
             _context = context;
+            _areasResponsitory = areasResponsitory;
         }
 
         // GET: api/Areas
@@ -26,32 +40,17 @@ namespace TravelTogether2.Controllers
         /// Get list all Area with 
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Area>>> GetAreas(int ele, int page)
+        public async Task<ActionResult<IEnumerable<Area>>> GetAreas(string search, string sortby, int page = 1)
         {
             try
             {
-                var result = await (from area in _context.Areas
-                                    select new
-                                    {
-                                        Id = area.Id,
-                                        Name = area.Name,
-                                        Description = area.Description,
-                                        Latitude = area.Latitude,
-                                        Longtitude = area.Longtitude
-                                        //Khóa ngoại travel agenciesid
-                                    }
-                                 ).ToListAsync();
-                int totalEle = result.Count;
-                int totalPage = Validate.totalPage(totalEle, ele);
-                result = result.Skip((page - 1) * ele).Take(ele).ToList();
-                if ((totalEle % ele) == 0)
-                {
-                    totalPage = (totalEle / ele);
-                }
-                else
-                {
-                    totalPage = (totalEle / ele) + 1;
-                }
+
+                var result = _areasResponsitory.GetAll(search, sortby, page);
+                var result1 = await (from c in _context.Areas
+                                     select new
+                                     {
+                                         c.Id
+                                     }).ToListAsync();
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
             catch (Exception e)
@@ -62,40 +61,40 @@ namespace TravelTogether2.Controllers
 
         }
 
-        // GET: api/Areas/5
-        /// <summary>
-        /// Get area by id
-        /// </summary>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Area>> GetArea(int id)
-        {
-            try
-            {
-                var result = await (from area in _context.Areas
-                                    where area.Id == id
-                                    select new
-                                    {
-                                        Id = area.Id,
-                                        Name = area.Name,
-                                        Description = area.Description,
-                                        Latitude = area.Latitude,
-                                        Longtitude = area.Longtitude
-                                        //Khóa ngoại travel agenciesid
-                                    }
-                                ).ToListAsync();
-                if (!result.Any())
-                {
-                    return BadRequest(new { StatusCode = 404, message = "ID is not found!" });
-                }
-                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+        //// GET: api/Areas/5
+        ///// <summary>
+        ///// Get area by id
+        ///// </summary>
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Area>> GetArea(int id)
+        //{
+        //    try
+        //    {
+        //        var result = await (from area in _context.Areas
+        //                            where area.Id == id
+        //                            select new
+        //                            {
+        //                                Id = area.Id,
+        //                                Name = area.Name,
+        //                                Description = area.Description,
+        //                                Latitude = area.Latitude,
+        //                                Longtitude = area.Longtitude
+        //                                //Khóa ngoại travel agenciesid
+        //                            }
+        //                        ).ToListAsync();
+        //        if (!result.Any())
+        //        {
+        //            return BadRequest(new { StatusCode = 404, message = "ID is not found!" });
+        //        }
+        //        return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
 
-            }
-            catch (Exception e)
-            {
+        //    }
+        //    catch (Exception e)
+        //    {
 
-                return StatusCode(409, new { StatusCode = 409, message = e.Message });
-            }
-        }
+        //        return StatusCode(409, new { StatusCode = 409, message = e.Message });
+        //    }
+        //}
 
         // PUT: api/Areas/5
         /// <summary>
@@ -192,6 +191,77 @@ namespace TravelTogether2.Controllers
 
             return NoContent();
         }
+
+
+
+
+
+
+        /// <summary>
+        /// Create firebase
+        /// </summary>
+        [HttpPost("UploadFile")]
+
+        public async Task<ActionResult> PostFireBase(IFormFile file)
+        {
+            try
+            {
+                var fileUpload = file;
+                FileStream fs = null;
+                if (fileUpload.Length > 0)
+                {
+                    {
+                        string folderName = "ImagesFile";
+                        string path = Path.Combine($"Image", $"Image/{folderName}");
+                        if (Directory.Exists(path))
+                        {
+                            using (fs = new FileStream(Path.Combine(path, fileUpload.FileName), FileMode.Create))
+                            {
+                                await fileUpload.CopyToAsync(fs);
+                            }
+                            fs = new FileStream(Path.Combine(path, fileUpload.FileName), FileMode.Open);
+                        }
+                        else
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                    }
+
+                    var authen = new FirebaseAuthProvider(new FirebaseConfig(apiKey));
+                    var a = await authen.SignInWithEmailAndPasswordAsync(authenEmail, authenPassword);
+                    var cancel = new CancellationTokenSource();
+                    var upload = new FirebaseStorage(
+                        apibucket,
+                        new FirebaseStorageOptions
+                        {
+                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                            ThrowOnCancel = true
+                        }
+                        ).Child("Image").Child(fileUpload.FileName).PutAsync(fs, cancel.Token);
+                    try
+                    {
+                        string Link = await upload;
+                        return Ok(new {StatusCode = 200 , message ="Upload file succesful!"});
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+
+                }
+
+                return BadRequest("Upload  fail");
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(409, new { StatusCode = 409, message = e.Message });
+            }
+        }
+
+
 
         private bool AreaExists(int id)
         {

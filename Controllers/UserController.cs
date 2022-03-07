@@ -33,7 +33,7 @@ namespace TravelTogether2.Controllers
         public async Task<ActionResult<IEnumerable<Account>>> Login(LoginVM login)
         {
             var acc = _context.Accounts.FirstOrDefault(acc => acc.Email == login.UserName && acc.Password == login.Password);
-            
+           
             if (acc == null)
             {
                 return Ok(new

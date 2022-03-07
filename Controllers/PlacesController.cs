@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
+using TravelTogether2.Services;
 
 namespace TravelTogether2.Controllers
 {
@@ -15,10 +16,12 @@ namespace TravelTogether2.Controllers
     public class PlacesController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
+        private readonly IPlaceResponsotory _placeResponsotory ;
 
-        public PlacesController(TourGuide_v2Context context)
+        public PlacesController(TourGuide_v2Context context, IPlaceResponsotory placeResponsotory)
         {
             _context = context;
+            _placeResponsotory = placeResponsotory;
         }
 
         // GET: api/Places
@@ -26,29 +29,18 @@ namespace TravelTogether2.Controllers
         /// Get list all places
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Place>>> GetPlaces(int ele, int page)
+        public async Task<ActionResult<IEnumerable<Place>>> GetPlaces(string search, string sortby, int page = 1)
         {
             try
             {
-                var result = await (from place in _context.Places
-                                    select new
-                                    {
-                                        place.Id,
-                                        place.Name,
-                                        place.Address,
-                                        place.Description,
-                                        place.Longtitude,
-                                        place.Latitude,
-                                        place.AreaId,
-                                        place.CategoryId
+                var result = _placeResponsotory.GetAll(search, sortby, page);
+                var result1 = await (from c in _context.Places
+                                     select new
+                                     {
+                                         c.Id
+                                     }).ToListAsync();
 
-                                    }
-                                     ).ToListAsync();
-                int totalEle = result.Count;
-                int totalPage = Validate.totalPage(totalEle, ele);
-                result = result.Skip((page - 1) * ele).Take(ele).ToList();
-
-                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result, totalEle, totalPage });
+                return Ok(new { StatusCode = 200, message = "The request was successfully completed", data = result });
             }
             catch (Exception e)
             {

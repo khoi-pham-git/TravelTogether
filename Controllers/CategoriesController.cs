@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelTogether2.Common;
 using TravelTogether2.Models;
+using TravelTogether2.Services;
 
 namespace TravelTogether2.Controllers
 {
@@ -17,10 +18,12 @@ namespace TravelTogether2.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly TourGuide_v2Context _context;
+        private readonly ICategoryResponsitory _categoryResponsitory;
 
-        public CategoriesController(TourGuide_v2Context context)
+        public CategoriesController(TourGuide_v2Context context, ICategoryResponsitory categoryResponsitory)
         {
             _context = context;
+            _categoryResponsitory = categoryResponsitory;   
         }
 
         // GET: api/Categories
@@ -29,17 +32,16 @@ namespace TravelTogether2.Controllers
         /// Get all Category 
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories(string search, string sortby, int page = 1)
         {
             try
             {
-                var result = await (from Categories in _context.Categories
-                                    select new
-                                    {
-                                        Categories.Id,
-                                        Categories.Name
-                                    }
-                                     ).ToListAsync();
+                var result = _categoryResponsitory.GetAll(search, sortby, page);
+                var result1 = await (from c in _context.Categories
+                                     select new
+                                     {
+                                         c.Id
+                                     }).ToListAsync();
                 return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
             }
             catch (Exception e)
@@ -48,70 +50,70 @@ namespace TravelTogether2.Controllers
             }
         }
 
-        // GET: api/Categories/5
-        //find by ID -Luan
-        /// <summary>
-        /// Get Category  by id
-        /// </summary>
-        [HttpGet("id")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
-        {
-            try
-            {
-                var result = await (from Categories in _context.Categories
-                                    where Categories.Id == id
-                                    select new
-                                    {
-                                        Categories.Id,
-                                        Categories.Name
-                                    }
-                                     ).ToListAsync();
+        //// GET: api/Categories/5
+        ////find by ID -Luan
+        ///// <summary>
+        ///// Get Category  by id
+        ///// </summary>
+        //[HttpGet("id")]
+        //public async Task<ActionResult<Category>> GetCategory(int id)
+        //{
+        //    try
+        //    {
+        //        var result = await (from Categories in _context.Categories
+        //                            where Categories.Id == id
+        //                            select new
+        //                            {
+        //                                Categories.Id,
+        //                                Categories.Name
+        //                            }
+        //                             ).ToListAsync();
 
-                if (!result.Any())
-                {
-                    return BadRequest(new { StatusCode = 404, message = "ID is not found!" });
-                }
+        //        if (!result.Any())
+        //        {
+        //            return BadRequest(new { StatusCode = 404, message = "ID is not found!" });
+        //        }
 
-                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
-            }
-            catch (Exception e)
-            {
-                return StatusCode(409, new { StatusCode = 409, message = e.Message });
-            }
-        }
+        //        return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(409, new { StatusCode = 409, message = e.Message });
+        //    }
+        //}
 
 
         // GET: api/Categories/5
         //Find by Name- Luan
-        /// <summary>
-        /// Get Category by name 
-        /// </summary>
-        [HttpGet("name")]
-        public async Task<ActionResult<Category>> GetCategorybyName(string name)
-        {
-            try
-            {
-                var result = await (from Categories in _context.Categories
-                                    where Categories.Name.Contains(name) // tìm gần đúng
-                                    select new
-                                    {
-                                        Categories.Id,
-                                        Categories.Name
-                                    }
-                                     ).ToListAsync();
+        ///// <summary>
+        ///// Get Category by name 
+        ///// </summary>
+        //[HttpGet("name")]
+        //public async Task<ActionResult<Category>> GetCategorybyName(string name)
+        //{
+        //    try
+        //    {
+        //        var result = await (from Categories in _context.Categories
+        //                            where Categories.Name.Contains(name) // tìm gần đúng
+        //                            select new
+        //                            {
+        //                                Categories.Id,
+        //                                Categories.Name
+        //                            }
+        //                             ).ToListAsync();
 
-                if (!result.Any())
-                {
-                    return BadRequest(new { StatusCode = 404, message = "Name is not found!" });
-                }
+        //        if (!result.Any())
+        //        {
+        //            return BadRequest(new { StatusCode = 404, message = "Name is not found!" });
+        //        }
 
-                return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
-            }
-            catch (Exception e)
-            {
-                return StatusCode(409, new { StatusCode = 409, message = e.Message });
-            }
-        }
+        //        return Ok(new { StatusCodes = 200, message = "The request was successfully completed", data = result });
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(409, new { StatusCode = 409, message = e.Message });
+        //    }
+        //}
 
         // PUT: api/Categories/5
         /// <summary>

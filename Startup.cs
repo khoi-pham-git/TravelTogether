@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TravelTogether2.Helpers;
 using TravelTogether2.Models;
+using TravelTogether2.Services;
 
 namespace TravelTogether2
 {
@@ -42,6 +43,15 @@ namespace TravelTogether2
             var ConnectionString = Configuration.GetConnectionString("MbkDbConstr");
             //Entity Framework  
             services.AddDbContext<TourGuide_v2Context>(options => options.UseSqlServer(ConnectionString));
+            //Service do dev tạo (Luân)
+            services.AddTransient<IAccountRespository, AccountRespository>();
+            services.AddTransient<ICustomerRespository, CustomerResponsitory>();
+            services.AddTransient<IAreasResponsitory, AreasReponsitory>();
+            services.AddTransient<ICategoryResponsitory, CategoryResponsitory>();
+            services.AddTransient<ILanguageRespository, LanguageRespository>();
+            services.AddTransient<IPlaceResponsotory, PlaceResponsotory>();
+            services.AddTransient<ITourRespository, TourRespository>();
+            services.AddScoped<ITourGuidesRespository, TourGuidesRespository>();
 
             services.AddSwaggerGen(c =>
                 {
@@ -99,6 +109,11 @@ namespace TravelTogether2
 
                     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+
+                    //
+                    services.AddControllers().AddNewtonsoftJson();
+
+                   
                 });
 
 
