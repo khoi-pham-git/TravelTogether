@@ -11,7 +11,8 @@ const initialState = {
     switch (action.type) {
       case Action.GET_LIST_USER: 
         state.listUser = action.payload;
-        return {...state}
+        return {...state};
+      case Action.EDIT_USER:
       case Action.DELETE_USER:
        
         return {...state}

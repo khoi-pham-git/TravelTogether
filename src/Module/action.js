@@ -13,9 +13,15 @@ export const ActionGetListUser = (payload) => {
     };
   }
 
+  const userUpdate = () => {
+    return{
+      type:Action.EDIT_USER,
+    };
+  };
+
   export const callAPIGetListUser  = () => {
       return (dispatch) => {
-        axios.get("http://traveltogetherr.somee.com/api/v1.0/customers?page=2")
+        axios.get("http://traveltogetherr.somee.com/api/v1.0/customers/customers")
         .then((res) => { 
             dispatch(ActionGetListUser(res.data.data));
             
@@ -30,5 +36,19 @@ export const ActionGetListUser = (payload) => {
       payload
     };
   };
+
+
+  export const updateUser  = (user, id) => {
+    return (dispatch) => {
+      axios.put(`http://traveltogetherr.somee.com/api/v1.0/customers/customers/${id}`)
+      .then((res) => { 
+          dispatch(userUpdate());
+          
+        })
+      .catch((err) => { console.log(err); })
+    }
+}
+  
+  
 
   

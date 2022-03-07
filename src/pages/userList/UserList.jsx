@@ -48,8 +48,6 @@ export default function UserList() {
           console.log(res);
           dispatch(callAPIGetListUser());
           // onclick = { handleOpenDia }
-  
-  
         })
         .catch((err) => { alert("remove faild " + id); })
     };
@@ -101,7 +99,7 @@ export default function UserList() {
       width: 150,
       renderCell: (params) => {
         return (
-         <>
+         <div>
             <Link to={"/user/" + params.row.id}>
               <button className="userListEdit">View Detail</button>
             </Link>
@@ -109,7 +107,7 @@ export default function UserList() {
               className="userListDelete"
               onClick={() => handleDelete(params.row.id)}
             />
-         </>
+         </div>
         );
       },
     },
