@@ -7,7 +7,10 @@ import { useParams } from "react-router";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
-import { callAPIGetListUser, updateUser } from "../../Module/action";
+import { updateUser } from "../../Module/action";
+import { FormHelperText, TextField } from "@material-ui/core";
+
+
 
 
 const schema = yup.object().shape({
@@ -20,14 +23,15 @@ const schema = yup.object().shape({
 export default function PopupEdit(props) {
 
 
-    const { title, children, onpenPopup, setOpenPopup } = props;
+    const {  onpenPopup, setOpenPopup } = props;
     let { userId } = useParams();
+    const [openPopup, setOpen]= useState(false);
     const [user, setUser] = React.useState({});
     const handleOpen = () => setOpenPopup(true);
-    const handleClose = () => setOpenPopup(false);
+    ;
     console.log(userId);
     useEffect(() => {
-        axios.get(`http://traveltogetherr.somee.com/api/v1.0/customers/customers/id?id=${userId}`)
+        axios.get(`https://traveltogetherr.somee.com/api/v1.0/customers/customers/id?id=${userId}`)
             .then((res) => {
                 // console.log(res);
                 setUser(res.data.data[0])
@@ -57,8 +61,8 @@ export default function PopupEdit(props) {
             }
 
             // console.log(res);
-            //   handleClose();
-            dispatch(updateUser())
+            
+            dispatch(updateUser(values,userId))
         },
     }, []);
     return (
@@ -66,40 +70,97 @@ export default function PopupEdit(props) {
             <DialogContent>
                 <div className="userUpdate">
                     <span className="userUpdateTitle">Edit</span>
-                    <form className="userUpdateForm">
+                    <form className="userUpdateForm" onSubmit={formik.handleSubmit} >
                         <div className="userUpdateLeft">
                             <div className="userUpdateItem">
                                 <label>Username</label>
-                                <input
-                                    type="text"
+                                <TextField
+                                    id="outlined-basic"
+                                    label="name"
+                                    name="name"
+                                    value={formik.values.name}
+                                    variant="outlined"
                                     placeholder={user.name}
-                                    className="userUpdateInput"
-
-                                />
+                                    onChange={(e) => {
+                                        formik.handleChange(e)
+                                    }}
+                                    onBlur={formik.handleBlur}
+                                />{formik.touched.name && formik.errors.name && (
+                                    <FormHelperText
+                                        error
+                                        id="standard-weight-helper-text-username-login"
+                                    >
+                                        {formik.errors.name}
+                                    </FormHelperText>
+                                )}
                             </div>
                             <div className="userUpdateItem">
                                 <label>Email</label>
-                                <input
-                                    type="text"
-                                    placeholder={user.email}
-                                    className="userUpdateInput"
-                                />
+                                <TextField
+                                id="outlined-basic"
+                                label="email"
+                                name="email"
+                                value={formik.values.email || ""}
+                                variant="outlined"
+                                placeholder={user.email}
+                                onChange={(e) => {
+                                    formik.handleChange(e)
+                                }}
+                                onBlur={formik.handleBlur}
+                            />{formik.touched.email && formik.errors.email && (
+                                <FormHelperText
+                                    error
+                                    id="standard-weight-helper-text-username-login"
+                                >
+                                    {formik.errors.email}
+                                </FormHelperText>
+                            )}
                             </div>
                             <div className="userUpdateItem">
                                 <label>Phone</label>
-                                <input
-                                    type="text"
-                                    placeholder={user.phone}
-                                    className="userUpdateInput"
-                                />
+                                 <TextField
+                                id="outlined-basic"
+                                label="phone"
+                                name="phone"
+                                value={formik.values.phone || ""}
+                                variant="outlined"
+                                placeholder={user.phone}
+                                
+                                onChange={(e) => {
+                                    formik.handleChange(e)
+                                }}
+                                onBlur={formik.handleBlur}
+                            />{formik.touched.phone && formik.errors.phone && (
+                                <FormHelperText
+                                    error
+                                    id="standard-weight-helper-text-username-login"
+                                >
+                                    {formik.errors.phone}
+                                </FormHelperText>
+                            )}
                             </div>
                             <div className="userUpdateItem">
                                 <label>Address</label>
-                                <input
-                                    type="text"
-                                    placeholder={user.address}
-                                    className="userUpdateInput"
-                                />
+                                <TextField
+                                id="outlined-basic"
+                                label="address"
+                                name="address"
+                                value={formik.values.address || ""}
+                                variant="outlined"
+                                placeholder={user.address}
+ 
+                                onChange={(e) => {
+                                    formik.handleChange(e)
+                                }}
+                                onBlur={formik.handleBlur}
+                            />{formik.touched.address && formik.errors.address && (
+                                <FormHelperText
+                                    error
+                                    id="standard-weight-helper-text-username-login"
+                                >
+                                    {formik.errors.address}
+                                </FormHelperText>
+                            )}
                             </div>
                         </div>
                         <div className="userUpdateRight">

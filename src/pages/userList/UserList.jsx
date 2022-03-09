@@ -43,7 +43,7 @@ export default function UserList() {
     const handleDelete = (id) => {
 
       // dispatch(DeleteUser(id));
-      axios.delete(`http://traveltogetherr.somee.com/api/v1.0/customers/${id}`)
+      axios.delete(`https://traveltogetherr.somee.com/api/v1.0/customers/${id}`)
         .then((res) => {
           console.log(res);
           dispatch(callAPIGetListUser());

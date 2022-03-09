@@ -40,10 +40,9 @@ export const ActionGetListUser = (payload) => {
 
   export const updateUser  = (user, id) => {
     return (dispatch) => {
-      axios.put(`https://traveltogetherr.somee.com/api/v1.0/customers/customers/${id}`)
+      axios.put(`https://traveltogetherr.somee.com/api/v1.0/customers/customers/${id}`,user)
       .then((res) => { 
           dispatch(userUpdate());
-          
         })
       .catch((err) => { console.log(err); })
     }

@@ -17,11 +17,12 @@ import PopupEdit from "../../compinents/Popup/PopupEdit";
 
 export default function User() {
   const [openPopup, setOpenPopup]= useState(false);
+  
   let {userId}=useParams();
   const [user, setUser] = React.useState({});
   console.log(userId);
   useEffect(() => {
-    axios.get(`http://traveltogetherr.somee.com/api/v1.0/customers/customers/id?id=${userId}`)
+    axios.get(`https://traveltogetherr.somee.com/api/v1.0/customers/customers/id?id=${userId}`)
       .then((res) => { 
         // console.log(res);
         setUser(res.data.data[0]) 
