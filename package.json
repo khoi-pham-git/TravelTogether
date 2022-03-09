@@ -1,5 +1,5 @@
 {
-  "proxy": "http://localhost:3000",
+  "proxy": "http://localhost:3000,https://travel-together.vercel.app",
   "name": "admin-tourguide",
   "version": "0.1.0",
   "private": true,
