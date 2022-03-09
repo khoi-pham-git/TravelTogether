@@ -21,7 +21,7 @@ export const ActionGetListUser = (payload) => {
 
   export const callAPIGetListUser  = () => {
       return (dispatch) => {
-        axios.get("http://traveltogetherr.somee.com/api/v1.0/customers/customers")
+        axios.get("https://traveltogetherr.somee.com/api/v1.0/customers/customers")
         .then((res) => { 
             dispatch(ActionGetListUser(res.data.data));
             
@@ -40,7 +40,7 @@ export const ActionGetListUser = (payload) => {
 
   export const updateUser  = (user, id) => {
     return (dispatch) => {
-      axios.put(`http://traveltogetherr.somee.com/api/v1.0/customers/customers/${id}`)
+      axios.put(`https://traveltogetherr.somee.com/api/v1.0/customers/customers/${id}`)
       .then((res) => { 
           dispatch(userUpdate());
           

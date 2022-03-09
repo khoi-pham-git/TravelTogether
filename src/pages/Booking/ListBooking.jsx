@@ -24,7 +24,7 @@ export default function ListBooking() {
 
   //userEffect để quản lí vòng đời á (lifecycle)
   useEffect(() => {
-    axios.get("http://traveltogetherr.somee.com/api/v1.0/trips?ele=10&page=1")
+    axios.get("https://traveltogetherr.somee.com/api/v1.0/trips?ele=10&page=1")
       //dòng 17 lấy cái link API rồi set nó vào một cái response
       .then((res) => {
         setRows(res.data.data)
