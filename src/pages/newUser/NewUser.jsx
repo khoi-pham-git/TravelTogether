@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { FormHelperText, TextField } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
@@ -51,7 +50,7 @@ export default function NewUser({ open, handleClose }) {
         address: formik.values.address
       }
       const res = await axios({
-        method: "POST", url: "http://traveltogetherr.somee.com/api/v1.0/customers", data,
+        method: "POST", url: "https://traveltogetherr.somee.com/api/v1.0/customers", data,
       })
       console.log(res);
       handleClose();

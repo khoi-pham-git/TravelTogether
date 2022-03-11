@@ -48,6 +48,7 @@ export default function UserList() {
           console.log(res);
           dispatch(callAPIGetListUser());
           // onclick = { handleOpenDia }
+          alert("remove success");
         })
         .catch((err) => { alert("remove faild " + id); })
     };
