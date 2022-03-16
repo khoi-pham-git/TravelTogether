@@ -24,7 +24,6 @@ export default function UserList() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleOpenDia = () => setOpen(true);
   const [openPopup, setOpenPopup] = React.useState(true);
   const dispatch = useDispatch();
   const customer = useSelector((state) => {

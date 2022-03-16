@@ -21,14 +21,12 @@ const schema = yup.object().shape({
 
 });
 export default function PopupEdit(props) {
-
-
     const {  onpenPopup, setOpenPopup } = props;
     let { userId } = useParams();
     const [openPopup, setOpen]= useState(false);
     const [user, setUser] = React.useState({});
     const handleOpen = () => setOpenPopup(true);
-    ;
+    
     console.log(userId);
     useEffect(() => {
         axios.get(`https://traveltogetherr.somee.com/api/v1.0/customers/customers/id?id=${userId}`)

@@ -1,11 +1,13 @@
-import "./newTour.css";
-import { useFormik } from "formik";
 import * as yup from "yup";
-import { Modal } from "@material-ui/core";
+import { Modal, Select } from "@material-ui/core";
 import { Box } from "@material-ui/system";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { FormHelperText, TextField } from "@material-ui/core";
+import { Field, useFormik } from "formik";
+import "./newTour.css";
+import CustomerSelect from "./CustomerSelect";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -28,6 +30,11 @@ const schema = yup.object().shape({
 });
 export default function NewTour({ open, handleClose }) {
   const dispatch = useDispatch();
+  const option = [
+    {value: "true",label:"yes"},
+    {value: "false",label:"no"}
+
+  ]
   const formik = useFormik({
     validationSchema: schema,
     validateOnMount: true,
@@ -35,7 +42,7 @@ export default function NewTour({ open, handleClose }) {
     initialValues: {
       name: "",
       price: "",
-      status: "",
+      status: "true",
       quatityTrip: "",
 
     }, onSubmit: async (values) => {
@@ -156,11 +163,15 @@ export default function NewTour({ open, handleClose }) {
             
          
             <div className="newUserItem">
-              <label>Active</label>
-              <select className="newUserSelect" name="active" id="active">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
+              <label >Active</label>
+              <CustomerSelect
+              option={option}
+              value={formik.values.status}
+              className={'input'}
+              onChange={values=>formik.setFieldValue('true',formik.values.status)}
+              
+              />
+              {formik.errors.status ? <div className="error"> {formik.errors.status}  </div>:null}
             </div>
             <button className="addTourButton">Create</button>
           </form>
@@ -169,10 +180,26 @@ export default function NewTour({ open, handleClose }) {
     </Modal>
   );
 }
-
-
-
 // <div className="addTourItem">
 // <label>Image</label>
 // <input type="file" id="file" />
 // </div>
+
+
+ 
+
+            // <Select
+            //   id={Status}
+            //   value={selectedOption}
+            //   {...field}
+            //   onChange={handleSelectedOptionChange}
+            //   placeholder={placeholder}
+            //   isDisabled={disabled}
+              
+            //   option= {options}
+            //   />
+
+            // <select className="newUserSelect" name="active" id="active">
+            //     <option value="yes">Yes</option>
+            //     <option value="no">No</option>
+            //   </select>

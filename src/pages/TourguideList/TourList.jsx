@@ -9,14 +9,17 @@ import axios from "axios";
 import NewTour from "../newTour/NewTour";
 import NewBooking from '../NewBooking/NewBooking'
 import Button from '@material-ui/core/Button';
+import { useDispatch, useSelector } from "react-redux";
 
 
 export default function TourList() {
   // const [data, setData] = useState(TourRows);
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [tourguide, setTourguide] = useState([]);
+  
   useEffect(() => {
     axios.get("https://traveltogetherr.somee.com/api/v1.0/tourguide?page=1").then((res) => {
       console.log(res);
@@ -25,11 +28,20 @@ export default function TourList() {
       console.log("Error")
     })
   }, [
-
   ])
   const handleDelete = (id) => {
-    setTourguide(tourguide.filter((item) => item.id !== id));
+
+    // dispatch(DeleteUser(id));
+    axios.delete(`https://traveltogetherr.somee.com/api/v1.0/tours/${id}`)
+      .then((res) => {
+        console.log(res);
+        dispatch();
+        // onclick = { handleOpenDia }
+        alert("remove success");
+      })
+      .catch((err) => { alert("remove faild " + id); })
   };
+
 
   const columns = [
     { field: "id", headerName: "ID", width: 100 },

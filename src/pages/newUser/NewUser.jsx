@@ -153,7 +153,6 @@ export default function NewUser({ open, handleClose }) {
             <button class="addTourButton" >Create</button>
           </form>
         </div>
-       
       </Box>
     </Modal>
   );
