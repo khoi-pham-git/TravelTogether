@@ -22,7 +22,7 @@ namespace TravelTogether2.Controllers
         // GET: api/HasLanguages
         /// <summary>
         /// Get list all HasLanguage
-        /// </summary>
+        /// </summary>                                                                                                                                //Luân
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HasLanguage>>> GetHasLanguages()
         {
@@ -49,7 +49,7 @@ namespace TravelTogether2.Controllers
         // GET: api/HasLanguages/5
 
 
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Get  HasLanguage by id
         /// </summary>
         [HttpGet("{id}")]
@@ -80,7 +80,7 @@ namespace TravelTogether2.Controllers
 
         /// <summary>
         /// Edit HasLanguage by id
-        /// </summary>
+        /// </summary>                                                                                                                                //Luân
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHasLanguage(int id, HasLanguage hasLanguage)
         {
@@ -123,7 +123,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Create HasLanguage by id
         /// </summary>
-        [HttpPost]
+        [HttpPost]                                                                                                                                //Luân
         public async Task<ActionResult<HasLanguage>> PostHasLanguage(HasLanguage hasLanguage)
         {
             try
@@ -158,7 +158,7 @@ namespace TravelTogether2.Controllers
         // DELETE: api/HasLanguages/5
 
         /// <summary>
-        /// Delete HasLanguage by id (not use)
+        /// Delete HasLanguage by id (not use)                                                                                                                                //Luân
         /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHasLanguage(int id)

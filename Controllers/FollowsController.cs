@@ -22,7 +22,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Follows luan
 
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Get list Follow
         /// </summary>
         //get all
@@ -51,7 +51,7 @@ namespace TravelTogether2.Controllers
         // GET: api/Follows/5 Luan
         // find by ID
 
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Get follow by id
         /// </summary>
         [HttpGet("{id}")]
@@ -81,7 +81,7 @@ namespace TravelTogether2.Controllers
         // edit information not status Luan
 
         /// <summary>
-        /// Edit follow by id
+        /// Edit follow by id                                                                                                                                //Luân
         /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFollow(int id, Follow follow)
@@ -121,7 +121,7 @@ namespace TravelTogether2.Controllers
 
 
         // PUT: api/Follows/5
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Edit status follow by id
         /// </summary>
         /// 
@@ -155,7 +155,7 @@ namespace TravelTogether2.Controllers
         // POST: api/Follows -Luan
         /// <summary>
         /// Creata follow
-        /// </summary>
+        /// </summary>                                                                                                                                //Luân
         [HttpPost]
         public async Task<ActionResult<Follow>> PostFollow(Follow follow)
         {
@@ -187,7 +187,7 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/Follows/5
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Delete follow by id (not use)
         /// </summary>
         [HttpDelete("{id}")]

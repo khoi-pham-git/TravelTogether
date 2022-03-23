@@ -23,7 +23,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/TravelAgencies
         //Get list TravelAgencies - Luan
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Get list all TravelAgencies
         /// </summary>
         [HttpGet]

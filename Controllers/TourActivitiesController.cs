@@ -23,7 +23,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/TourActivities
         /// <summary>
-        /// Get list all TourActivities
+        /// Get list all TourActivities                                                                                                                                //Luân
         /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TourActivity>>> GetTourActivities()
@@ -53,7 +53,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Get TourActivities by id
         /// </summary>
-        [HttpGet("{id}")]
+        [HttpGet("{id}")]                                                                                                                                //Luân
         public async Task<ActionResult<TourActivity>> GetTourActivity(int id)
         {
             try
@@ -82,7 +82,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Edit TourActivities by id
         /// </summary>
-        [HttpPut("{id}")]
+        [HttpPut("{id}")]                                                                                                                                //Luân
         public async Task<IActionResult> PutTourActivity(int id, TourActivity tourActivity)
         {
             try
@@ -126,7 +126,7 @@ namespace TravelTogether2.Controllers
 
         // POST: api/TourActivities
         /// <summary>
-        /// Create TourActivities
+        /// Create TourActivities                                                                                                                                //Luân
         /// </summary>
         [HttpPost]
         public async Task<ActionResult<TourActivity>> PostTourActivity(TourActivity tourActivity)
@@ -169,7 +169,7 @@ namespace TravelTogether2.Controllers
 
         // DELETE: api/TourActivities/5
         /// <summary>
-        /// Delete TourActivities by id (not use)
+        /// Delete TourActivities by id (not use)                                                                                                                                //Luân
         /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTourActivity(int id)

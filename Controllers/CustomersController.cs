@@ -27,7 +27,7 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Customers
-        //gett list customer
+        //gett list customer                                                                                                                                //Luân
         /// <summary>
         /// Get all Customer
         /// </summary>
@@ -53,7 +53,7 @@ namespace TravelTogether2.Controllers
         }
 
         // GET: api/Customers/5
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Get Customer by id
         /// </summary>
         [HttpGet("customers/id")]
@@ -87,7 +87,7 @@ namespace TravelTogether2.Controllers
         // PUT: api/Customers/5
 
         /// <summary>
-        /// Edit Customer by id
+        /// Edit Customer by                                                                                                                                 //Luân
         /// </summary>
         [HttpPut("customers/{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
@@ -133,7 +133,7 @@ namespace TravelTogether2.Controllers
 
         // PUT: api/Customers/5
 
-        ///// <summary>
+        ///// <summary>                                                                                                                                //Luân
         ///// Edit Customer by id
         ///// </summary>
         //[HttpPut("follow/{id}")]
@@ -157,7 +157,7 @@ namespace TravelTogether2.Controllers
         //        //}
         //        //else
         //        //{
-        //        //    //follow.Status = true;
+        //        //    //follow.Status = true;                                                                                                                                //Luân
         //        //    //await _context.SaveChangesAsync();
         //        return Ok(new { status = 200, message = "Follow" });
 
@@ -193,7 +193,7 @@ namespace TravelTogether2.Controllers
             //_context.Customers.Add(customer);
             try
             {
-                var cus1 = new Customer();
+                var cus1 = new Customer();                                                                                                                                //Luân
                 cus1.Address = customer.Address;
                 //cus1.Image = customer.Image;
                 if (!Validate.isName(cus1.Name = customer.Name))
@@ -225,7 +225,7 @@ namespace TravelTogether2.Controllers
         // DELETE: api/Customers/5
         /// <summary>
         /// Delete Customer by id (not use)
-        /// </summary>
+        /// </summary>                                                                                                                                //Luân
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {

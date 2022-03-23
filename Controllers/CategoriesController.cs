@@ -11,7 +11,7 @@ using TravelTogether2.Services;
 
 namespace TravelTogether2.Controllers
 {
-    //[Route("api/[controller]")]
+    //[Route("api/[controller]")]                                                                                                                                //Luân
     [Route("api/v1.0/categories")]
 
     [ApiController]
@@ -28,7 +28,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Categories
         // Get All không phân trang - Luan
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Get all Category 
         /// </summary>
         [HttpGet]
@@ -54,7 +54,7 @@ namespace TravelTogether2.Controllers
         ////find by ID -Luan
         ///// <summary>
         ///// Get Category  by id
-        ///// </summary>
+        ///// </summary>                                                                                                                                //Luân
         //[HttpGet("id")]
         //public async Task<ActionResult<Category>> GetCategory(int id)
         //{
@@ -120,7 +120,7 @@ namespace TravelTogether2.Controllers
         /// Edit Category by id
         /// </summary>
         // Edit Categories
-        [HttpPut("{id}")]
+        [HttpPut("{id}")]                                                                                                                                //Luân
         public async Task<IActionResult> PutCategory(int id, Category category)
         {
             try
@@ -150,7 +150,7 @@ namespace TravelTogether2.Controllers
 
         // POST: api/Categories
         /// <summary>
-        /// Create Category
+        /// Create Category                                                                                                                                //Luân
         /// </summary>
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
@@ -178,7 +178,7 @@ namespace TravelTogether2.Controllers
         // DELETE: api/Categories/5
         /// <summary>
         /// Delete Category by id (not use)
-        /// </summary>
+        /// </summary>                                                                                                                                //Luân
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {

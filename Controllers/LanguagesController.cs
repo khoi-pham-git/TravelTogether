@@ -24,7 +24,7 @@ namespace TravelTogether2.Controllers
             _languageRespository = languageRespository;
         }
 
-        // GET: api/Languages
+        // GET: api/Languages                                                                                                                                //Luân
         /// <summary>
         /// Get list all language with pagination
         /// </summary>
@@ -50,7 +50,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Languages/5
         /// <summary>
-        /// Get a language by id
+        /// Get a language by id                                                                                                                                //Luân
         /// </summary>
         [HttpGet("id")]
         public async Task<ActionResult<Language>> GetLanguage(int id)
@@ -81,7 +81,7 @@ namespace TravelTogether2.Controllers
         ///// <summary>
         ///// Get a language by name
         ///// </summary>
-        //[HttpGet("name")]
+        //[HttpGet("name")]                                                                                                                                //Luân
         //public async Task<ActionResult<Language>> GetLanguageByName(String name)
         //{
 
@@ -142,7 +142,7 @@ namespace TravelTogether2.Controllers
             }
         }
 
-        // POST: api/Languages
+        // POST: api/Languages                                                                                                                                //Luân
         /// <summary>
         /// Create a language
         /// </summary>
@@ -180,7 +180,7 @@ namespace TravelTogether2.Controllers
 
         // DELETE: api/Languages/5
         /// <summary>
-        /// Delete a language by id (not use)
+        /// Delete a language by id (not use)                                                                                                                                //Luân
         /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLanguage(int id)

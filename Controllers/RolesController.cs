@@ -24,7 +24,7 @@ namespace TravelTogether2.Controllers
         // GET: api/Roles
         /// <summary>
         /// Get list all Roles
-        /// </summary>
+        /// </summary                                                                                                                                //Luân
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Role>>> GetRoles()
         {
@@ -49,7 +49,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Get Roles by id
         /// </summary>
-        [HttpGet("{id}")]
+        [HttpGet("{id}")]                                                                                                                                //Luân
         public async Task<ActionResult<Role>> GetRole(int id)
         {
             try
@@ -74,7 +74,7 @@ namespace TravelTogether2.Controllers
         // PUT: api/Roles/5
         /// <summary>
         /// Edit Roles by id
-        /// </summary>
+        /// </summary>                                                                                                                                //Luân
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRole(int id, Role role)
         {
@@ -103,7 +103,7 @@ namespace TravelTogether2.Controllers
 
         // POST: api/Roles
         /// <summary>
-        /// Create Roles
+        /// Create Roles                                                                                                                                //Luân
         /// </summary>
         [HttpPost]
         public async Task<ActionResult<Role>> PostRole(Role role)
@@ -131,7 +131,7 @@ namespace TravelTogether2.Controllers
         }
 
         // DELETE: api/Roles/5
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Delete Roles by id (not use)
         /// </summary>
         [HttpDelete("{id}")]

@@ -24,7 +24,7 @@ namespace TravelTogether2.Controllers
             _placeResponsotory = placeResponsotory;
         }
 
-        // GET: api/Places
+        // GET: api/Places                                                                                                                                //Luân
         /// <summary>
         /// Get list all places
         /// </summary>
@@ -50,7 +50,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Places/5
         /// <summary>
-        /// Get places by id
+        /// Get places by id                                                                                                                                //Luân
         /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Place>> GetPlace(int id)
@@ -83,7 +83,7 @@ namespace TravelTogether2.Controllers
         }
 
         // PUT: api/Places/5
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Edit places by id
         /// </summary>
         [HttpPut("{id}")]
@@ -130,7 +130,7 @@ namespace TravelTogether2.Controllers
         }
 
         // POST: api/Places
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Create places
         /// </summary>
         [HttpPost]
@@ -175,7 +175,7 @@ namespace TravelTogether2.Controllers
 
         // DELETE: api/Places/5
         /// <summary>
-        /// Delete places by id (not use)
+        /// Delete places by id (not use)                                                                                                                                //Luân
         /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlace(int id)

@@ -24,7 +24,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Payments
         /// <summary>
-        /// Get list all payment
+        /// Get list all payment                                                                                                                                //Luân
         /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Payment>>> GetPayments(int ele, int page)
@@ -58,7 +58,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Payments/5
         /// <summary>
-        /// Get a payment by id
+        /// Get a payment by id                                                                                                                                //Luân
         /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Payment>> GetPayment(int id)
@@ -93,7 +93,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Edit a payment by id
         /// </summary>
-        [HttpPut("{id}")]
+        [HttpPut("{id}")]                                                                                                                                //Luân
         public async Task<IActionResult> PutPayment(int id, Payment payment)
         {
             try
@@ -124,7 +124,7 @@ namespace TravelTogether2.Controllers
 
         // POST: api/Payments
         /// <summary>
-        /// Create a payment
+        /// Create a payment                                                                                                                                //Luân
         /// </summary>
         [HttpPost]
         public async Task<ActionResult<Payment>> PostPayment(Payment payment)
@@ -154,7 +154,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Delete Payments by id (not use)
         /// </summary>
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}")]                                                                                                                                //Luân
         public async Task<IActionResult> DeletePayment(int id)
         {
             var payment = await _context.Payments.FindAsync(id);

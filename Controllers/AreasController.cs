@@ -25,7 +25,7 @@ namespace TravelTogether2.Controllers
         private static string apiKey = "AIzaSyDYNx2dwpDfuTGnqF6Zip3uHVQTJCAFBqk";
         private static string apibucket = "traveltogether-54339.appspot.com";
         private static string authenEmail = "luanhua888@gmail.com";
-        private static string authenPassword = "Luanhua123";
+        private static string authenPassword = "Luanhua123"; 
 
 
         public AreasController(TourGuide_v2Context context, IAreasResponsitory areasResponsitory)
@@ -38,7 +38,7 @@ namespace TravelTogether2.Controllers
         // Get list area information - Luan
         /// <summary>
         /// Get list all Area with 
-        /// </summary>
+        /// </summary>                                                                                                                                //Luân
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Area>>> GetAreas(string search, string sortby, int page = 1)
         {
@@ -96,10 +96,12 @@ namespace TravelTogether2.Controllers
         //    }
         //}
 
-        // PUT: api/Areas/5
+        // PUT: api/Areas/5 Luan
         /// <summary>
         /// Edit area by id
         /// </summary>
+        ///                                                           
+                                                                                                                                //Luân
         [HttpPut("{id}")]
         public async Task<IActionResult> PutArea(int id, Area area)
         {
@@ -138,7 +140,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Create area by id
         /// </summary>
-        [HttpPost]
+        [HttpPost]                                                                                                                                //Luân
 
         public async Task<ActionResult<Area>> PostArea(Area area)
         {
@@ -177,7 +179,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Delete area by id (not use)
         /// </summary>
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}")]                                                                                                                                //Luân
         public async Task<IActionResult> DeleteArea(int id)
         {
             var area = await _context.Areas.FindAsync(id);
@@ -200,7 +202,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Create firebase
         /// </summary>
-        [HttpPost("UploadFile")]
+        [HttpPost("UploadFile")]                                                                                                                                //Luân
 
         public async Task<ActionResult> PostFireBase(IFormFile file)
         {

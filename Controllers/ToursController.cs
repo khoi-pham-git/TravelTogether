@@ -26,7 +26,7 @@ namespace TravelTogether2.Controllers
 
         // GET: api/Tours
         /// <summary>
-        /// Get list all Tours
+        /// Get list all Tours                                                                                                                                //Luân
         /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tour>>> GetTours(string search, string sortby, int page = 1)
@@ -53,7 +53,7 @@ namespace TravelTogether2.Controllers
         //find tour by id
         /// <summary>
         /// Get Tours by id
-        /// </summary>
+        /// </summary>                                                                                                                                //Luân
         [HttpGet("id")]
         public async Task<ActionResult<Tour>> GetTour(int id)
         {
@@ -161,7 +161,7 @@ namespace TravelTogether2.Controllers
 
         //Edit tour Status- Luan
         /// <summary>
-        /// Edit Tours by id
+        /// Edit Tours by id                                                                                                                                //Luân
         /// </summary>
         [HttpPut("status/{id}")]
         public async Task<IActionResult> PutTourStatus(int id)
@@ -196,7 +196,7 @@ namespace TravelTogether2.Controllers
         // POST: api/Tours
         /// <summary>
         /// Create Tours
-        /// </summary>
+        /// </summary>                                                                                                                                //Luân
         [HttpPost]
         public async Task<ActionResult<Tour>> PostTour(Tour tour)
         {
@@ -235,7 +235,7 @@ namespace TravelTogether2.Controllers
         /// <summary>
         /// Delete Tours by id (not use)
         /// </summary>
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}")]                                                                                                                                //Luân
         public async Task<IActionResult> DeleteTour(int id)
         {
             var tour = await _context.Tours.FindAsync(id);

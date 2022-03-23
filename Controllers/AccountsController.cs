@@ -66,7 +66,7 @@ namespace TravelTogether2.Controllers
         // PUT: api/Accounts/5
         /// <summary>
         /// Edit an accounts by email
-        /// </summary>
+        /// </summary>                                                                                                                                //Luân
         [HttpPut("role/{email}")]
         public async Task<IActionResult> ChangeRole(string email, Account account)
         {
@@ -96,7 +96,7 @@ namespace TravelTogether2.Controllers
         }
 
         //Change password Luan
-        /// <summary>
+        /// <summary>                                                                                                                                //Luân
         /// Edit a password by email
         /// </summary>
         [HttpPut("password/{email}")]
@@ -154,7 +154,7 @@ namespace TravelTogether2.Controllers
 
         // POST: api/Accounts
         /// <summary>
-        /// Create an  account
+        /// Create an  account                                                                                                                                //Luân
         /// </summary>
         [HttpPost]
         public async Task<ActionResult<Account>> PostAccount(Account account)
@@ -221,7 +221,7 @@ namespace TravelTogether2.Controllers
 
         // DELETE: api/Accounts/5
         /// <summary>
-        /// Delete an account by email (not use)
+        /// Delete an account by email (not use)                                                                                                                                //Luân
         /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount(string id)
