@@ -33,6 +33,7 @@ namespace TravelTogether2.Models
         public virtual DbSet<TravelAgency> TravelAgencies { get; set; }
         public virtual DbSet<Trip> Trips { get; set; }
         public virtual DbSet<TripActivity> TripActivities { get; set; }
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -133,11 +133,17 @@ namespace TravelTogether2
                 {
                     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                     {
+                        //Tự cấp token
                         ValidateIssuer = false,
                         ValidateAudience = false,
-                        //caaus hinh
+                        //Kí vào token
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(secretKeybytes)
+                        IssuerSigningKey = new SymmetricSecurityKey(secretKeybytes),
+
+                        ClockSkew = TimeSpan.Zero
+                    
+                 
+                    
                     };
                 });
         }
@@ -146,7 +152,7 @@ namespace TravelTogether2
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //Enable CORS
-            app.UseCors(options => options.WithOrigins("http://localhost:3000", "http://http://traveltogetherr.somee.com", "http://localhost:3001").AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            app.UseCors(options => options.WithOrigins("http://localhost:3000", "http://http://traveltogetherr.somee.com", "http://localhost:3001", "https://travel-together.vercel.app").AllowAnyHeader().AllowAnyMethod().AllowCredentials());
             //Swagger
 
             if (env.IsDevelopment() || env.IsProduction())

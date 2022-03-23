@@ -8,14 +8,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAYgJOevLcKkiPSE53F2L5iAAAAAACAAAAAAAQZgAAAAEAACAAAABVObe3BKiLOa+pPCX6ZzJOisHrKbQsWdBHxZZbCyXOqwAAAAAOgAAAAAIAACAAAACycFCCyoxFFf46SNlJzKn3aFhvju6vIcZ9C25PsKRG3yAAAADjMyWv10UJn63i4bRuSvyTSLMqDsI/g2tMdqNZrUI3O0AAAADQUkgnJgKnTe8/cXg6tXz+ySbYU0ZW7GUXNCBiJm8BsbeoHGpqt/WM1Dcn1pwcYyEOFx+qWLPz2c7BPQDFOEbh</EncryptedPassword>
     <_PublishTargetUrl>ftp://traveltogetherr.somee.com/www.traveltogetherr.somee.com</_PublishTargetUrl>
-    <History>True|2022-03-06T14:45:22.4485322Z;True|2022-03-06T10:57:15.3923964+07:00;True|2022-03-04T10:28:54.9125349+07:00;True|2022-03-02T19:13:41.6758261+07:00;True|2022-03-02T12:31:31.2750415+07:00;</History>
+    <History>True|2022-03-09T11:10:26.2989662Z;True|2022-03-09T12:31:00.7483711+07:00;True|2022-03-09T12:08:55.3320086+07:00;True|2022-03-06T21:45:22.4485322+07:00;True|2022-03-06T10:57:15.3923964+07:00;True|2022-03-04T10:28:54.9125349+07:00;True|2022-03-02T19:13:41.6758261+07:00;True|2022-03-02T12:31:31.2750415+07:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="appsettings.Development.json">
       <publishTime>02/28/2022 00:54:58</publishTime>
     </File>
     <File Include="appsettings.json">
-      <publishTime>02/28/2022 01:07:58</publishTime>
+      <publishTime>03/08/2022 22:03:41</publishTime>
     </File>
     <File Include="BouncyCastle.Crypto.dll">
       <publishTime>02/08/2019 08:50:10</publishTime>
@@ -360,25 +360,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2020 07:16:28</publishTime>
     </File>
     <File Include="TravelTogether2.deps.json">
-      <publishTime>03/06/2022 21:35:22</publishTime>
+      <publishTime>03/09/2022 18:00:48</publishTime>
     </File>
     <File Include="TravelTogether2.dll">
-      <publishTime>03/06/2022 21:35:15</publishTime>
+      <publishTime>03/09/2022 18:00:42</publishTime>
     </File>
     <File Include="TravelTogether2.exe">
-      <publishTime>03/06/2022 21:35:15</publishTime>
+      <publishTime>03/09/2022 18:00:42</publishTime>
     </File>
     <File Include="TravelTogether2.pdb">
-      <publishTime>03/06/2022 21:35:15</publishTime>
+      <publishTime>03/09/2022 18:00:42</publishTime>
     </File>
     <File Include="TravelTogether2.runtimeconfig.json">
-      <publishTime>03/06/2022 21:35:15</publishTime>
+      <publishTime>03/09/2022 11:59:00</publishTime>
     </File>
     <File Include="TravelTogether2.xml">
-      <publishTime>03/06/2022 21:35:15</publishTime>
+      <publishTime>03/09/2022 18:00:42</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>03/06/2022 21:35:22</publishTime>
+      <publishTime>03/09/2022 18:00:49</publishTime>
     </File>
     <File Include="zh-Hans/Microsoft.CodeAnalysis.CSharp.resources.dll">
       <publishTime>11/12/2020 07:15:14</publishTime>
